@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -14,6 +13,19 @@ export default function AdminLogin() {
     e.preventDefault()
     setError('')
 
+    // Validation de l'email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      setError("Format d'email invalide");
+      return;
+    }
+
+    // Validation du mot de passe
+    if (password.length < 6) {
+      setError("Le mot de passe doit contenir au moins 6 caractères");
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_URL}/admin/login`, {
         email,
@@ -22,7 +34,7 @@ export default function AdminLogin() {
 
       localStorage.setItem('adminToken', response.data.token)
       localStorage.setItem('adminUser', JSON.stringify(response.data.admin))
-      
+
       navigate('/admin/dashboard')
     } catch (err: any) {
       setError(err.response?.data?.message || 'Erreur de connexion')

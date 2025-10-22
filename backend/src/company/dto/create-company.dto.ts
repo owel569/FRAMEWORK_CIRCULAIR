@@ -1,19 +1,27 @@
 
-import { IsString, IsEmail, IsOptional, IsNumber, IsPositive, Min, Max } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsNumber, IsPositive, Min, Max, Matches, Length } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateCompanyDto {
   @IsString()
+  @Length(2, 100, { message: 'Le nom doit contenir entre 2 et 100 caractères' })
   name: string;
 
   @IsString()
+  @Length(3, 100, { message: 'Le secteur doit être spécifié' })
   sector: string;
 
-  @IsEmail()
+  @IsEmail({}, { message: 'Format d\'email invalide' })
+  @Matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
+    message: 'L\'email doit avoir un format valide (ex: nom@entreprise.com)'
+  })
   email: string;
 
   @IsString()
   @IsOptional()
+  @Matches(/^(\+212|0)[5-7][0-9]{8}$/, {
+    message: 'Le numéro de téléphone doit être au format marocain valide (+212XXXXXXXXX ou 0XXXXXXXXX)'
+  })
   phone?: string;
 
   @IsNumber()

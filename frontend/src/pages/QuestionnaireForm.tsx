@@ -253,12 +253,12 @@ export default function QuestionnaireForm() {
             'Associations et ONG': 'NGO',
             'Autres secteurs émergents': 'EMERGING'
           }
-          
+
           const sectorKey = sectorMap[company.sector]
           if (sectorKey) {
             const response = await axios.get(`${BACKEND_URL}/questionnaires/${sectorKey}`)
             const questions = response.data.questions
-            
+
             // Grouper par catégorie
             const grouped = {
               environmental: questions.filter((q: any) => q.category.includes('environnemental')),
@@ -266,7 +266,7 @@ export default function QuestionnaireForm() {
               social: questions.filter((q: any) => q.category.includes('social')),
               logistics: questions.filter((q: any) => q.category.includes('Logistique'))
             }
-            
+
             setSectorQuestions(grouped)
           }
         } catch (error) {
@@ -274,16 +274,45 @@ export default function QuestionnaireForm() {
         }
       }
     }
-    
+
     loadSectorQuestions()
   }, [company.sector])
 
-  const handleCompanySubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!company.sector || !company.subSector) {
-      alert('Veuillez sélectionner un secteur et un sous-secteur')
-      return
+  const handleCompanySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!company.name || !company.email || !company.sector) {
+      alert('Veuillez remplir tous les champs obligatoires');
+      return;
     }
+
+    // Validation stricte de l'email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(company.email)) {
+      alert("Format d'email invalide. Exemple: nom@entreprise.com");
+      return;
+    }
+
+    // Validation stricte du téléphone (si fourni)
+    if (company.phone) {
+      const phonePattern = /^(\+212|0)[5-7][0-9]{8}$/;
+      if (!phonePattern.test(company.phone)) {
+        alert("Numéro de téléphone marocain invalide. Format attendu: +212XXXXXXXXX ou 0XXXXXXXXX");
+        return;
+      }
+    }
+
+    // Validation de la longueur du nom
+    if (company.name.length < 2 || company.name.length > 100) {
+      alert("Le nom de l'entreprise doit contenir entre 2 et 100 caractères");
+      return;
+    }
+    
+    if (!company.subSector) {
+      alert('Veuillez sélectionner un sous-secteur');
+      return;
+    }
+
     setCurrentStep(1)
   }
 
@@ -488,7 +517,7 @@ export default function QuestionnaireForm() {
   const renderDiagnosticQuestions = () => {
     const categoryIndex = currentStep - 1
     const category = DIAGNOSTIC_CATEGORIES[categoryIndex]
-    
+
     const categoryKeys = ['environmental', 'economic', 'social', 'logistics']
     const categoryKey = categoryKeys[categoryIndex]
     const questions = sectorQuestions[categoryKey] || []
@@ -675,7 +704,7 @@ export default function QuestionnaireForm() {
             )}
           </div>
         </div>
-        
+
         <div className="bg-white rounded-b-2xl shadow-2xl p-8 md:p-12">
 
           {renderProgressBar()}

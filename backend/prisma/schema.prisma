@@ -9,10 +9,10 @@ datasource db {
 
 model Company {
   id                      String   @id @default(cuid())
-  name                    String
-  sector                  String
-  email                   String
-  phone                   String?
+  name                    String   @db.VarChar(100)
+  sector                  String   @db.VarChar(100)
+  email                   String   @unique @db.VarChar(255)
+  phone                   String?  @db.VarChar(20)
   employeeCount           Int?
 
   // Logistique et Centres
@@ -109,10 +109,10 @@ model SectorAverage {
 
 model AdminUser {
   id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      String   @default("admin")
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  name      String   @db.VarChar(100)
+  role      String   @default("admin") @db.VarChar(20)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
