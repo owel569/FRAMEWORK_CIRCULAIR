@@ -1,5 +1,5 @@
 
-import { IsEmail, IsString, MinLength, Matches } from 'class-validator';
+import { IsEmail, IsString, MinLength, Matches, Length, IsIn, IsArray, IsOptional, IsNumber, Min, Max } from 'class-validator';
 
 export class AdminLoginDto {
   @IsEmail({}, { message: 'Format d\'email invalide' })
@@ -12,8 +12,6 @@ export class AdminLoginDto {
   @MinLength(6, { message: 'Le mot de passe doit contenir au moins 6 caractères' })
   password: string;
 }
-
-import { IsIn, IsArray, IsOptional, IsNumber, Min, Max } from 'class-validator';
 
 export class CreateQuestionDto {
   @IsString()
