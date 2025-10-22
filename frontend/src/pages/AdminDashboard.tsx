@@ -71,11 +71,39 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeView, setActiveView] = useState<'overview' | 'trends' | 'companies'>('overview')
+  const [demoMode, setDemoMode] = useState(false)
   const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
     loadStats()
+    checkDemoMode()
   }, [])
+
+  const checkDemoMode = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/admin/demo-mode`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      setDemoMode(response.data.demoMode)
+    } catch (error) {
+      console.error('Erreur vérification mode démo:', error)
+    }
+  }
+
+  const toggleDemoMode = async () => {
+    try {
+      const newMode = !demoMode
+      await axios.post(
+        `${API_URL}/admin/demo-mode`,
+        { enabled: newMode },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      setDemoMode(newMode)
+      await loadStats()
+    } catch (error) {
+      console.error('Erreur toggle mode démo:', error)
+    }
+  }
 
   const loadStats = async () => {
     try {
@@ -135,16 +163,28 @@ export default function AdminDashboard() {
                 </a>
               </div>
             </div>
-            <button
-              onClick={() => {
-                localStorage.removeItem('adminToken')
-                localStorage.removeItem('adminUser')
-                window.location.href = '/'
-              }}
-              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300"
-            >
-              🚪 Déconnexion
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={toggleDemoMode}
+                className={`px-4 py-2 rounded-lg font-semibold transition-all duration-300 shadow-md ${
+                  demoMode
+                    ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border-2 border-gray-300'
+                }`}
+              >
+                {demoMode ? '🎭 Mode Démo' : '📊 Données Réelles'}
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.removeItem('adminToken')
+                  localStorage.removeItem('adminUser')
+                  window.location.href = '/'
+                }}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300"
+              >
+                🚪 Déconnexion
+              </button>
+            </div>
           </div>
         </div>
       </nav>

@@ -1,6 +1,7 @@
 
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { DemoDataService } from './demo-data.service';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { 
@@ -13,8 +14,12 @@ import {
 @Injectable()
 export class AdminService {
   private readonly JWT_SECRET = process.env.JWT_SECRET || 'circular-economy-secret-key-2025';
+  private useDemoData: boolean = false;
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly demoDataService: DemoDataService,
+  ) {}
 
   // Authentification
   async login(data: AdminLoginDto): Promise<{ token: string; admin: any }> {
@@ -57,8 +62,20 @@ export class AdminService {
     }
   }
 
-  // Statistiques du tableau de bord
+  setDemoMode(enabled: boolean) {
+    this.useDemoData = enabled;
+    return { demoMode: this.useDemoData };
+  }
+
+  getDemoMode() {
+    return { demoMode: this.useDemoData };
+  }
+
   async getDashboardStats(): Promise<AdminStatsDto> {
+    if (this.useDemoData) {
+      return this.demoDataService.getDemoStats();
+    }
+
     const [
       totalCompanies,
       totalScores,

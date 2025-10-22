@@ -45,6 +45,21 @@ export class AdminController {
     return this.adminService.getDashboardStats();
   }
 
+  @Get('demo-mode')
+  async getDemoMode(@Headers('authorization') auth: string) {
+    await this.verifyAdmin(auth);
+    return this.adminService.getDemoMode();
+  }
+
+  @Post('demo-mode')
+  async setDemoMode(
+    @Headers('authorization') auth: string,
+    @Body() data: { enabled: boolean },
+  ) {
+    await this.verifyAdmin(auth);
+    return this.adminService.setDemoMode(data.enabled);
+  }
+
   // Questions - CRUD
   @Get('questions')
   async getAllQuestions(
