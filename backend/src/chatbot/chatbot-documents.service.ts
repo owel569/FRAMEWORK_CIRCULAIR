@@ -8,13 +8,6 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 
-interface UploadedFile {
-  originalname: string;
-  buffer: Buffer;
-  size: number;
-  mimetype: string;
-}
-
 @Injectable()
 export class ChatbotDocumentsService {
   private readonly uploadDir = path.join(process.cwd(), 'uploads', 'chatbot');
@@ -27,7 +20,7 @@ export class ChatbotDocumentsService {
   }
 
   async uploadDocument(
-    file: UploadedFile,
+    file: Express.Multer.File,
     title: string,
     description: string | undefined,
     uploadedBy: string,

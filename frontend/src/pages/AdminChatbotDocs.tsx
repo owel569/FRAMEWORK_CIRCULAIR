@@ -1,384 +1,368 @@
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../config';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { API_URL } from '../config'
 
-interface ChatbotDocument {
-  id: string;
-  filename: string;
-  title: string;
-  description: string | null;
-  fileType: string;
-  fileSize: number;
-  isActive: boolean;
-  wordCount: number;
-  usageCount: number;
-  uploadedAt: string;
+interface Document {
+  id: string
+  filename: string
+  title: string
+  description?: string
+  fileType: string
+  fileSize: number
+  isActive: boolean
+  wordCount?: number
+  usageCount: number
+  uploadedAt: string
 }
 
-const AdminChatbotDocs: React.FC = () => {
-  const navigate = useNavigate();
-  const [documents, setDocuments] = useState<ChatbotDocument[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+export default function AdminChatbotDocs() {
+  const [documents, setDocuments] = useState<Document[]>([])
+  const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (!token) {
-      navigate('/admin/login');
-      return;
-    }
-    fetchDocuments();
-  }, [navigate]);
+    loadDocuments()
+  }, [])
 
-  const fetchDocuments = async () => {
+  const loadDocuments = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_BASE_URL}/chatbot/documents`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('Erreur lors du chargement des documents');
-
-      const data = await response.json();
-      setDocuments(data);
-    } catch (err) {
-      setError('Impossible de charger les documents');
+      const response = await axios.get(`${API_URL}/chatbot/documents`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      setDocuments(response.data)
+    } catch (error) {
+      console.error('Erreur chargement documents:', error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const allowedTypes = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain',
-        'text/markdown',
-      ];
-
-      if (!allowedTypes.includes(file.type)) {
-        setError('Type de fichier non supporté. Utilisez PDF, DOCX, TXT ou MD');
-        return;
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      const allowedTypes = ['.pdf', '.txt', '.md', '.docx']
+      const fileExt = '.' + file.name.split('.').pop()?.toLowerCase()
+      
+      if (!allowedTypes.includes(fileExt)) {
+        alert('Type de fichier non autorisé. Utilisez: PDF, TXT, MD ou DOCX')
+        return
       }
-
+      
       if (file.size > 10 * 1024 * 1024) {
-        setError('Le fichier est trop volumineux (max 10 MB)');
-        return;
+        alert('Fichier trop volumineux (max 10 MB)')
+        return
       }
-
-      setSelectedFile(file);
-      setError('');
+      
+      setSelectedFile(file)
+      if (!title) {
+        setTitle(file.name.replace(/\.[^/.]+$/, ''))
+      }
     }
-  };
+  }
 
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleUpload = async () => {
     if (!selectedFile || !title.trim()) {
-      setError('Veuillez sélectionner un fichier et entrer un titre');
-      return;
+      alert('Veuillez sélectionner un fichier et entrer un titre')
+      return
     }
 
-    setUploading(true);
-    setError('');
-    setSuccess('');
+    setUploading(true)
+    const formData = new FormData()
+    formData.append('file', selectedFile)
+    formData.append('title', title)
+    if (description) {
+      formData.append('description', description)
+    }
 
     try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('title', title.trim());
-      if (description.trim()) {
-        formData.append('description', description.trim());
-      }
-
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_BASE_URL}/chatbot/documents/upload`, {
-        method: 'POST',
+      await axios.post(`${API_URL}/chatbot/documents/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error('Erreur lors du téléversement');
-
-      setSuccess('Document téléversé avec succès');
-      setSelectedFile(null);
-      setTitle('');
-      setDescription('');
-      fetchDocuments();
-    } catch (err) {
-      setError('Erreur lors du téléversement du document');
+      })
+      
+      alert('✅ Document uploadé avec succès !')
+      setSelectedFile(null)
+      setTitle('')
+      setDescription('')
+      loadDocuments()
+    } catch (error) {
+      console.error('Erreur upload:', error)
+      alert('❌ Erreur lors de l\'upload du document')
     } finally {
-      setUploading(false);
+      setUploading(false)
     }
-  };
+  }
 
   const toggleDocument = async (id: string) => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_BASE_URL}/chatbot/documents/${id}/toggle`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('Erreur');
-
-      fetchDocuments();
-    } catch (err) {
-      setError('Erreur lors de la modification du statut');
+      await axios.patch(
+        `${API_URL}/chatbot/documents/${id}/toggle`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      loadDocuments()
+    } catch (error) {
+      console.error('Erreur toggle:', error)
     }
-  };
+  }
 
   const deleteDocument = async (id: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) {
+      return
+    }
 
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await fetch(`${API_BASE_URL}/chatbot/documents/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('Erreur');
-
-      setSuccess('Document supprimé');
-      fetchDocuments();
-    } catch (err) {
-      setError('Erreur lors de la suppression');
+      await axios.delete(`${API_URL}/chatbot/documents/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      alert('✅ Document supprimé')
+      loadDocuments()
+    } catch (error) {
+      console.error('Erreur suppression:', error)
+      alert('❌ Erreur lors de la suppression')
     }
-  };
+  }
 
-  const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-  };
-
-  const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
-        <div className="text-xl text-gray-600">Chargement...</div>
-      </div>
-    );
+  const formatFileSize = (bytes: number) => {
+    if (bytes < 1024) return bytes + ' B'
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-2">
-              📚 Documents Chatbot
-            </h1>
-            <p className="text-gray-600">
-              Gérez les documents utilisés par l'assistant intelligent
-            </p>
-          </div>
-          <button
-            onClick={() => navigate('/admin/dashboard')}
-            className="bg-white px-6 py-3 rounded-lg shadow hover:shadow-lg transition-shadow"
-          >
-            ← Retour au Dashboard
-          </button>
-        </div>
-
-        {/* Messages */}
-        {error && (
-          <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-            {success}
-          </div>
-        )}
-
-        {/* Upload Form */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
-            📤 Téléverser un nouveau document
-          </h2>
-
-          <form onSubmit={handleUpload} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fichier *
-              </label>
-              <input
-                type="file"
-                accept=".pdf,.docx,.txt,.md"
-                onChange={handleFileSelect}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-              />
-              <p className="mt-1 text-xs text-gray-500">
-                Formats acceptés : PDF, DOCX, TXT, MD (max 10 MB)
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      {/* Navigation Admin */}
+      <nav className="bg-white shadow-lg border-b-4 border-blue-600 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-8">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                🔐 Admin ISO 59000
+              </h1>
+              <div className="flex gap-2">
+                <a 
+                  href="/admin/dashboard" 
+                  className="px-4 py-2 rounded-lg text-gray-700 font-semibold hover:bg-gray-100 transition-colors"
+                >
+                  📊 Dashboard
+                </a>
+                <a 
+                  href="/admin/questions" 
+                  className="px-4 py-2 rounded-lg text-gray-700 font-semibold hover:bg-gray-100 transition-colors"
+                >
+                  📝 Questions
+                </a>
+                <a 
+                  href="/admin/chatbot-docs" 
+                  className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+                >
+                  🤖 Chatbot Docs
+                </a>
+              </div>
             </div>
+            <button
+              onClick={() => {
+                localStorage.removeItem('adminToken')
+                localStorage.removeItem('adminUser')
+                window.location.href = '/'
+              }}
+              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300"
+            >
+              🚪 Déconnexion
+            </button>
+          </div>
+        </div>
+      </nav>
 
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <h2 className="text-3xl font-bold mb-8 text-gray-800">
+          📚 Gestion de la Base de Connaissances Chatbot
+        </h2>
+
+        {/* Section Upload */}
+        <div className="bg-white p-6 rounded-2xl shadow-xl mb-8">
+          <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
+            <span className="text-3xl mr-3">📤</span>
+            Uploader un Nouveau Document
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Titre du document *
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="Ex: Guide ISO 59000 - Section 4"
-                required
+                placeholder="Ex: Guide ISO 59004 complet"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Description (optionnel)
               </label>
-              <textarea
+              <input
+                type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder="Décrivez le contenu du document..."
+                placeholder="Ex: Documentation officielle pour l'économie circulaire"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
+          </div>
 
-            <button
-              type="submit"
-              disabled={uploading || !selectedFile}
-              className="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-green-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {uploading ? 'Téléversement en cours...' : '📤 Téléverser le document'}
-            </button>
-          </form>
+          <div className="mt-4">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Fichier * (PDF, TXT, MD, DOCX - Max 10 MB)
+            </label>
+            <div className="flex items-center gap-4">
+              <label className="flex-1 cursor-pointer">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 transition-colors text-center">
+                  <input
+                    type="file"
+                    onChange={handleFileSelect}
+                    accept=".pdf,.txt,.md,.docx"
+                    className="hidden"
+                  />
+                  {selectedFile ? (
+                    <div>
+                      <p className="text-green-600 font-semibold">✅ {selectedFile.name}</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {formatFileSize(selectedFile.size)}
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-gray-600 font-semibold">📁 Cliquez pour sélectionner un fichier</p>
+                      <p className="text-sm text-gray-400 mt-1">
+                        Formats acceptés: PDF, TXT, MD, DOCX
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </label>
+              
+              <button
+                onClick={handleUpload}
+                disabled={!selectedFile || !title.trim() || uploading}
+                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-8 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                {uploading ? '⏳ Upload...' : '📤 Uploader'}
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Documents List */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
-            📋 Documents existants ({documents.length})
-          </h2>
+        {/* Liste des Documents */}
+        <div className="bg-white p-6 rounded-2xl shadow-xl">
+          <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center justify-between">
+            <span className="flex items-center">
+              <span className="text-3xl mr-3">📄</span>
+              Documents Uploadés ({documents.length})
+            </span>
+          </h3>
 
-          {documents.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
-              Aucun document téléversé pour le moment
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto"></div>
+              <p className="text-gray-600 mt-4">Chargement...</p>
+            </div>
+          ) : documents.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">📭 Aucun document uploadé</p>
+              <p className="text-gray-400 mt-2">Uploadez votre premier document pour enrichir le chatbot</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {documents.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-2xl">
-                          {doc.fileType === '.pdf' ? '📄' : doc.fileType === '.docx' ? '📝' : '📋'}
-                        </span>
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left p-3 font-semibold text-gray-700">Titre</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Fichier</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Taille</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Mots</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Utilisé</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Statut</th>
+                    <th className="text-left p-3 font-semibold text-gray-700">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {documents.map((doc) => (
+                    <tr key={doc.id} className="border-b hover:bg-blue-50 transition-colors">
+                      <td className="p-3">
                         <div>
-                          <h3 className="font-semibold text-lg text-gray-800">
-                            {doc.title}
-                          </h3>
-                          <p className="text-sm text-gray-500">
-                            {doc.filename}
-                          </p>
+                          <p className="font-semibold text-gray-800">{doc.title}</p>
+                          {doc.description && (
+                            <p className="text-sm text-gray-500 mt-1">{doc.description}</p>
+                          )}
                         </div>
-                      </div>
-
-                      {doc.description && (
-                        <p className="text-gray-600 mb-3">{doc.description}</p>
-                      )}
-
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-                        <span>📊 {doc.wordCount?.toLocaleString()} mots</span>
-                        <span>💾 {formatFileSize(doc.fileSize)}</span>
-                        <span>🔍 Utilisé {doc.usageCount} fois</span>
-                        <span>📅 {formatDate(doc.uploadedAt)}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 ml-4">
-                      <button
-                        onClick={() => toggleDocument(doc.id)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          doc.isActive
-                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
-                      >
-                        {doc.isActive ? '✓ Actif' : '⊗ Inactif'}
-                      </button>
-
-                      <button
-                        onClick={() => deleteDocument(doc.id)}
-                        className="px-4 py-2 bg-red-100 text-red-700 rounded-lg font-medium hover:bg-red-200 transition-colors"
-                      >
-                        🗑️ Supprimer
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        <span className="bg-gray-100 px-2 py-1 rounded text-sm">
+                          {doc.filename}
+                        </span>
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        {formatFileSize(doc.fileSize)}
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        {doc.wordCount?.toLocaleString() || '-'}
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-semibold">
+                          {doc.usageCount}×
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        <button
+                          onClick={() => toggleDocument(doc.id)}
+                          className={`px-3 py-1 rounded-full text-sm font-semibold transition-colors ${
+                            doc.isActive
+                              ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                        >
+                          {doc.isActive ? '✅ Actif' : '⏸️ Inactif'}
+                        </button>
+                      </td>
+                      <td className="p-3">
+                        <button
+                          onClick={() => deleteDocument(doc.id)}
+                          className="bg-red-100 text-red-700 hover:bg-red-200 px-3 py-1 rounded-lg font-semibold transition-colors"
+                        >
+                          🗑️ Supprimer
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
 
-        {/* Stats */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-2">📚</div>
-            <div className="text-2xl font-bold text-gray-800">
-              {documents.length}
-            </div>
-            <div className="text-gray-600">Documents totaux</div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-2">✓</div>
-            <div className="text-2xl font-bold text-green-600">
-              {documents.filter((d) => d.isActive).length}
-            </div>
-            <div className="text-gray-600">Documents actifs</div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="text-3xl mb-2">📊</div>
-            <div className="text-2xl font-bold text-blue-600">
-              {documents.reduce((sum, d) => sum + d.usageCount, 0)}
-            </div>
-            <div className="text-gray-600">Utilisations totales</div>
-          </div>
+        {/* Informations */}
+        <div className="mt-8 bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+          <h4 className="font-bold text-blue-900 mb-3">ℹ️ Comment ça marche ?</h4>
+          <ul className="space-y-2 text-blue-800">
+            <li>• <strong>Uploadez des documents</strong> : PDF, Word, Markdown ou texte</li>
+            <li>• <strong>Le chatbot s'entraîne automatiquement</strong> sur le contenu extrait</li>
+            <li>• <strong>Activez/désactivez</strong> des documents pour contrôler les sources utilisées</li>
+            <li>• <strong>Le chatbot cite ses sources</strong> quand il utilise vos documents</li>
+            <li>• <strong>Plus de documents = plus de connaissances</strong> pour des réponses précises</li>
+          </ul>
         </div>
       </div>
     </div>
-  );
-};
-
-export default AdminChatbotDocs;
+  )
+}
