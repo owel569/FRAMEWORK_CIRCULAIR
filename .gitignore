@@ -64,7 +64,3 @@ __pycache__/
 *.so
 .Python
 
-# Replit
-.replit
-.upm/
-replit.nix
