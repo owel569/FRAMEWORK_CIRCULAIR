@@ -1,0 +1,74 @@
+s
+Secteur d'activité
+Tranche d'effectif (ETP) % de matières recyclées Consommation électricité (kWh/ETP/an)
+Agriculture, sylviculture et pêche 1–10 15 8400
+Agriculture, sylviculture et pêche 11–25 19 7700
+Agriculture, sylviculture et pêche 26–50 23 7000
+Agriculture, sylviculture et pêche 51–75 27 6300
+Agriculture, sylviculture et pêche 76–100 30 5950
+Agriculture, sylviculture et pêche 101–125 33 5600
+Agriculture, sylviculture et pêche 126–150 35 5250
+Agriculture, sylviculture et pêche 151–175 36 5040
+Agriculture, sylviculture et pêche 176–200 37 4900
+Industrie manufacturière 1–10 15 14400
+Industrie manufacturière 11–25 19 13200
+Industrie manufacturière 26–50 23 12000
+Industrie manufacturière 51–75 27 10800
+Industrie manufacturière 76–100 30 10200
+Industrie manufacturière 101–125 33 9600
+Industrie manufacturière 126–150 35 9000
+Industrie manufacturière 151–175 36 8640
+Industrie manufacturière 176–200 37 8400
+Construction / BTP 1–10 20 13200
+Construction / BTP 11–25 24 12100
+Construction / BTP 26–50 28 11000
+Construction / BTP 51–75 32 9900
+Construction / BTP 76–100 35 9350
+Construction / BTP 101–125 38 8800
+Construction / BTP 126–150 40 8250
+Construction / BTP 151–175 41 7920
+Construction / BTP 176–200 42 7700
+Commerce et distribution 1–10 18 9600
+Commerce et distribution 11–25 22 8800
+Commerce et distribution 26–50 26 8000
+Commerce et distribution 51–75 30 7200
+Commerce et distribution 76–100 33 6800
+Commerce et distribution 101–125 36 6400
+Commerce et distribution 126–150 38 6000
+Commerce et distribution 151–175 39 5760
+Commerce et distribution 176–200 40 5600
+Transport et logistique 1–10 15 8400
+Transport et logistique 11–25 19 7700
+Transport et logistique 26–50 23 7000
+Transport et logistique 51–75 27 6300
+Transport et logistique 76–100 30 5950
+Transport et logistique 101–125 33 5600
+Transport et logistique 126–150 35 5250
+Transport et logistique 151–175 36 5040
+Transport et logistique 176–200 37 4900
+Énergie et environnement 1–10 25 15600
+Énergie et environnement 11–25 29 14300
+Énergie et environnement 26–50 33 13000
+Énergie et environnement 51–75 37 11700
+Énergie et environnement 76–100 40 11050
+Énergie et environnement 101–125 43 10400
+Énergie et environnement 126–150 45 9750
+Énergie et environnement 151–175 46 9360
+Énergie et environnement 176–200 47 9100
+Santé et action sociale 1–10 15 13200
+Santé et action sociale 11–25 19 12100
+Santé et action sociale 26–50 23 11000
+Santé et action sociale 51–75 27 9900
+Santé et action sociale 76–100 30 9350
+Santé et action sociale 101–125 33 8800
+Santé et action sociale 126–150 35 8250
+Santé et action sociale 151–175 36 7920
+Santé et action sociale 176–200 37 7700
+Informatique et télécommunications 1–10 20 10800
+Informatique et télécommunications 11–25 24 9900
+Informatique et télécommunications 26–50 28 9000
+Informatique et télécommunications 51–75 32 8100
+Informatique et télécommunications 76–100 35 7650
+Informatique et télécommunications 101–125 38 7200
+Informatique et télécommunications 126–150 40 6750
+Informatique et télécommunications 151–175 41 6480
