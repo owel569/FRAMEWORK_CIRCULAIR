@@ -6,6 +6,7 @@ import { ScoreModule } from './score/score.module';
 import { PlanModule } from './plan/plan.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { QuestionnaireModule } from './questionnaire/questionnaire.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { QuestionnaireModule } from './questionnaire/questionnaire.module';
     PlanModule,
     ChatbotModule,
     QuestionnaireModule,
+    AdminModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],

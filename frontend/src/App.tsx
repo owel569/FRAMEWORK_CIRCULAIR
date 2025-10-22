@@ -5,6 +5,9 @@ import ScoreDashboard from './pages/ScoreDashboard'
 import ActionPlan from './pages/ActionPlan'
 import NotFound from './pages/NotFound'
 import ChatbotWidget from './components/ChatbotWidget'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminQuestions from './pages/AdminQuestions'
 
 function App() {
   return (
@@ -15,6 +18,9 @@ function App() {
           <Route path="/questionnaire" element={<QuestionnaireForm />} />
           <Route path="/dashboard/:scoreId" element={<ScoreDashboard />} />
           <Route path="/plan/:scoreId" element={<ActionPlan />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/questions" element={<AdminQuestions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatbotWidget />

@@ -106,3 +106,28 @@ model SectorAverage {
   sector    String @unique
   avgScore  Float
 }
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model QuestionnaireQuestion {
+  id           String   @id @default(uuid())
+  questionId   String   @unique
+  sector       String
+  category     String
+  text         String
+  type         String
+  weight       Float
+  unit         String?
+  choices      String?
+  isoReference String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
