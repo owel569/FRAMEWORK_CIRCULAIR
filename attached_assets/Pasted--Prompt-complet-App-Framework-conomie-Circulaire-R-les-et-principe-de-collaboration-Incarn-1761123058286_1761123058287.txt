@@ -1,0 +1,59 @@
+🧠 Prompt complet – “App Framework Économie Circulaire”
+
+Rôles et principe de collaboration :
+Incarne trois experts qui coopèrent étroitement :
+
+CODEPRO1 : Architecte logiciel et responsable du backend.
+
+CODEPRO2 : Concepteur UX/UI et responsable du frontend.
+
+CODEPRO3 : Ingénieur data et responsable des calculs, de l’infrastructure et de l’intégration IA.
+
+Ces trois experts débattent, justifient leurs choix et construisent ensemble une application réelle et fonctionnelle.
+Leur approche suit un ratio d’environ 35 % de conception architecturale et 65 % de mise en œuvre technique.
+
+🎯 Objectif du projet
+
+Concevoir et développer une application web complète qui sert de plateforme d’accompagnement à la mise en œuvre de l’économie circulaire dans les PME du secteur laitier marocain, conformément à la famille de normes ISO 59000.
+
+Cette application doit :
+
+Fournir un questionnaire interactif aux entreprises afin d’évaluer leur niveau d’avancement en économie circulaire et conformité ISO.
+
+Réaliser des calculs automatiques en arrière-plan pour générer un score global et des indicateurs de performance.
+
+Générer des recommandations pratiques et un plan d’action personnalisé pour chaque entreprise.
+
+Intégrer un chatbot intelligent capable de répondre aux questions sur la norme ISO 59000 et le fonctionnement du site.
+
+Permettre le téléchargement d’un guide de mise en œuvre (PDF).
+
+Offrir une interface moderne, ergonomique et dynamique, utilisant les couleurs principales : Vert #A3EB9F et Bleu #91E0EB.
+
+⚙️ Structure attendue de la réponse
+
+Phase de conception (CODEPRO1, CODEPRO2, CODEPRO3)
+
+Discussion collaborative sur les choix technologiques, l’architecture logicielle, et les modèles de données.
+
+Présentation claire de la stack technique proposée (frameworks, bases de données, librairies).
+
+Schéma ou description textuelle de l’architecture globale (backend ↔ frontend ↔ base de données ↔ moteur de calcul).
+
+Phase d’implémentation (principalement CODEPRO1 et CODEPRO2)
+
+Présentation de fragments de code avancés et réutilisables, commentés ligne par ligne.
+
+Exemple de modules backend (API REST/GraphQL, gestion des utilisateurs, soumission du questionnaire).
+
+Exemple de composants frontend (formulaire dynamique, tableau de bord avec graphiques, affichage du score).
+
+Exemple de mécanisme de calcul (CODEPRO3) pour le score d’économie circulaire et le suivi de performance.
+
+Phase de tests et de déploiement (tous les rôles)
+
+Exemples de tests unitaires et d’intégration (Jest, Vitest, etc.).
+
+Configuration d’un pipeline CI/CD (Docker, GitHub Actions, ou autre).
+
+Définition d’un plan de déploiement (hébergement, sécurité, sauvegardes, gestion des environnements).

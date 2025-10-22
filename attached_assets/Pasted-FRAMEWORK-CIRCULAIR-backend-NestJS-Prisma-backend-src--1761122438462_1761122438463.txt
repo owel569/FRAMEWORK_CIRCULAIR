@@ -1,0 +1,86 @@
+FRAMEWORK_CIRCULAIR/
+├── backend/                      # NestJS + Prisma backend
+│   ├── src/
+│   │   ├── main.ts               # Starts the NestJS app
+│   │   ├── app.module.ts         # Root module (imports everything)
+│   │   ├── prisma.service.ts     # Centralized DB connection
+│   │   │
+│   │   ├── company/              # Company data module
+│   │   │   ├── company.module.ts
+│   │   │   ├── company.controller.ts
+│   │   │   ├── company.service.ts
+│   │   │   └── dto/
+│   │   │       └── create-company.dto.ts
+│   │   │
+│   │   ├── score/                # Scoring system (async computation)
+│   │   │   ├── score.module.ts
+│   │   │   ├── score.controller.ts
+│   │   │   ├── score.service.ts
+│   │   │   └── score.worker.ts
+│   │   │
+│   │   ├── plan/                 # Action plan generator (ISO 59000)
+│   │   │   ├── plan.module.ts
+│   │   │   └── plan.service.ts
+│   │   │
+│   │   ├── chatbot/              # AI assistant integration
+│   │   │   ├── chatbot.module.ts
+│   │   │   ├── chatbot.controller.ts
+│   │   │   └── chatbot.service.ts
+│   │   │
+│   │   └── common/               # Reusable utilities
+│   │       ├── dto/
+│   │       ├── guards/
+│   │       ├── interceptors/
+│   │       └── helpers/
+│   │
+│   ├── prisma/
+│   │   ├── schema.prisma         # Database schema
+│   │   ├── seed-sector-averages.ts
+│   │   └── data/
+│   │       └── sector_averages.csv
+│   │
+│   ├── test/
+│   │   └── e2e/                  # End-to-end backend tests
+│   │
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .env
+│
+├── frontend/                     # React + TypeScript + Vite frontend
+│   ├── src/
+│   │   ├── main.tsx
+│   │   ├── App.tsx
+│   │   │
+│   │   ├── components/           # Reusable UI parts
+│   │   │   ├── ChatbotWidget.tsx
+│   │   │   ├── DashboardRadar.tsx
+│   │   │   └── ProgressBar.tsx
+│   │   │
+│   │   ├── pages/                # Application views
+│   │   │   ├── Home.tsx
+│   │   │   ├── QuestionnaireForm.tsx
+│   │   │   ├── ScoreDashboard.tsx
+│   │   │   ├── ActionPlan.tsx
+│   │   │   └── NotFound.tsx
+│   │   │
+│   │   ├── assets/               # PDFs, logos, static content
+│   │   │   └── guide-couleurs.pdf
+│   │   │
+│   │   ├── hooks/                # Custom React hooks
+│   │   ├── context/              # Global state (company, score, chatbot)
+│   │   ├── utils/                # Helper functions
+│   │   └── styles/               # Tailwind + custom themes
+│   │
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   └── tsconfig.json
+│
+├── docs/                         # Technical and functional documentation
+│   ├── openapi.yaml              # REST API documentation
+│   └── architecture.md
+│
+├── scripts/                      # Automation scripts (deployment, seeding)
+│   └── deploy.sh
+│
+└── README.md

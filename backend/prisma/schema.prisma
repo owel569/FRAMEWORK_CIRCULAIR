@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  sector    String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  scores    Score[]
+}
+
+model Score {
+  id              String   @id @default(uuid())
+  companyId       String
+  company         Company  @relation(fields: [companyId], references: [id])
+  
+  globalScore        Float
+  governanceScore    Float
+  economicScore      Float
+  socialScore        Float
+  environmentalScore Float
+  
+  responses       String
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  actionPlan      ActionPlan?
+}
+
+model ActionPlan {
+  id              String   @id @default(uuid())
+  scoreId         String   @unique
+  score           Score    @relation(fields: [scoreId], references: [id])
+  
+  recommendations String
+  priority        String
+  timeline        String
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SectorAverage {
+  id        String @id @default(uuid())
+  sector    String @unique
+  avgScore  Float
+}
