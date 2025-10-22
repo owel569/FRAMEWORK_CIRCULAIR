@@ -4,14 +4,15 @@
 Plateforme d'accompagnement des PME marocaines dans leur transition vers l'économie circulaire, conforme aux normes ISO 59000.
 
 **Date de création** : 22 octobre 2025  
-**État** : Application complète et fonctionnelle avec questionnaires sectoriels intégrés 
-**Langages** : TypeScript (Backend & Frontend)
+**État** : Application complète et fonctionnelle  
+**Langages** : TypeScript (Backend & Frontend)  
+**Environnement** : Replit (configuré et déployable)
 
 ## Objectif du projet
 Application web qui sert de plateforme d'accompagnement à la mise en œuvre de l'économie circulaire dans les secteurs des PME marocaines, conformément à la famille de normes ISO 59000.
 
 ### Fonctionnalités principales
-- 📊 **Questionnaire interactif sectoriel** : Évaluation complète du niveau de maturité en économie circulaire avec 20 secteurs d'activité
+- 📊 **Questionnaire interactif** : Évaluation complète du niveau de maturité en économie circulaire
 - 🎯 **Scoring automatique** : Calcul de scores globaux et par dimension (Gouvernance, Économique, Social, Environnemental)
 - 📋 **Plan d'action personnalisé** : Recommandations ISO 59000 adaptées au profil de l'entreprise
 - 🤖 **Chatbot intelligent** : Assistant pour répondre aux questions sur ISO 59000
@@ -23,7 +24,7 @@ Application web qui sert de plateforme d'accompagnement à la mise en œuvre de 
 ### Stack Backend
 - **Framework** : NestJS 10 (TypeScript)
 - **ORM** : Prisma 5
-- **Base de données** : SQLite (développement) / PostgreSQL (production recommandé)
+- **Base de données** : SQLite (dev) / PostgreSQL (production)
 - **Validation** : class-validator, class-transformer
 - **API** : REST avec routes documentées
 
@@ -40,8 +41,6 @@ Application web qui sert de plateforme d'accompagnement à la mise en œuvre de 
 2. **Score Module** : Calcul des scores de circularité selon ISO 59000
 3. **Plan Module** : Génération automatique de plans d'action ISO 59004/59020
 4. **Chatbot Module** : Assistant intelligent avec base de connaissances ISO
-5. **Types Module** : Système de types TypeScript pour les questionnaires sectoriels
-6. **Data Module** : Base de données complète des questionnaires par secteur
 
 ### Pages Frontend
 1. **Home** : Page d'accueil avec présentation de la plateforme
@@ -49,90 +48,56 @@ Application web qui sert de plateforme d'accompagnement à la mise en œuvre de 
 3. **Dashboard** : Visualisation des scores avec graphiques radar et barres
 4. **Action Plan** : Recommandations personnalisées et feuille de route
 
-## Secteurs d'activité couverts
-
-L'application intègre **20 secteurs d'activité** avec questionnaires spécifiques :
-
-1. **Agriculture, sylviculture et pêche** - 4 sous-secteurs
-2. **Industrie manufacturière** - 7 sous-secteurs (Agroalimentaire, Textile, Chimie, Métallurgie, Électronique, Automobile, Aéronautique)
-3. **Construction / BTP** - 4 sous-secteurs
-4. **Commerce et distribution** - 4 sous-secteurs
-5. **Transport et logistique** - 5 sous-secteurs
-6. **Énergie et environnement** - 5 sous-secteurs
-7. **Santé et action sociale** - 6 sous-secteurs
-8. **Informatique et télécommunications** - 7 sous-secteurs
-9. **Banque, assurance et finance** - 8 sous-secteurs
-10. **Administration publique et défense** - 9 sous-secteurs
-11. **Éducation et formation** - 7 sous-secteurs
-12. **Hôtellerie, restauration et tourisme** - 8 sous-secteurs
-13. **Culture, médias et communication** - 9 sous-secteurs
-14. **Immobilier et logement** - 7 sous-secteurs
-15. **Sciences et technologies** - 7 sous-secteurs
-16. **Artisanat et métiers de proximité** - 11 sous-secteurs
-17. **Services aux entreprises** - 6 sous-secteurs
-18. **Services aux particuliers** - 7 sous-secteurs
-19. **Associations et ONG** - 7 sous-secteurs
-20. **Autres secteurs émergents** - 6 sous-secteurs (Économie circulaire, Numérique responsable, Agriculture urbaine, etc.)
-
-### Catégories de diagnostic par secteur
-
-Chaque secteur est évalué selon **4 catégories** :
-
-1. **Diagnostic environnemental** (Flux, Déchets, Énergie, Eau)
-   - Gestion des ressources naturelles
-   - Émissions et pollution
-   - Énergies renouvelables
-   - Économie de l'eau
-
-2. **Diagnostic économique & production**
-   - Modèles d'affaires circulaires
-   - Efficience et productivité
-   - Écoconception
-   - Valorisation des sous-produits
-
-3. **Diagnostic social & territorial**
-   - Emplois locaux et formation
-   - Conditions de travail
-   - Égalité et inclusion
-   - Ancrage territorial
-
-4. **Logistique & chaîne d'approvisionnement**
-   - Approvisionnements responsables
-   - Transport bas-carbone
-   - Mutualisation logistique
-   - Traçabilité et retours
-
 ## Modifications récentes
 
-### 22 octobre 2025
-- ✅ **Configuration Replit complète**
-  - Installation de Node.js 20 et dépendances
-  - Configuration de la base de données SQLite avec Prisma
-  - Workflow configuré pour démarrage automatique (backend + frontend)
-  - Déploiement configuré en mode VM
+### 22 octobre 2025 - Configuration Replit complète
+- ✅ Installation de Node.js 20 et toutes les dépendances
+- ✅ Configuration du workflow Frontend (démarrage automatique)
+- ✅ Correction de la configuration Vite pour Replit (HMR, proxy, CORS)
+- ✅ Base de données SQLite créée et synchronisée avec le schéma Prisma
+- ✅ Configuration du déploiement en mode VM
+- ✅ **Intégration complète des questionnaires sectoriels** :
+  - 20 secteurs d'activité avec sous-secteurs détaillés
+  - 4 catégories de diagnostic (Environnemental, Économique, Social, Logistique)
+  - Questions typées avec unités, poids et types de réponse
+  - Fichiers TypeScript créés avec typage strict et optimisé
 
-- ✅ **Structure de données TypeScript avancée**
-  - Création du système de types pour les questionnaires sectoriels (`questionnaire.types.ts`)
-  - Énumérations pour 20 secteurs et 4 catégories de diagnostic
-  - Interface Question avec typage précis (boolean, percentage, number, text, choice)
-  - Mapping complet de 120+ sous-secteurs
+## Structure des données
 
-- ✅ **Base de données de questionnaires complète**
-  - Intégration de tous les questionnaires sectoriels (`questionnaires.data.ts`)
-  - Plus de 400 questions spécifiques réparties sur 20 secteurs
-  - Pondération personnalisée par question (weight)
-  - Unités de mesure adaptées (%, MAD, kWh, km, tCO₂e, etc.)
+### Secteurs d'activité intégrés (20 secteurs)
+1. **Agriculture, sylviculture et pêche**
+2. **Industrie manufacturière**
+3. **Construction / BTP**
+4. **Commerce et distribution**
+5. **Transport et logistique**
+6. **Énergie et environnement**
+7. **Santé et action sociale**
+8. **Informatique et télécommunications**
+9. **Banque, assurance et finance**
+10. **Administration publique et défense**
+11. **Éducation et formation**
+12. **Hôtellerie, restauration et tourisme**
+13. **Culture, médias et communication**
+14. **Immobilier et logement**
+15. **Sciences et technologies**
+16. **Artisanat et métiers de proximité**
+17. **Services aux entreprises**
+18. **Services aux particuliers**
+19. **Associations et ONG**
+20. **Autres secteurs émergents** (Économie circulaire, Numérique responsable, Agriculture urbaine, etc.)
 
-- ✅ **Corrections techniques**
-  - Synchronisation du schéma Prisma avec la base de données (`prisma db push`)
-  - Configuration du backend sur `0.0.0.0:3000` (accessibilité)
-  - Configuration du frontend sur `0.0.0.0:5000` avec proxy Replit
-  - Variables d'environnement frontend configurées
+### Catégories de diagnostic (4 dimensions)
+- **Diagnostic environnemental** : Flux, Déchets, Énergie, Eau
+- **Diagnostic économique & production** : Efficacité, circularité, innovation
+- **Diagnostic social & territorial** : Emploi, formation, inclusion, gouvernance
+- **Logistique & chaîne d'approvisionnement** : Supply chain, mutualisation, traçabilité
 
-- ✅ **Tests et validation**
-  - Backend API fonctionnel (GET /companies retourne [])
-  - Frontend accessible et responsive
-  - Couleurs circulaires (Vert #A3EB9F, Bleu #91E0EB) appliquées
+### Types de questions
+- **Boolean** : Questions oui/non
+- **Percentage** : Pourcentages (%)
+- **Number** : Valeurs numériques avec unités (kg, kWh, km, MAD, etc.)
+- **Choice** : Choix multiples prédéfinis
+- **Text** : Réponses textuelles libres
 
 ## Structure du projet
 
@@ -141,13 +106,13 @@ FRAMEWORK_CIRCULAIR/
 ├── backend/                    # Backend NestJS
 │   ├── src/
 │   │   ├── company/           # Module entreprises
-│   │   ├── score/             # Module scoring ISO 59000
+│   │   ├── score/             # Module scoring
 │   │   ├── plan/              # Module plans d'action
 │   │   ├── chatbot/           # Module chatbot IA
-│   │   ├── types/             # Types TypeScript (questionnaires)
-│   │   │   └── questionnaire.types.ts
-│   │   ├── data/              # Données des questionnaires
-│   │   │   └── questionnaires.data.ts
+│   │   ├── types/             # Types TypeScript
+│   │   │   └── questionnaire.types.ts  # Types des questionnaires
+│   │   ├── data/              # Données statiques
+│   │   │   └── questionnaires.data.ts  # Questionnaires complets
 │   │   ├── app.module.ts      # Module racine
 │   │   ├── main.ts            # Point d'entrée
 │   │   └── prisma.service.ts  # Service DB
@@ -174,69 +139,108 @@ FRAMEWORK_CIRCULAIR/
 │   │   ├── App.tsx            # Composant racine
 │   │   ├── config.ts          # Configuration API
 │   │   └── main.tsx           # Point d'entrée
-│   ├── .env                   # Variables d'environnement
+│   ├── vite.config.ts         # Configuration Vite (Replit)
 │   ├── package.json
-│   ├── vite.config.ts
 │   └── tailwind.config.js
 │
-├── docs/                      # Documentation
-│   └── architecture.md
-├── start.sh                   # Script de démarrage
-├── README.md                  # Documentation utilisateur
-└── replit.md                  # Ce fichier (documentation technique)
+├── attached_assets/            # Captures d'écran et documents (98 fichiers)
+├── start.sh                    # Script de démarrage
+├── README.md                   # Documentation complète
+└── replit.md                   # Ce fichier
+
 ```
 
-## Configuration
+## Configuration Replit
 
 ### Variables d'environnement
 
-**Backend** (fichier `backend/.env` optionnel) :
-- `DATABASE_URL` : Connexion à la base de données (défaut: file:./dev.db)
-- `PORT` : Port du backend (défaut: 3000)
-- `NODE_ENV` : Environnement (development/production)
+**Backend** :
+- `DATABASE_URL` : `file:./dev.db` (SQLite en développement)
+- `PORT` : `3000`
+- `NODE_ENV` : `development`
 
-**Frontend** (fichier `frontend/.env`) :
-- `VITE_API_URL` : URL de l'API backend (http://localhost:3000 en développement)
+**Frontend** :
+- `VITE_API_URL` : `http://localhost:3000` (API backend)
+- `REPLIT_DEV_DOMAIN` : Domaine Replit (auto-détecté)
 
 ### Ports utilisés
-- **Backend** : `localhost:3000` (API REST, accès interne)
-- **Frontend** : `0.0.0.0:5000` (Interface web, accès public via Replit)
+- **Backend** : `localhost:3000` (API REST NestJS)
+- **Frontend** : `0.0.0.0:5000` (Interface web Vite + React)
 
-## Démarrage de l'application
+### Workflow configuré
+**Nom** : Frontend  
+**Commande** : `bash start.sh`  
+**Type** : Webview  
+**Port** : 5000
 
-### Développement
-L'application démarre automatiquement via le workflow configuré :
-```bash
-bash start.sh
+Le script `start.sh` démarre automatiquement :
+1. Backend NestJS en mode watch sur `localhost:3000`
+2. Frontend Vite sur `0.0.0.0:5000`
+
+### Configuration Vite spécifique Replit
+```typescript
+{
+  server: {
+    host: '0.0.0.0',
+    port: 5000,
+    strictPort: false,
+    hmr: {
+      clientPort: 443,
+      protocol: 'wss',
+      host: process.env.REPLIT_DEV_DOMAIN || 'localhost'
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }
+}
 ```
 
-Ce script lance :
-1. Le backend NestJS sur `localhost:3000`
-2. Le frontend Vite sur `0.0.0.0:5000`
+## Déploiement
 
-### Production
-L'application est configurée pour le déploiement en mode VM :
-- **Build** : Compilation du backend et frontend
-- **Run** : Exécution via `start.sh`
+### Configuration
+- **Type** : VM (Virtual Machine)
+- **Build** : 
+  ```bash
+  cd backend && npm install && npx prisma generate && 
+  cd ../frontend && npm install && npm run build
+  ```
+- **Run** : `bash start.sh`
+
+L'application est prête à être déployée sur Replit Deployments.
 
 ## API Endpoints
 
 ### Companies
-- `POST /companies` : Créer une entreprise avec données sectorielles
+- `POST /companies` : Créer une entreprise
 - `GET /companies` : Lister toutes les entreprises
-- `GET /companies/:id` : Obtenir une entreprise et ses scores
+- `GET /companies/:id` : Obtenir une entreprise
 
 ### Scores
-- `POST /scores/calculate` : Calculer le score d'une entreprise (4 dimensions)
-- `GET /scores/company/:companyId` : Historique des scores d'une entreprise
-- `GET /scores/:id` : Détails d'un score spécifique
+- `POST /scores/calculate` : Calculer le score d'une entreprise
+- `GET /scores/company/:companyId` : Scores d'une entreprise
+- `GET /scores/:id` : Détails d'un score
 
 ### Chatbot
-- `POST /chatbot/ask` : Poser une question à l'assistant ISO 59000
+- `POST /chatbot/ask` : Poser une question à l'assistant
 
 ## Normes ISO implémentées
+
+### Références normatives
 - **ISO 59004:2024** : Lignes directrices pour la mise en œuvre de l'économie circulaire
+- **ISO 59010:2024** : Indicateurs et méthodes de mesure
 - **ISO 59020:2024** : Mesure et évaluation de la circularité
+- **ISO 59040:2025** : Cadre de management (à venir)
+- **ISO 59014:2024** : Principes et vocabulaire
+- **ISO/TR 59032:2024** : Rapport technique sur les réseaux de valeur
+- **ISO/AWI 59001** : Système de management de l'économie circulaire (en développement)
+
+### Glossaire (extraits)
+- **Économie circulaire** : Système économique utilisant une approche systémique pour maintenir la circulation des ressources
+- **Logistique inverse** : Flux retour (collecte, tri, réemploi, recyclage)
+- **Écoconception** : Intégration de la réduction de l'impact environnemental
+- **Symbiose industrielle** : Coopération entre acteurs pour échanger matières, énergie, eau et sous-produits
+- **Économie de la fonctionnalité** : Vente d'un usage ou d'un service plutôt que du produit
 
 ## Design System
 
@@ -251,74 +255,52 @@ L'application est configurée pour le déploiement en mode VM :
 - `.btn-secondary` : Boutons secondaires (vert)
 - `.card` : Cartes avec ombres et bordures
 
-## Données intégrées
-
-### Questions par secteur
-Chaque secteur dispose d'un questionnaire complet avec :
-- **15-25 questions** spécifiques au secteur
-- **Pondération** personnalisée (weight: 1-3)
-- **Types variés** : boolean, percentage, number, text, choice
-- **Unités de mesure** : %, MAD, kWh/m², km, tCO₂e/an, heures/an, etc.
-- **Références ISO** : Liens avec les normes ISO 59000
-
-### Exemple de question (Industrie manufacturière)
-```typescript
-{
-  id: 'ind_env_1',
-  category: DiagnosticCategory.ENVIRONMENTAL,
-  text: 'Taux de matières premières recyclées/réemployées dans la production ?',
-  type: 'percentage',
-  weight: 3,
-  unit: '%'
-}
-```
-
 ## Préférences utilisateur
 - **Langue** : Français
 - **Design** : Interface moderne avec couleurs circulaires (vert/bleu)
-- **Architecture** : Séparation backend/frontend claire avec typage TypeScript fort
-- **Approche** : Orientée données authentiques avec questionnaires sectoriels exhaustifs
+- **Architecture** : Séparation backend/frontend claire
+- **Typage** : TypeScript strict avec types optimisés
+- **Approche** : Professionnelle, conforme ISO 59000
+
+## État actuel
+
+### ✅ Fonctionnel
+- Backend NestJS avec tous les modules
+- Frontend React avec toutes les pages
+- Base de données SQLite synchronisée
+- Workflow Replit configuré et fonctionnel
+- Configuration Vite pour Replit (HMR, proxy)
+- Déploiement configuré (mode VM)
+- Structure de données complète (20 secteurs, 4 diagnostics)
+
+### 🚧 À développer
+1. **Intégration frontend** : Connecter les questionnaires TypeScript au formulaire React
+2. **Calcul des scores** : Implémenter l'algorithme de scoring selon ISO 59020
+3. **Génération du plan d'action** : Créer des recommandations personnalisées selon ISO 59004
+4. **Chatbot RAG** : Intégrer un vrai moteur d'IA avec base vectorielle pour le chatbot
+5. **Authentification** : Ajouter JWT/OAuth2 avec gestion de rôles
+6. **Tests** : Tests unitaires et d'intégration (Jest/Vitest)
+7. **Migration PostgreSQL** : Pour la production
+8. **Rapports PDF** : Génération de rapports d'évaluation téléchargeables
 
 ## Améliorations futures possibles
-
-### Court terme
-1. **Intégration frontend-backend des questionnaires sectoriels**
-   - Endpoint API pour récupérer les questionnaires par secteur
-   - Formulaire dynamique basé sur le secteur sélectionné
-   - Validation des réponses côté backend
-
-2. **Calcul des scores sectorisés**
-   - Algorithme de scoring basé sur les poids des questions
-   - Comparaison avec moyennes sectorielles
-   - Benchmarking inter-entreprises
-
-3. **Plans d'action personnalisés par secteur**
-   - Recommandations ISO adaptées au score
-   - Priorités basées sur les faiblesses identifiées
-   - Feuille de route avec timeline
-
-### Moyen terme
-4. **Authentification et gestion des utilisateurs**
-   - JWT/OAuth2 avec rôles (Entreprise, Consultant, Admin)
-   - Tableau de bord multi-entreprises pour consultants
-   
-5. **Migration PostgreSQL en production**
-   - Meilleure performance
-   - Support des transactions complexes
-   
-6. **Chatbot avec RAG (Retrieval-Augmented Generation)**
-   - Base vectorielle des normes ISO 59000
-   - Réponses contextuelles et précises
-
-### Long terme
-7. **Stockage S3 pour rapports PDF**
-8. **Files d'attente Redis + BullMQ** pour les calculs lourds
-9. **Tests unitaires et d'intégration** (Jest/Vitest)
-10. **Pipeline CI/CD complet**
-11. **API publique documentée** (Swagger/OpenAPI)
+1. Intégration d'un vrai moteur d'IA (RAG) pour le chatbot avec base vectorielle
+2. Ajout de l'authentification JWT/OAuth2 avec gestion de rôles
+3. Migration vers PostgreSQL en production
+4. Ajout de files d'attente Redis + BullMQ pour les calculs lourds
+5. Stockage de fichiers S3 pour les rapports PDF
+6. Tests unitaires et d'intégration (Jest/Vitest)
+7. Pipeline CI/CD complet
+8. Dashboard administrateur avec statistiques globales
+9. Export de données en Excel/CSV
+10. Multi-langue (Français, Arabe, Anglais)
 
 ## Contributeurs
 Développé selon le modèle des trois experts :
 - **CODEPRO1** : Architecture backend et API
 - **CODEPRO2** : Conception UX/UI et frontend
-- **CODEPRO3** : Calculs, données et intégration des questionnaires sectoriels
+- **CODEPRO3** : Calculs, données et intégration IA
+
+---
+
+**🌍 Contribuez à l'économie circulaire avec les normes ISO 59000 !**

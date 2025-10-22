@@ -6,9 +6,14 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5000,
+    strictPort: false,
     hmr: {
       clientPort: 443,
-      protocol: 'wss'
+      protocol: 'wss',
+      host: process.env.REPLIT_DEV_DOMAIN || 'localhost'
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*'
     }
   },
   resolve: {
@@ -16,5 +21,9 @@ export default defineConfig({
       '@': '/src',
       '@assets': '/src/assets'
     }
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 5000
   }
 })
