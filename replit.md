@@ -178,14 +178,52 @@ En cas de problème:
 2. Consulter les logs backend/frontend
 3. Vérifier la base de données dans `backend/prisma/dev.db`
 
+## 🎭 Mode Démonstration Admin (NOUVEAU)
+
+Pour présenter la plateforme avec des données réalistes:
+
+1. Connectez-vous à `/admin/login`
+2. Cliquez sur le bouton **"📊 Données Réelles"** en haut à droite
+3. Le bouton devient **"🎭 Mode Démo"** (violet)
+4. Les graphiques affichent maintenant 156 entreprises et 423 évaluations fictives
+5. Recliquez pour revenir aux données réelles
+
+**Données de démonstration incluses:**
+- 156 entreprises réparties sur 14 secteurs
+- 423 scores d'évaluation
+- Tendances sur 12 mois
+- Top 10 des meilleures entreprises
+- Statistiques sectorielles complètes
+
+## 🤖 Chatbot Enrichi (NOUVEAU)
+
+La base de connaissance du chatbot a été enrichie avec **40+ nouvelles entrées**:
+
+**Nouveaux thèmes couverts:**
+- Concepts avancés (ACV, Cradle to Cradle, économie bleue, régénérative)
+- Pratiques concrètes (upcycling, réparation, consigne, méthanisation, compostage)
+- Technologies (blockchain, IA, IoT, jumeaux numériques)
+- Réglementation (REP, DPP, taxonomie verte)
+- Environnement spécifique Maroc (empreinte eau, stress hydrique)
+
+**Questions supplémentaires couvertes:**
+- "C'est quoi le cradle to cradle ?"
+- "Comment fonctionne la méthanisation ?"
+- "Qu'est-ce que l'empreinte eau ?"
+- "Comment la blockchain aide l'économie circulaire ?"
+- "C'est quoi le greenwashing ?"
+- Et bien plus...
+
 ## 📄 Fichiers de Documentation
 
 - `IDENTIFIANTS_ADMIN.md`: Identifiants et guide admin
+- `AMELIORATIONS_OCTOBRE_2025.md`: Détails des dernières améliorations
 - `SETUP_COMPLETE.md`: Détails de l'installation
 - `replit.md`: Ce fichier (overview du projet)
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Date**: Octobre 2025  
-**Framework**: ISO 59000, ISO 59004, ISO 59010, ISO 59020
+**Framework**: ISO 59000, ISO 59004, ISO 59010, ISO 59020  
+**Dernières améliorations**: Mode démo admin + Chatbot enrichi
