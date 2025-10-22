@@ -1,132 +1,158 @@
 
-import { IsString, IsEmail, IsOptional, IsNumber, Min } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsNumber, Min, Max, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateCompanyDto {
   @IsString()
-  name: string;
+  readonly name!: string;
 
   @IsString()
-  sector: string;
+  readonly sector!: string;
 
   @IsEmail()
-  email: string;
+  readonly email!: string;
 
   @IsOptional()
   @IsString()
-  phone?: string;
+  readonly phone?: string;
 
   // Taille entreprise
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   @Min(1)
-  employeeCount?: number;
+  @Type(() => Number)
+  readonly employeeCount?: number;
 
   // Métriques logistiques
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  tonnageLogistique?: number;
+  @Type(() => Number)
+  readonly tonnageLogistique?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  emissionsLogistiques?: number;
+  @Type(() => Number)
+  readonly emissionsLogistiques?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  tonnageAlternatif?: number;
+  @Type(() => Number)
+  readonly tonnageAlternatif?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  coutActuel?: number;
+  @Type(() => Number)
+  readonly coutActuel?: number;
 
   // Métriques opérationnelles
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  coutTraitement?: number;
+  @Type(() => Number)
+  readonly coutTraitement?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  centreActuel?: number;
+  @Type(() => Number)
+  readonly centreActuel?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  centreAlternatif?: number;
+  @Type(() => Number)
+  readonly centreAlternatif?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  electriciteKWh?: number;
+  @Type(() => Number)
+  readonly electriciteKWh?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  gazKWh?: number;
+  @Type(() => Number)
+  readonly gazKWh?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  eauM3?: number;
+  @Type(() => Number)
+  readonly eauM3?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  carburantsLitres?: number;
+  @Type(() => Number)
+  readonly carburantsLitres?: number;
 
   // Métriques environnementales
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  consommationEau?: number;
+  @Type(() => Number)
+  readonly consommationEau?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  consommationCarburant?: number;
+  @Type(() => Number)
+  readonly consommationCarburant?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  emissionsScope12?: number;
+  @Type(() => Number)
+  readonly emissionsScope12?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  heuresFormation?: number;
+  @Type(() => Number)
+  readonly heuresFormation?: number;
 
   // Métriques économie circulaire
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  partAchatsLocaux?: number;
+  @Max(100)
+  @Type(() => Number)
+  readonly partAchatsLocaux?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  partEmploisLocaux?: number;
+  @Max(100)
+  @Type(() => Number)
+  readonly partEmploisLocaux?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  dechetsTotaux?: number;
+  @Type(() => Number)
+  readonly dechetsTotaux?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  dechetsValorises?: number;
+  @Type(() => Number)
+  readonly dechetsValorises?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  pourcentageValorisation?: number;
+  @Max(100)
+  @Type(() => Number)
+  readonly pourcentageValorisation?: number;
 
   @IsOptional()
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  dechetsDangereux?: number;
+  @Type(() => Number)
+  readonly dechetsDangereux?: number;
 }
