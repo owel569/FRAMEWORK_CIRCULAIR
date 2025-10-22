@@ -67,6 +67,8 @@ export class AdminService {
       scoresByMonth,
       sectorDistribution,
       averageScores,
+      performanceTrends,
+      topPerformers,
     ] = await Promise.all([
       this.prisma.company.count(),
       this.prisma.score.count(),
@@ -84,6 +86,8 @@ export class AdminService {
       this.getScoresByMonth(),
       this.getSectorDistribution(),
       this.getAverageScores(),
+      this.getPerformanceTrends(),
+      this.getTopPerformers(),
     ]);
 
     return {
@@ -94,6 +98,8 @@ export class AdminService {
       scoresByMonth,
       sectorDistribution,
       averageScores,
+      performanceTrends,
+      topPerformers,
     };
   }
 
@@ -105,27 +111,51 @@ export class AdminService {
       },
     });
 
-    const monthlyData: { [key: string]: number } = {};
+    const monthlyData: { [key: string]: { count: number; totalScore: number } } = {};
     scores.forEach((score) => {
       const month = score.createdAt.toISOString().slice(0, 7);
-      monthlyData[month] = (monthlyData[month] || 0) + 1;
+      if (!monthlyData[month]) {
+        monthlyData[month] = { count: 0, totalScore: 0 };
+      }
+      monthlyData[month].count += 1;
+      monthlyData[month].totalScore += score.globalScore;
     });
 
-    return Object.entries(monthlyData).map(([month, count]) => ({
+    return Object.entries(monthlyData).map(([month, data]) => ({
       month,
-      count,
+      count: data.count,
+      averageScore: data.totalScore / data.count,
     }));
   }
 
   private async getSectorDistribution() {
-    const companies = await this.prisma.company.groupBy({
-      by: ['sector'],
-      _count: true,
+    const companies = await this.prisma.company.findMany({
+      include: {
+        scores: {
+          take: 1,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
     });
 
-    return companies.map((item) => ({
-      sector: item.sector,
-      count: item._count,
+    const sectorData: { [key: string]: { count: number; totalScore: number; scoreCount: number } } = {};
+    
+    companies.forEach((company) => {
+      if (!sectorData[company.sector]) {
+        sectorData[company.sector] = { count: 0, totalScore: 0, scoreCount: 0 };
+      }
+      sectorData[company.sector].count += 1;
+      
+      if (company.scores.length > 0) {
+        sectorData[company.sector].totalScore += company.scores[0].globalScore;
+        sectorData[company.sector].scoreCount += 1;
+      }
+    });
+
+    return Object.entries(sectorData).map(([sector, data]) => ({
+      sector,
+      count: data.count,
+      averageScore: data.scoreCount > 0 ? data.totalScore / data.scoreCount : 0,
     }));
   }
 
@@ -147,6 +177,131 @@ export class AdminService {
       social: scores._avg.socialScore || 0,
       environmental: scores._avg.environmentalScore || 0,
     };
+  }
+
+  private async getPerformanceTrends() {
+    const scores = await this.prisma.score.findMany({
+      select: {
+        createdAt: true,
+        governanceScore: true,
+        economicScore: true,
+        socialScore: true,
+        environmentalScore: true,
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    const monthlyTrends: { 
+      [key: string]: { 
+        governance: number[];
+        economic: number[];
+        social: number[];
+        environmental: number[];
+      } 
+    } = {};
+
+    scores.forEach((score) => {
+      const month = score.createdAt.toISOString().slice(0, 7);
+      if (!monthlyTrends[month]) {
+        monthlyTrends[month] = {
+          governance: [],
+          economic: [],
+          social: [],
+          environmental: [],
+        };
+      }
+      monthlyTrends[month].governance.push(score.governanceScore);
+      monthlyTrends[month].economic.push(score.economicScore);
+      monthlyTrends[month].social.push(score.socialScore);
+      monthlyTrends[month].environmental.push(score.environmentalScore || 0);
+    });
+
+    return Object.entries(monthlyTrends)
+      .map(([month, data]) => ({
+        month,
+        governance: data.governance.reduce((a, b) => a + b, 0) / data.governance.length,
+        economic: data.economic.reduce((a, b) => a + b, 0) / data.economic.length,
+        social: data.social.reduce((a, b) => a + b, 0) / data.social.length,
+        environmental: data.environmental.reduce((a, b) => a + b, 0) / data.environmental.length,
+      }))
+      .slice(-6);
+  }
+
+  private async getTopPerformers() {
+    const companies = await this.prisma.company.findMany({
+      include: {
+        scores: {
+          take: 1,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+    });
+
+    const performers = companies
+      .filter((c) => c.scores.length > 0)
+      .map((c) => ({
+        companyName: c.name,
+        sector: c.sector,
+        globalScore: c.scores[0].globalScore,
+      }))
+      .sort((a, b) => b.globalScore - a.globalScore)
+      .slice(0, 10)
+      .map((p, index) => ({
+        ...p,
+        rank: index + 1,
+      }));
+
+    return performers;
+  }
+
+  async getCompanyDetails(companyId: string) {
+    const company = await this.prisma.company.findUnique({
+      where: { id: companyId },
+      include: {
+        scores: {
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+    });
+
+    if (!company) {
+      throw new Error('Entreprise non trouvée');
+    }
+
+    const scoreProgression = company.scores.length >= 2
+      ? company.scores[0].globalScore - company.scores[company.scores.length - 1].globalScore
+      : 0;
+
+    return {
+      id: company.id,
+      name: company.name,
+      sector: company.sector,
+      email: company.email,
+      employeeCount: company.employeeCount,
+      createdAt: company.createdAt,
+      scores: company.scores,
+      totalEvaluations: company.scores.length,
+      scoreProgression,
+    };
+  }
+
+  async searchCompanies(query: string) {
+    return this.prisma.company.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' } },
+          { email: { contains: query, mode: 'insensitive' } },
+          { sector: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+      include: {
+        scores: {
+          take: 1,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+      take: 20,
+    });
   }
 
   // Gestion des questions

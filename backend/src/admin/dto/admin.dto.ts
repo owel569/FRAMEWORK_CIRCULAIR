@@ -29,14 +29,89 @@ export interface AdminStatsDto {
   totalCompanies: number;
   totalScores: number;
   totalQuestions: number;
-  recentCompanies: any[];
-  scoresByMonth: { month: string; count: number }[];
-  sectorDistribution: { sector: string; count: number }[];
-  averageScores: {
-    global: number;
-    governance: number;
-    economic: number;
-    social: number;
-    environmental: number;
-  };
+  recentCompanies: CompanyWithScore[];
+  scoresByMonth: MonthlyScoreData[];
+  sectorDistribution: SectorData[];
+  averageScores: AverageScoresData;
+  performanceTrends: PerformanceTrend[];
+  topPerformers: TopPerformer[];
+}
+
+export interface CompanyWithScore {
+  id: string;
+  name: string;
+  sector: string;
+  email: string;
+  createdAt: Date;
+  scores: Array<{
+    globalScore: number;
+    createdAt: Date;
+  }>;
+}
+
+export interface MonthlyScoreData {
+  month: string;
+  count: number;
+  averageScore: number;
+}
+
+export interface SectorData {
+  sector: string;
+  count: number;
+  averageScore: number;
+}
+
+export interface AverageScoresData {
+  global: number;
+  governance: number;
+  economic: number;
+  social: number;
+  environmental: number;
+}
+
+export interface PerformanceTrend {
+  month: string;
+  governance: number;
+  economic: number;
+  social: number;
+  environmental: number;
+}
+
+export interface TopPerformer {
+  companyName: string;
+  sector: string;
+  globalScore: number;
+  rank: number;
+}
+
+export interface CompanyDetailDto {
+  id: string;
+  name: string;
+  sector: string;
+  email: string;
+  employeeCount?: number;
+  createdAt: Date;
+  scores: ScoreHistoryDto[];
+  totalEvaluations: number;
+  scoreProgression: number;
+}
+
+export interface ScoreHistoryDto {
+  id: string;
+  globalScore: number;
+  governanceScore: number;
+  economicScore: number;
+  socialScore: number;
+  environmentalScore: number;
+  createdAt: Date;
+}
+
+export interface ActivityLogDto {
+  id: string;
+  action: string;
+  entity: string;
+  entityId: string;
+  details: string;
+  timestamp: Date;
+  userId?: string;
 }

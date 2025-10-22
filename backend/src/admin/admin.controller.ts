@@ -104,4 +104,23 @@ export class AdminController {
     await this.verifyAdmin(auth);
     return this.adminService.exportQuestions(sector);
   }
+
+  // Gestion des entreprises
+  @Get('companies/:id')
+  async getCompanyDetails(
+    @Headers('authorization') auth: string,
+    @Param('id') id: string,
+  ) {
+    await this.verifyAdmin(auth);
+    return this.adminService.getCompanyDetails(id);
+  }
+
+  @Get('companies/search')
+  async searchCompanies(
+    @Headers('authorization') auth: string,
+    @Query('q') query: string,
+  ) {
+    await this.verifyAdmin(auth);
+    return this.adminService.searchCompanies(query);
+  }
 }
