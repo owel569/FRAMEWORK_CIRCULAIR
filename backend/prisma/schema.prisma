@@ -50,7 +50,6 @@ model Company {
   updatedAt               DateTime @updatedAt
 
   scores Score[]
-  plans  Plan[]
 }
 
 model Score {
