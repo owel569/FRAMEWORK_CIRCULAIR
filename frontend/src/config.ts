@@ -1,2 +1,2 @@
 
-export const API_URL = 'http://0.0.0.0:3000'
+export const API_URL = window.location.origin.replace(':80', ':3000').replace(':443', ':3000')
