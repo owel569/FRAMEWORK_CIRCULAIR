@@ -287,19 +287,25 @@ export const SECTOR_QUESTIONNAIRES: Record<SectorCategory, SectorQuestionnaire> 
       'Intelligence artificielle'
     ],
     questions: [
-      createQuestion('it_env_1', DiagnosticCategory.ENVIRONMENTAL, 'Durée de vie moyenne des équipements IT et taux de réemploi ?', 'number', 2, 'années'),
+      // Diagnostic environnemental
+      createQuestion('it_env_1', DiagnosticCategory.ENVIRONMENTAL, 'Durée de vie moyenne des équipements IT et taux de reconditionné ?', 'number', 2, 'années'),
       createQuestion('it_env_2', DiagnosticCategory.ENVIRONMENTAL, 'Efficacité énergétique des data centers (PUE) ?', 'number', 3, 'PUE'),
       createQuestion('it_env_3', DiagnosticCategory.ENVIRONMENTAL, 'Politique de recyclage des DEEE (taux de collecte) ?', 'percentage', 2, '%'),
       createQuestion('it_env_4', DiagnosticCategory.ENVIRONMENTAL, 'Green coding / optimisation des charges et requêtes ?', 'boolean', 2),
       
+      // Diagnostic économique
       createQuestion('it_eco_1', DiagnosticCategory.ECONOMIC, 'Part de services \'as-a-service\' favorisant l\'usage vs propriété ?', 'percentage', 2, '%'),
       createQuestion('it_eco_2', DiagnosticCategory.ECONOMIC, 'Efficience des licences et mutualisation des ressources ?', 'boolean', 1),
-      createQuestion('it_eco_3', DiagnosticCategory.ECONOMIC, 'Part du CA liée à des offres \'numérique responsable\' ? Taux d\'automatisation/observabilité (SLO/SLA) ?', 'percentage', 2, '%'),
+      createQuestion('it_eco_3', DiagnosticCategory.ECONOMIC, 'Part du CA liée à des offres \'numérique responsable\' ?', 'percentage', 2, '%'),
+      createQuestion('it_eco_4', DiagnosticCategory.ECONOMIC, 'Taux d\'automatisation/observabilité (SLO/SLA) ?', 'percentage', 2, '%'),
       
+      // Diagnostic social
       createQuestion('it_social_1', DiagnosticCategory.SOCIAL, 'Compétences vertes (formations cloud/efficience) ?', 'boolean', 2),
       createQuestion('it_social_2', DiagnosticCategory.SOCIAL, 'Diversité & inclusion dans les équipes tech ?', 'boolean', 2),
-      createQuestion('it_social_3', DiagnosticCategory.SOCIAL, 'Protection des données / cybersécurité (incidents/an) ? Ancrage territorial (partenariats écoles, fablabs) ?', 'number', 2, 'incidents/an'),
+      createQuestion('it_social_3', DiagnosticCategory.SOCIAL, 'Protection des données / cybersécurité (incidents/an) ?', 'number', 2, 'incidents/an'),
+      createQuestion('it_social_4', DiagnosticCategory.SOCIAL, 'Ancrage territorial (partenariats écoles, fablabs) ?', 'boolean', 2),
       
+      // Logistique
       createQuestion('it_log_1', DiagnosticCategory.LOGISTICS, 'Traçabilité des composants (minéraux responsables) ?', 'boolean', 2),
       createQuestion('it_log_2', DiagnosticCategory.LOGISTICS, 'Boucles de reprise des équipements (take-back) ?', 'boolean', 2),
       createQuestion('it_log_3', DiagnosticCategory.LOGISTICS, 'Localisation des hébergeurs / latence vs impact ?', 'choice', 1, undefined, ['Local', 'Régional', 'International']),
@@ -354,41 +360,28 @@ export const SECTOR_QUESTIONNAIRES: Record<SectorCategory, SectorQuestionnaire> 
     ],
     questions: [
       // Diagnostic environnemental
-      createQuestion('pub_env_1', DiagnosticCategory.ENVIRONMENTAL, 'Plans d\'actions climat/biodiversité à l\'échelle du territoire ?', 'boolean', 3),
-      createQuestion('pub_env_2', DiagnosticCategory.ENVIRONMENTAL, 'Démarche de sobriété énergétique dans les bâtiments (LED, régulation, rénovation) ?', 'boolean', 2),
-      createQuestion('pub_env_3', DiagnosticCategory.ENVIRONMENTAL, 'Pourcentage de marchés publics intégrant critères environnementaux/circulaires ?', 'percentage', 2, '%'),
-      createQuestion('pub_env_4', DiagnosticCategory.ENVIRONMENTAL, 'Gestion responsable des déchets (tri sélectif, compost, DEEE) ?', 'boolean', 2),
-      createQuestion('pub_env_5', DiagnosticCategory.ENVIRONMENTAL, 'Part d\'énergies renouvelables (PV, géothermie, biomasse...) ?', 'percentage', 2, '%'),
-      createQuestion('pub_env_6', DiagnosticCategory.ENVIRONMENTAL, 'Gestion différenciée des espaces verts, fauchage tardif, zéro-phyto ?', 'boolean', 2),
-      createQuestion('pub_env_7', DiagnosticCategory.ENVIRONMENTAL, 'Programme de réutilisation / réemploi (mobilier, électronique, textiles) ?', 'boolean', 2),
-      createQuestion('pub_env_8', DiagnosticCategory.ENVIRONMENTAL, 'Numérisation des démarches pour limiter flux physiques et impression ?', 'boolean', 2),
+      createQuestion('pub_env_1', DiagnosticCategory.ENVIRONMENTAL, 'Plans de sobriété énergétique sur bâtiments publics ?', 'boolean', 3),
+      createQuestion('pub_env_2', DiagnosticCategory.ENVIRONMENTAL, 'Achats durables et clauses environnementales (% marchés) ?', 'percentage', 2, '%'),
+      createQuestion('pub_env_3', DiagnosticCategory.ENVIRONMENTAL, 'Réemploi de mobilier/équipements (plateformes internes) ?', 'boolean', 2),
+      createQuestion('pub_env_4', DiagnosticCategory.ENVIRONMENTAL, 'Numérisation des démarches pour réduire les flux physiques ?', 'boolean', 2),
       
       // Diagnostic économique
-      createQuestion('pub_eco_1', DiagnosticCategory.ECONOMIC, 'Taux de remplissage/utilisation des infrastructures publiques (gymnases, salles) ?', 'percentage', 2, '%'),
-      createQuestion('pub_eco_2', DiagnosticCategory.ECONOMIC, 'Mutualisation de moyens inter-collectivités (achats groupés, plateformes logistiques) ?', 'boolean', 2),
-      createQuestion('pub_eco_3', DiagnosticCategory.ECONOMIC, 'Pilotage et reporting (tableaux de bord, indicateurs ISO 59000/RE2020) ?', 'boolean', 2),
-      createQuestion('pub_eco_4', DiagnosticCategory.ECONOMIC, 'Part du budget allouée à des projets de transition écologique et circulaire ?', 'percentage', 2, '%'),
-      createQuestion('pub_eco_5', DiagnosticCategory.ECONOMIC, 'Financements mobilisés (CEE, subventions État, Europe, fonds ADEME) ?', 'boolean', 2),
-      createQuestion('pub_eco_6', DiagnosticCategory.ECONOMIC, 'Coopération avec acteurs locaux (Scop, ESS, entreprises) pour l\'économie circulaire ?', 'boolean', 2),
-      createQuestion('pub_eco_7', DiagnosticCategory.ECONOMIC, 'Transparence budgétaire et open data (budget participatif, données environnementales) ?', 'boolean', 2),
+      createQuestion('pub_eco_1', DiagnosticCategory.ECONOMIC, 'Taux d\'exécution budgétaire des programmes verts ?', 'percentage', 2, '%'),
+      createQuestion('pub_eco_2', DiagnosticCategory.ECONOMIC, 'Mutualisation inter-services (flotte, locaux, archives) ?', 'boolean', 2),
+      createQuestion('pub_eco_3', DiagnosticCategory.ECONOMIC, 'Efficience des prestations externalisées ?', 'boolean', 2),
+      createQuestion('pub_eco_4', DiagnosticCategory.ECONOMIC, 'Open data / transparence des résultats environnementaux ?', 'boolean', 2),
       
       // Diagnostic social & territorial
-      createQuestion('pub_social_1', DiagnosticCategory.SOCIAL, 'Emplois locaux et clauses d\'insertion dans les marchés publics ?', 'boolean', 3),
-      createQuestion('pub_social_2', DiagnosticCategory.SOCIAL, 'Programmes d\'accompagnement de publics éloignés de l\'emploi (quartiers prioritaires, jeunes) ?', 'boolean', 2),
-      createQuestion('pub_social_3', DiagnosticCategory.SOCIAL, 'Accessibilité et inclusion (handicap, services à distance, horaires élargis) ?', 'boolean', 2),
-      createQuestion('pub_social_4', DiagnosticCategory.SOCIAL, 'Sensibilisation / formation des agents aux enjeux environnementaux et circulaires ?', 'boolean', 2),
-      createQuestion('pub_social_5', DiagnosticCategory.SOCIAL, 'Concertation citoyenne et participation active (conseils de quartier, budget participatif) ?', 'boolean', 2),
-      createQuestion('pub_social_6', DiagnosticCategory.SOCIAL, 'Qualité de service mesurée (satisfaction usagers, taux de réclamations) ?', 'choice', 2, undefined, ['Excellente', 'Bonne', 'Moyenne', 'Faible']),
-      createQuestion('pub_social_7', DiagnosticCategory.SOCIAL, 'Soutien aux associations / ONG locales (environnement, social, culture) ?', 'boolean', 2),
+      createQuestion('pub_social_1', DiagnosticCategory.SOCIAL, 'Emplois locaux, insertion et alternance dans les marchés ?', 'boolean', 3),
+      createQuestion('pub_social_2', DiagnosticCategory.SOCIAL, 'Accessibilité des services (handicap, inclusion) ?', 'boolean', 2),
+      createQuestion('pub_social_3', DiagnosticCategory.SOCIAL, 'Prévention des risques (sécurité, santé) ?', 'boolean', 2),
+      createQuestion('pub_social_4', DiagnosticCategory.SOCIAL, 'Concertation citoyenne et qualité de service perçue ?', 'boolean', 2),
       
       // Logistique & chaîne d'approvisionnement
-      createQuestion('pub_log_1', DiagnosticCategory.LOGISTICS, 'Plan de mobilité des agents (covoiturage, vélo, TC) ?', 'boolean', 2),
-      createQuestion('pub_log_2', DiagnosticCategory.LOGISTICS, 'Flotte de véhicules : part électrique/hybride et dispositifs d\'autopartage ?', 'percentage', 2, '%'),
-      createQuestion('pub_log_3', DiagnosticCategory.LOGISTICS, 'Approvisionnements alimentaires (restauration scolaire/collective) : part locale/bio ?', 'percentage', 2, '%'),
-      createQuestion('pub_log_4', DiagnosticCategory.LOGISTICS, 'Gestion des stocks et du patrimoine (inventaire, renouvellement, revente/dons) ?', 'boolean', 2),
-      createQuestion('pub_log_5', DiagnosticCategory.LOGISTICS, 'Traçabilité des équipements sensibles (informatique, archives) et plan de continuité ?', 'boolean', 2),
-      createQuestion('pub_log_6', DiagnosticCategory.LOGISTICS, 'Plateforme de dons/échanges entre services ou vers habitants (réemploi, recycleries) ?', 'boolean', 2),
-      createQuestion('pub_log_7', DiagnosticCategory.LOGISTICS, 'Optimisation du ramassage scolaire et des transports collectifs ?', 'boolean', 2),
+      createQuestion('pub_log_1', DiagnosticCategory.LOGISTICS, 'Plan de mobilité des agents (PDME) ?', 'boolean', 2),
+      createQuestion('pub_log_2', DiagnosticCategory.LOGISTICS, 'Gestion du parc auto (électrification, taux d\'usage) ?', 'percentage', 2, '%'),
+      createQuestion('pub_log_3', DiagnosticCategory.LOGISTICS, 'Logistique des équipements sensibles (traçabilité) ?', 'boolean', 2),
+      createQuestion('pub_log_4', DiagnosticCategory.LOGISTICS, 'Gestion circulaire des archives et consommables ?', 'boolean', 2),
     ],
   },
 
@@ -404,19 +397,25 @@ export const SECTOR_QUESTIONNAIRES: Record<SectorCategory, SectorQuestionnaire> 
       'Éducation numérique'
     ],
     questions: [
+      // Diagnostic environnemental
       createQuestion('edu_env_1', DiagnosticCategory.ENVIRONMENTAL, 'Tri et valorisation des déchets dans l\'établissement (%) ?', 'percentage', 2, '%'),
       createQuestion('edu_env_2', DiagnosticCategory.ENVIRONMENTAL, 'Sobriété énergétique des bâtiments (kWh/m²·an) ?', 'number', 2, 'kWh/m²·an'),
-      createQuestion('edu_env_3', DiagnosticCategory.ENVIRONMENTAL, 'Achat de fournitures écoresponsables / manuels numériques ? Espaces verts pédagogiques (potager, compost) ?', 'boolean', 2),
+      createQuestion('edu_env_3', DiagnosticCategory.ENVIRONMENTAL, 'Achat de fournitures écoresponsables / manuels numériques ?', 'boolean', 2),
+      createQuestion('edu_env_4', DiagnosticCategory.ENVIRONMENTAL, 'Espaces verts pédagogiques (potager, compost) ?', 'boolean', 2),
       
+      // Diagnostic économique
       createQuestion('edu_eco_1', DiagnosticCategory.ECONOMIC, 'Part des achats mutualisés / groupés ?', 'percentage', 2, '%'),
-      createQuestion('edu_eco_2', DiagnosticCategory.ECONOMIC, 'Taux d\'équipement numérique (réemploi/reconditionné) ?', 'percentage', 2, '%'),
+      createQuestion('edu_eco_2', DiagnosticCategory.ECONOMIC, 'Taux d\'équipement numérique réemployé/reconditionné ?', 'percentage', 2, '%'),
       createQuestion('edu_eco_3', DiagnosticCategory.ECONOMIC, 'Optimisation des salles (taux d\'occupation) ?', 'percentage', 1, '%'),
       createQuestion('edu_eco_4', DiagnosticCategory.ECONOMIC, 'Partenariats avec entreprises locales (alternance) ?', 'boolean', 2),
       
+      // Diagnostic social
       createQuestion('edu_social_1', DiagnosticCategory.SOCIAL, 'Programmes d\'éducation à l\'économie circulaire ?', 'boolean', 3),
-      createQuestion('edu_social_2', DiagnosticCategory.SOCIAL, 'Égalité des chances et inclusion (bourses, handicap) ? Sécurité et bien-être (harcèlement, santé) ?', 'boolean', 2),
-      createQuestion('edu_social_3', DiagnosticCategory.SOCIAL, 'Ouverture sur le territoire (associations, tiers-lieux) ?', 'boolean', 1),
+      createQuestion('edu_social_2', DiagnosticCategory.SOCIAL, 'Égalité des chances et inclusion (bourses, handicap) ?', 'boolean', 2),
+      createQuestion('edu_social_3', DiagnosticCategory.SOCIAL, 'Sécurité et bien-être (harcèlement, santé) ?', 'boolean', 2),
+      createQuestion('edu_social_4', DiagnosticCategory.SOCIAL, 'Ouverture sur le territoire (associations, tiers-lieux) ?', 'boolean', 1),
       
+      // Logistique
       createQuestion('edu_log_1', DiagnosticCategory.LOGISTICS, 'Transports scolaires bas-carbone (part modale) ?', 'percentage', 2, '%'),
       createQuestion('edu_log_2', DiagnosticCategory.LOGISTICS, 'Cantine : circuits courts et lutte anti-gaspi ?', 'boolean', 2),
       createQuestion('edu_log_3', DiagnosticCategory.LOGISTICS, 'Gestion des flux d\'événements (portes ouvertes, examens) ?', 'boolean', 1),
