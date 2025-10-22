@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom'
 
 export default function Home() {
@@ -221,12 +220,28 @@ export default function Home() {
           <p className="text-xl text-white/90 mb-8">
             Rejoignez les PME marocaines engagées dans la transition vers l'économie circulaire
           </p>
-          <Link
-            to="/questionnaire"
-            className="inline-block px-12 py-4 bg-white text-circular-blue-dark text-lg font-bold rounded-lg hover:bg-gray-100 transition-all shadow-xl"
-          >
-            🚀 Commencer l'évaluation gratuite
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+            <Link
+              to="/questionnaire"
+              className="group relative px-10 py-5 bg-gradient-to-r from-circular-blue to-circular-blue-dark text-white text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <span>🚀</span>
+                Démarrer l'évaluation
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-circular-blue-dark to-circular-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Link>
+
+            <Link
+              to="/admin/login"
+              className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-lg text-sm transition-all duration-300 mt-4"
+            >
+              🔐 Accès Administrateur
+            </Link>
+          </div>
         </div>
       </section>
     </div>

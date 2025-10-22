@@ -58,6 +58,28 @@ export default function AdminQuestions() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
+        {/* Navigation Admin */}
+        <div className="bg-white shadow-md rounded-lg mb-6 p-4 flex justify-between items-center">
+          <div className="flex gap-4">
+            <a href="/admin/dashboard" className="text-blue-600 font-semibold hover:text-blue-800">
+              📊 Dashboard
+            </a>
+            <a href="/admin/questions" className="text-blue-600 font-semibold hover:text-blue-800">
+              📝 Questions
+            </a>
+          </div>
+          <button
+            onClick={() => {
+              localStorage.removeItem('adminToken')
+              localStorage.removeItem('adminUser')
+              window.location.href = '/'
+            }}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded"
+          >
+            🚪 Déconnexion
+          </button>
+        </div>
+
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900">
             📝 Gestion des questions
