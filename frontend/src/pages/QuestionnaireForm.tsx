@@ -31,7 +31,34 @@ const questions = {
 export default function QuestionnaireForm() {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
-  const [company, setCompany] = useState({ name: '', sector: '', email: '', phone: '' })
+  const [company, setCompany] = useState({ 
+    name: '', 
+    sector: '', 
+    email: '', 
+    phone: '',
+    employeeCount: undefined,
+    tonnageLogistique: undefined,
+    emissionsLogistiques: undefined,
+    tonnageAlternatif: undefined,
+    coutActuel: undefined,
+    coutTraitement: undefined,
+    centreActuel: undefined,
+    centreAlternatif: undefined,
+    electriciteKWh: undefined,
+    gazKWh: undefined,
+    eauM3: undefined,
+    carburantsLitres: undefined,
+    consommationEau: undefined,
+    consommationCarburant: undefined,
+    emissionsScope12: undefined,
+    heuresFormation: undefined,
+    partAchatsLocaux: undefined,
+    partEmploisLocaux: undefined,
+    dechetsTotaux: undefined,
+    dechetsValorises: undefined,
+    pourcentageValorisation: undefined,
+    dechetsDangereux: undefined
+  })
   const [responses, setResponses] = useState<any>({})
   const [loading, setLoading] = useState(false)
 
@@ -175,7 +202,204 @@ export default function QuestionnaireForm() {
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nombre d'employés
+                </label>
+                <input
+                  type="number"
+                  value={company.employeeCount || ''}
+                  onChange={(e) => setCompany({ ...company, employeeCount: e.target.value ? parseInt(e.target.value) : undefined })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  placeholder="Ex: 50"
+                />
+              </div>
+
+              <h3 className="text-xl font-bold mt-6 mb-4 text-gray-800">Métriques Environnementales (optionnel)</h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Consommation eau (m³/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.consommationEau || ''}
+                    onChange={(e) => setCompany({ ...company, consommationEau: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Consommation carburant (L/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.consommationCarburant || ''}
+                    onChange={(e) => setCompany({ ...company, consommationCarburant: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Émissions Scope 1+2 (tCO2e/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={company.emissionsScope12 || ''}
+                    onChange={(e) => setCompany({ ...company, emissionsScope12: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Électricité (kWh/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.electriciteKWh || ''}
+                    onChange={(e) => setCompany({ ...company, electriciteKWh: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Gaz (kWh/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.gazKWh || ''}
+                    onChange={(e) => setCompany({ ...company, gazKWh: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Eau (m³/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.eauM3 || ''}
+                    onChange={(e) => setCompany({ ...company, eauM3: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold mt-6 mb-4 text-gray-800">Gestion des Déchets (optionnel)</h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Déchets totaux (t/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.dechetsTotaux || ''}
+                    onChange={(e) => setCompany({ ...company, dechetsTotaux: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Déchets valorisés (t/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.dechetsValorises || ''}
+                    onChange={(e) => setCompany({ ...company, dechetsValorises: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    % Valorisation
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    max="100"
+                    value={company.pourcentageValorisation || ''}
+                    onChange={(e) => setCompany({ ...company, pourcentageValorisation: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Déchets dangereux (t/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={company.dechetsDangereux || ''}
+                    onChange={(e) => setCompany({ ...company, dechetsDangereux: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <h3 className="text-xl font-bold mt-6 mb-4 text-gray-800">Indicateurs Sociaux (optionnel)</h3>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Part achats locaux (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    max="100"
+                    value={company.partAchatsLocaux || ''}
+                    onChange={(e) => setCompany({ ...company, partAchatsLocaux: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Part emplois locaux (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    max="100"
+                    value={company.partEmploisLocaux || ''}
+                    onChange={(e) => setCompany({ ...company, partEmploisLocaux: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Heures formation (h/ETP/an)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={company.heuresFormation || ''}
+                    onChange={(e) => setCompany({ ...company, heuresFormation: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="btn-primary w-full mt-6">
                 Commencer l'évaluation
               </button>
             </form>
