@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { API_URL } from '../config'
@@ -217,8 +217,66 @@ export default function QuestionnaireForm() {
   })
   const [responses, setResponses] = useState<any>({})
   const [loading, setLoading] = useState(false)
+  const [sectorQuestions, setSectorQuestions] = useState<any>({
+    environmental: [],
+    economic: [],
+    social: [],
+    logistics: []
+  })
 
   const totalSteps = 5 // Info entreprise + 4 diagnostics
+
+  useEffect(() => {
+    const loadSectorQuestions = async () => {
+      if (company.sector) {
+        try {
+          // Mapper le secteur au format backend
+          const sectorMap: any = {
+            'Agriculture, sylviculture et pêche': 'AGRICULTURE',
+            'Industrie manufacturière': 'INDUSTRY',
+            'Construction / BTP': 'CONSTRUCTION',
+            'Commerce et distribution': 'COMMERCE',
+            'Transport et logistique': 'TRANSPORT',
+            'Énergie et environnement': 'ENERGY',
+            'Santé et action sociale': 'HEALTH',
+            'Informatique et télécommunications': 'IT',
+            'Banque, assurance et finance': 'FINANCE',
+            'Administration publique et défense': 'PUBLIC_ADMIN',
+            'Éducation et formation': 'EDUCATION',
+            'Hôtellerie, restauration et tourisme': 'HOSPITALITY',
+            'Culture, médias et communication': 'CULTURE',
+            'Immobilier et logement': 'REAL_ESTATE',
+            'Sciences et technologies': 'SCIENCES',
+            'Artisanat et métiers de proximité': 'CRAFTS',
+            'Services aux entreprises': 'B2B_SERVICES',
+            'Services aux particuliers': 'B2C_SERVICES',
+            'Associations et ONG': 'NGO',
+            'Autres secteurs émergents': 'EMERGING'
+          }
+          
+          const sectorKey = sectorMap[company.sector]
+          if (sectorKey) {
+            const response = await axios.get(`${BACKEND_URL}/questionnaires/${sectorKey}`)
+            const questions = response.data.questions
+            
+            // Grouper par catégorie
+            const grouped = {
+              environmental: questions.filter((q: any) => q.category.includes('environnemental')),
+              economic: questions.filter((q: any) => q.category.includes('économique')),
+              social: questions.filter((q: any) => q.category.includes('social')),
+              logistics: questions.filter((q: any) => q.category.includes('Logistique'))
+            }
+            
+            setSectorQuestions(grouped)
+          }
+        } catch (error) {
+          console.error('Erreur chargement questions:', error)
+        }
+      }
+    }
+    
+    loadSectorQuestions()
+  }, [company.sector])
 
   const handleCompanySubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -430,41 +488,71 @@ export default function QuestionnaireForm() {
   const renderDiagnosticQuestions = () => {
     const categoryIndex = currentStep - 1
     const category = DIAGNOSTIC_CATEGORIES[categoryIndex]
-
-    // Questions d'exemple - À remplacer par vos vraies questions du backend
-    const exampleQuestions = [
-      { id: '1', text: 'Question exemple 1', type: 'boolean' },
-      { id: '2', text: 'Question exemple 2', type: 'percentage' },
-      { id: '3', text: 'Question exemple 3', type: 'number' },
-    ]
+    
+    const categoryKeys = ['environmental', 'economic', 'social', 'logistics']
+    const categoryKey = categoryKeys[categoryIndex]
+    const questions = sectorQuestions[categoryKey] || []
 
     return (
       <div className="space-y-6">
-        <div className={`bg-gradient-to-r ${category.color} rounded-2xl p-8 text-white mb-8`}>
-          <div className="text-5xl mb-4">{category.icon}</div>
+        <div className={`bg-gradient-to-r ${category.color} rounded-2xl p-8 text-white mb-8 shadow-2xl`}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-6xl">{category.icon}</div>
+            <div className="bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm">
+              <span className="text-sm font-medium">{questions.length} questions</span>
+            </div>
+          </div>
           <h2 className="text-3xl font-bold mb-2">{category.name}</h2>
           <p className="text-white/90 text-lg">{category.description}</p>
+          <div className="mt-4 h-1 bg-white/30 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-white transition-all duration-300"
+              style={{ 
+                width: `${(Object.keys(responses[category.id] || {}).length / questions.length) * 100}%` 
+              }}
+            />
+          </div>
         </div>
 
-        <div className="space-y-6">
-          {exampleQuestions.map((question, index) => (
-            <div key={question.id} className="bg-white rounded-xl shadow-md p-6 border-2 border-gray-100 hover:border-circular-blue/30 transition-all">
+        {questions.length === 0 ? (
+          <div className="text-center py-12 bg-yellow-50 rounded-xl border border-yellow-200">
+            <p className="text-yellow-800 font-medium">
+              ⚠️ Chargement des questions pour votre secteur...
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {questions.map((question: any, index: number) => (
+            <div key={question.id} className="bg-white rounded-xl shadow-lg p-6 border-l-4 hover:shadow-xl transition-all" 
+                 style={{ borderLeftColor: responses[category.id]?.[question.id] !== undefined ? '#10b981' : '#e5e7eb' }}>
               <div className="flex items-start mb-4">
-                <span className="flex-shrink-0 w-8 h-8 bg-circular-blue text-white rounded-full flex items-center justify-center font-bold text-sm mr-3">
+                <span className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-circular-blue to-circular-blue-dark text-white rounded-full flex items-center justify-center font-bold text-sm mr-4 shadow-md">
                   {index + 1}
                 </span>
-                <p className="text-lg font-medium text-gray-900">{question.text}</p>
+                <div className="flex-1">
+                  <p className="text-lg font-semibold text-gray-900 mb-1">{question.text}</p>
+                  {question.unit && (
+                    <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                      Unité: {question.unit}
+                    </span>
+                  )}
+                  {question.weight > 1 && (
+                    <span className="inline-block ml-2 px-3 py-1 bg-orange-50 text-orange-700 text-xs font-medium rounded-full">
+                      ⭐ Poids: {question.weight}x
+                    </span>
+                  )}
+                </div>
               </div>
 
               {question.type === 'boolean' && (
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                   <button
                     type="button"
                     onClick={() => handleResponse(category.id, question.id, true)}
-                    className={`flex-1 py-3 px-6 rounded-lg border-2 transition-all font-semibold ${
+                    className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg ${
                       responses[category.id]?.[question.id] === true
-                        ? 'bg-circular-green border-circular-green-dark text-white'
-                        : 'border-gray-300 hover:border-circular-green'
+                        ? 'bg-gradient-to-r from-green-500 to-green-600 border-green-600 text-white shadow-lg scale-105'
+                        : 'border-gray-300 hover:border-green-400 hover:bg-green-50'
                     }`}
                   >
                     ✓ Oui
@@ -472,10 +560,10 @@ export default function QuestionnaireForm() {
                   <button
                     type="button"
                     onClick={() => handleResponse(category.id, question.id, false)}
-                    className={`flex-1 py-3 px-6 rounded-lg border-2 transition-all font-semibold ${
+                    className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg ${
                       responses[category.id]?.[question.id] === false
-                        ? 'bg-red-500 border-red-600 text-white'
-                        : 'border-gray-300 hover:border-red-400'
+                        ? 'bg-gradient-to-r from-red-500 to-red-600 border-red-600 text-white shadow-lg scale-105'
+                        : 'border-gray-300 hover:border-red-400 hover:bg-red-50'
                     }`}
                   >
                     ✗ Non
@@ -484,51 +572,112 @@ export default function QuestionnaireForm() {
               )}
 
               {question.type === 'percentage' && (
-                <div>
+                <div className="relative">
                   <input
                     type="number"
                     min="0"
                     max="100"
+                    step="0.1"
                     value={responses[category.id]?.[question.id] || ''}
                     onChange={(e) => handleResponse(category.id, question.id, parseFloat(e.target.value))}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-circular-blue"
-                    placeholder="Entrez un pourcentage (0-100)"
+                    className="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-circular-blue/20 focus:border-circular-blue text-lg font-medium"
+                    placeholder="0 - 100"
                   />
-                  <div className="flex justify-between text-xs text-gray-500 mt-2">
-                    <span>0%</span>
-                    <span>100%</span>
+                  <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 font-bold text-lg">%</span>
+                  <div className="mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-circular-blue to-circular-green transition-all duration-300"
+                      style={{ width: `${Math.min(100, Math.max(0, responses[category.id]?.[question.id] || 0))}%` }}
+                    />
                   </div>
                 </div>
               )}
 
               {question.type === 'number' && (
-                <input
-                  type="number"
+                <div className="relative">
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={responses[category.id]?.[question.id] || ''}
+                    onChange={(e) => handleResponse(category.id, question.id, parseFloat(e.target.value))}
+                    className="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-circular-blue/20 focus:border-circular-blue text-lg font-medium"
+                    placeholder={`Valeur en ${question.unit || 'unité'}`}
+                  />
+                  {question.unit && (
+                    <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 font-semibold">{question.unit}</span>
+                  )}
+                </div>
+              )}
+
+              {question.type === 'choice' && question.choices && (
+                <div className="space-y-2">
+                  {question.choices.map((choice: string) => (
+                    <button
+                      key={choice}
+                      type="button"
+                      onClick={() => handleResponse(category.id, question.id, choice)}
+                      className={`w-full py-3 px-6 rounded-xl border-2 transition-all font-medium text-left ${
+                        responses[category.id]?.[question.id] === choice
+                          ? 'bg-gradient-to-r from-circular-blue to-circular-blue-dark border-circular-blue-dark text-white shadow-lg'
+                          : 'border-gray-300 hover:border-circular-blue hover:bg-blue-50'
+                      }`}
+                    >
+                      {choice}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {question.type === 'text' && (
+                <textarea
                   value={responses[category.id]?.[question.id] || ''}
-                  onChange={(e) => handleResponse(category.id, question.id, parseFloat(e.target.value))}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-circular-blue focus:border-circular-blue"
-                  placeholder="Entrez une valeur"
+                  onChange={(e) => handleResponse(category.id, question.id, e.target.value)}
+                  className="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-circular-blue/20 focus:border-circular-blue text-lg"
+                  placeholder="Votre réponse..."
+                  rows={3}
                 />
               )}
             </div>
-          ))}
+          )))}
         </div>
+        )}
+      </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Évaluation ISO 59000
-            </h1>
-            <p className="text-gray-600 text-lg">
-              Diagnostic complet d'économie circulaire
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-green-50 py-12">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* En-tête professionnel */}
+        <div className="bg-white rounded-t-2xl shadow-sm border-b-4 border-gradient-to-r from-circular-blue to-circular-green p-6 mb-0">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-12 h-12 bg-gradient-to-br from-circular-blue to-circular-green rounded-xl flex items-center justify-center">
+                  <span className="text-white text-2xl font-bold">♻️</span>
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-circular-blue-dark to-circular-green-dark bg-clip-text text-transparent">
+                    Évaluation ISO 59000
+                  </h1>
+                  <p className="text-gray-600 font-medium">
+                    Diagnostic professionnel d'économie circulaire
+                  </p>
+                </div>
+              </div>
+            </div>
+            {company.name && (
+              <div className="text-right">
+                <div className="text-sm text-gray-500 font-medium">Entreprise</div>
+                <div className="text-lg font-bold text-gray-900">{company.name}</div>
+                <div className="text-sm text-circular-blue">{company.sector}</div>
+              </div>
+            )}
           </div>
+        </div>
+        
+        <div className="bg-white rounded-b-2xl shadow-2xl p-8 md:p-12">
 
           {renderProgressBar()}
 

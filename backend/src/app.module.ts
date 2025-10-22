@@ -5,6 +5,7 @@ import { CompanyModule } from './company/company.module';
 import { ScoreModule } from './score/score.module';
 import { PlanModule } from './plan/plan.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { QuestionnaireModule } from './questionnaire/questionnaire.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
     ScoreModule,
     PlanModule,
     ChatbotModule,
+    QuestionnaireModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],
