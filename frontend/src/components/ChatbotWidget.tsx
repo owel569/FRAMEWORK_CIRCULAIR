@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { API_URL } from '../config'
 
-const BACKEND_URL = API_URL
-
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<any[]>([
@@ -32,7 +30,7 @@ export default function ChatbotWidget() {
 
   const loadSuggestions = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/chatbot/suggestions`)
+      const response = await axios.get(`${API_URL}/chatbot/suggestions`)
       setSuggestions(response.data.suggestions)
     } catch (error) {
       console.error('Erreur chargement suggestions:', error)
@@ -51,7 +49,7 @@ export default function ChatbotWidget() {
     setShowSuggestions(false)
 
     try {
-      const response = await axios.post(`${BACKEND_URL}/chatbot/ask`, {
+      const response = await axios.post(`${API_URL}/chatbot/ask`, {
         question: question,
       })
       
