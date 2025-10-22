@@ -3,37 +3,58 @@ import { Link } from 'react-router-dom'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-circular-green/20 via-white to-circular-blue/20">
+    <div className="min-h-screen bg-gradient-to-br from-circular-green/20 via-white to-circular-blue/20 overflow-hidden">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-circular-green/10 to-circular-blue/10"></div>
-        <div className="max-w-7xl mx-auto px-4 py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-circular-green/10 to-circular-blue/10 animate-gradient"></div>
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-circular-blue rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-circular-green rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 py-24 relative">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-block mb-6 px-6 py-2 bg-circular-blue/10 rounded-full">
+            <div className="inline-flex items-center gap-2 mb-8 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full shadow-lg border border-circular-blue/20 animate-fadeInDown">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-circular-blue opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-circular-blue"></span>
+              </span>
               <span className="text-circular-blue-dark font-semibold">🌍 Conforme ISO 59000</span>
+              <span className="px-2 py-0.5 bg-circular-green/20 rounded-full text-xs font-bold text-circular-green-dark">NOUVEAU</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight animate-fadeInUp">
               Plateforme d'Évaluation
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-circular-green-dark to-circular-blue-dark">
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-circular-green-dark via-circular-blue to-circular-green-dark bg-300% animate-gradientShift">
                 Économie Circulaire
               </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed animate-fadeInUp animation-delay-200">
               Accompagnement professionnel des PME marocaines dans leur transition vers l'économie circulaire
-              selon les normes ISO 59000, ISO 59004, ISO 59010 et ISO 59020
+              selon les normes <span className="font-semibold text-circular-blue-dark">ISO 59000, ISO 59004, ISO 59010 et ISO 59020</span>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center animate-fadeInUp animation-delay-400">
               <Link
                 to="/questionnaire"
-                className="btn-primary px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+                className="group relative px-10 py-5 bg-gradient-to-r from-circular-blue to-circular-blue-dark text-white text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
               >
-                🚀 Démarrer l'évaluation
+                <span className="relative z-10 flex items-center gap-2">
+                  <span>🚀</span>
+                  Démarrer l'évaluation
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-circular-blue-dark to-circular-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
               <a
                 href="#fonctionnalites"
-                className="px-8 py-4 text-lg font-semibold bg-white border-2 border-circular-blue text-circular-blue-dark rounded-lg hover:bg-circular-blue/5 transition-all"
+                className="group px-10 py-5 text-lg font-semibold bg-white border-2 border-circular-blue text-circular-blue-dark rounded-2xl hover:bg-circular-blue hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center gap-2"
               >
-                📖 En savoir plus
+                <span>📖</span>
+                En savoir plus
+                <svg className="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </a>
             </div>
           </div>
