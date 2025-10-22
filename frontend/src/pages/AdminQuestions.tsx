@@ -36,6 +36,16 @@ export default function AdminQuestions() {
   const [searchTerm, setSearchTerm] = useState('')
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const [formData, setFormData] = useState({
+    questionId: '',
+    sector: '',
+    category: '',
+    text: '',
+    type: 'boolean',
+    weight: 1,
+    unit: '',
+    isoReference: ''
+  })
   const token = localStorage.getItem('adminToken')
 
   useEffect(() => {
@@ -83,10 +93,71 @@ export default function AdminQuestions() {
       await axios.delete(`${API_URL}/admin/questions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
+      alert('Question supprimée avec succès')
       loadQuestions()
     } catch (error) {
       console.error('Erreur:', error)
+      alert('Erreur lors de la suppression')
     }
+  }
+
+  const handleCreate = async () => {
+    try {
+      await axios.post(`${API_URL}/admin/questions`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      alert('Question créée avec succès')
+      setShowCreateModal(false)
+      resetForm()
+      loadQuestions()
+    } catch (error) {
+      console.error('Erreur:', error)
+      alert('Erreur lors de la création')
+    }
+  }
+
+  const handleUpdate = async () => {
+    if (!editingQuestion) return
+
+    try {
+      await axios.put(`${API_URL}/admin/questions/${editingQuestion.id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      alert('Question mise à jour avec succès')
+      setEditingQuestion(null)
+      resetForm()
+      loadQuestions()
+    } catch (error) {
+      console.error('Erreur:', error)
+      alert('Erreur lors de la mise à jour')
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({
+      questionId: '',
+      sector: '',
+      category: '',
+      text: '',
+      type: 'boolean',
+      weight: 1,
+      unit: '',
+      isoReference: ''
+    })
+  }
+
+  const openEditModal = (question: Question) => {
+    setFormData({
+      questionId: question.questionId,
+      sector: question.sector,
+      category: question.category,
+      text: question.text,
+      type: question.type,
+      weight: question.weight,
+      unit: question.unit || '',
+      isoReference: question.isoReference || ''
+    })
+    setEditingQuestion(question)
   }
 
   const getTypeIcon = (type: string) => {
@@ -266,7 +337,7 @@ export default function AdminQuestions() {
                     <td className="p-4">
                       <div className="flex gap-2">
                         <button
-                          onClick={() => setEditingQuestion(q)}
+                          onClick={() => openEditModal(q)}
                           className="text-blue-600 hover:text-blue-800 font-semibold"
                         >
                           ✏️
@@ -293,6 +364,283 @@ export default function AdminQuestions() {
           )}
         </div>
       </div>
+
+      {/* Modale de création */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">➕ Nouvelle question</h2>
+                <button
+                  onClick={() => {
+                    setShowCreateModal(false)
+                    resetForm()
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✖️
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">ID de la question</label>
+                  <input
+                    type="text"
+                    value={formData.questionId}
+                    onChange={(e) => setFormData({ ...formData, questionId: e.target.value })}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    placeholder="ex: agr_env_1"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Secteur</label>
+                  <select
+                    value={formData.sector}
+                    onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                  >
+                    <option value="">Sélectionner un secteur</option>
+                    {SECTORS.map((sector) => (
+                      <option key={sector} value={sector}>{sector}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Catégorie</label>
+                  <input
+                    type="text"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    placeholder="ex: Diagnostic environnemental"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Question</label>
+                  <textarea
+                    value={formData.text}
+                    onChange={(e) => setFormData({ ...formData, text: e.target.value })}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    rows={3}
+                    placeholder="Texte de la question..."
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Type</label>
+                    <select
+                      value={formData.type}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    >
+                      <option value="boolean">Boolean (Oui/Non)</option>
+                      <option value="percentage">Pourcentage</option>
+                      <option value="number">Nombre</option>
+                      <option value="text">Texte</option>
+                      <option value="choice">Choix</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Poids</label>
+                    <input
+                      type="number"
+                      value={formData.weight}
+                      onChange={(e) => setFormData({ ...formData, weight: parseInt(e.target.value) })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      min="1"
+                      max="5"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Unité (optionnel)</label>
+                    <input
+                      type="text"
+                      value={formData.unit}
+                      onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      placeholder="ex: %, kg, m³"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Référence ISO (optionnel)</label>
+                    <input
+                      type="text"
+                      value={formData.isoReference}
+                      onChange={(e) => setFormData({ ...formData, isoReference: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      placeholder="ex: ISO 59000:2024"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-4 mt-6">
+                  <button
+                    onClick={handleCreate}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg"
+                  >
+                    ➕ Créer la question
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowCreateModal(false)
+                      resetForm()
+                    }}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale d'édition */}
+      {editingQuestion && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier la question</h2>
+                <button
+                  onClick={() => {
+                    setEditingQuestion(null)
+                    resetForm()
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✖️
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">ID de la question</label>
+                  <input
+                    type="text"
+                    value={formData.questionId}
+                    disabled
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Secteur</label>
+                  <input
+                    type="text"
+                    value={formData.sector}
+                    disabled
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Catégorie</label>
+                  <input
+                    type="text"
+                    value={formData.category}
+                    disabled
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg bg-gray-100"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Question</label>
+                  <textarea
+                    value={formData.text}
+                    onChange={(e) => setFormData({ ...formData, text: e.target.value })}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    rows={3}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Type</label>
+                    <select
+                      value={formData.type}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                    >
+                      <option value="boolean">Boolean (Oui/Non)</option>
+                      <option value="percentage">Pourcentage</option>
+                      <option value="number">Nombre</option>
+                      <option value="text">Texte</option>
+                      <option value="choice">Choix</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Poids</label>
+                    <input
+                      type="number"
+                      value={formData.weight}
+                      onChange={(e) => setFormData({ ...formData, weight: parseInt(e.target.value) })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      min="1"
+                      max="5"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Unité (optionnel)</label>
+                    <input
+                      type="text"
+                      value={formData.unit}
+                      onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      placeholder="ex: %, kg, m³"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Référence ISO (optionnel)</label>
+                    <input
+                      type="text"
+                      value={formData.isoReference}
+                      onChange={(e) => setFormData({ ...formData, isoReference: e.target.value })}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500"
+                      placeholder="ex: ISO 59000:2024"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-4 mt-6">
+                  <button
+                    onClick={handleUpdate}
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg"
+                  >
+                    💾 Sauvegarder
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditingQuestion(null)
+                      resetForm()
+                    }}
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
