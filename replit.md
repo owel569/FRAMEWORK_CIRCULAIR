@@ -50,6 +50,31 @@ Application web qui sert de plateforme d'accompagnement à la mise en œuvre de 
 
 ## Modifications récentes
 
+### 22 octobre 2025 - Optimisation chatbot et design premium
+- ✅ **Chatbot enrichi et optimisé** :
+  - Base de connaissances étendue de 4 à 50+ entrées (ISO 59000, économie circulaire, secteurs, pratiques)
+  - Algorithme de matching intelligent avec scoring normalisé et pondération par priorité
+  - Endpoint GET /chatbot/suggestions pour questions suggérées
+- ✅ **ChatbotWidget modernisé** :
+  - Design premium avec avatars (🤖 bot et 👤 utilisateur)
+  - Animations sophistiquées (slideUp, fadeIn, typing indicator avec 3 points)
+  - Suggestions de questions cliquables au démarrage
+  - Indicateur "En ligne" avec animation pulse
+  - Timestamps sur tous les messages
+  - Auto-scroll intelligent vers nouveaux messages
+  - Gradients et effets visuels modernes
+- ✅ **Page Home redesignée** :
+  - Hero section avec effets blob animés en arrière-plan
+  - Animations fadeInUp/fadeInDown sur les éléments
+  - Gradient animé sur le titre principal (8s loop)
+  - Badge "NOUVEAU" avec animation ping
+  - Boutons CTA avec hover effects et icônes animées
+  - Design plus spacieux et professionnel
+- ✅ **Animations CSS personnalisées** :
+  - fadeInUp, fadeInDown, gradientShift, blob, gradient
+  - Classes utilitaires pour delays d'animation
+  - Background-size étendu pour effets de gradient
+
 ### 22 octobre 2025 - Configuration Replit complète
 - ✅ Installation de Node.js 20 et toutes les dépendances
 - ✅ Configuration du workflow Frontend (démarrage automatique)
