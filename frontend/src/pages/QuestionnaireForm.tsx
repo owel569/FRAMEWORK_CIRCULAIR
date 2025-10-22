@@ -230,7 +230,7 @@ export default function QuestionnaireForm() {
     const loadSectorQuestions = async () => {
       if (company.sector) {
         try {
-          // Mapper le secteur au format backend
+          // Mapper le secteur au format backend (tous les 20 secteurs)
           const sectorMap: any = {
             'Agriculture, sylviculture et pêche': 'AGRICULTURE',
             'Industrie manufacturière': 'INDUSTRY',
