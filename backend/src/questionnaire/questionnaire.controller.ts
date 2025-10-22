@@ -1,20 +1,43 @@
 
 import { Controller, Get, Param } from '@nestjs/common';
-import { SECTOR_QUESTIONNAIRES } from '../data/questionnaires.data';
+import { PrismaService } from '../prisma.service';
 import { SectorCategory } from '../types/questionnaire.types';
+import { SECTOR_QUESTIONNAIRES } from '../data/questionnaires.data';
 
 @Controller('questionnaires')
 export class QuestionnaireController {
+  constructor(private readonly prisma: PrismaService) {}
+
   @Get(':sector')
-  getQuestionnaireBySector(@Param('sector') sector: string) {
+  async getQuestionnaireBySector(@Param('sector') sector: string) {
     const sectorKey = sector as SectorCategory;
-    const questionnaire = SECTOR_QUESTIONNAIRES[sectorKey];
+    const sectorName = SectorCategory[sectorKey];
     
-    if (!questionnaire) {
+    if (!sectorName) {
       return { error: 'Secteur non trouvé' };
     }
+
+    const questions = await this.prisma.questionnaireQuestion.findMany({
+      where: { sector: sectorName },
+      orderBy: [{ category: 'asc' }],
+    });
+
+    const formattedQuestions = questions.map(q => ({
+      id: q.questionId,
+      category: q.category,
+      text: q.text,
+      type: q.type,
+      weight: q.weight,
+      unit: q.unit,
+      choices: q.choices ? JSON.parse(q.choices) : undefined,
+      isoReference: q.isoReference,
+    }));
     
-    return questionnaire;
+    return {
+      sector: sectorName,
+      subSectors: SECTOR_QUESTIONNAIRES[sectorKey]?.subSectors || [],
+      questions: formattedQuestions,
+    };
   }
 
   @Get()
