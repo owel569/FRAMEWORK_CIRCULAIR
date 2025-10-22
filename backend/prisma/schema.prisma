@@ -131,3 +131,31 @@ model QuestionnaireQuestion {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String
+  details   String
+  timestamp DateTime @default(now())
+  userId    String?
+}
+
+model ChatbotDocument {
+  id          String    @id @default(uuid())
+  filename    String
+  fileType    String
+  filePath    String
+  fileSize    Int
+  title       String
+  description String?
+  content     String
+  isActive    Boolean   @default(true)
+  uploadedBy  String
+  uploadedAt  DateTime  @default(now())
+  wordCount   Int?
+  language    String?
+  usageCount  Int       @default(0)
+  lastUsed    DateTime?
+}

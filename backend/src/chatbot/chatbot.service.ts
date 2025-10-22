@@ -500,13 +500,13 @@ export class ChatbotService {
     },
   ];
 
-  async askQuestion(question: string, context?: string) {
+  async askQuestion(question: string, context?: string, documentsService?: any) {
     const lowerQuestion = question.toLowerCase();
     
     // Normalisation de la question
     const normalizedQuestion = this.normalizeText(lowerQuestion);
     
-    // Recherche avec scoring de pertinence
+    // Recherche avec scoring de pertinence dans la base hardcodée
     let bestMatch: { entry: KnowledgeEntry; score: number } | null = null;
     
     for (const entry of this.knowledgeBase) {
@@ -517,14 +517,82 @@ export class ChatbotService {
       }
     }
 
-    // Si un match est trouvé avec un score suffisant
+    // Recherche dans les documents uploadés (si service fourni)
+    let documentResults = [];
+    if (documentsService) {
+      try {
+        documentResults = await documentsService.searchInDocuments(question);
+      } catch (error) {
+        console.error('Erreur recherche documents:', error);
+      }
+    }
+
+    // Combiner les résultats
+    const sources = [];
+
+    // Si match dans la base hardcodée
     if (bestMatch && bestMatch.score > 0.3) {
-      return {
-        question,
+      sources.push({
+        type: 'knowledge_base',
+        category: bestMatch.entry.category,
         answer: bestMatch.entry.answer,
         confidence: Math.min(0.95, bestMatch.score),
-        source: 'Base de connaissances ISO 59000',
-        category: bestMatch.entry.category,
+      });
+    }
+
+    // Si match dans les documents
+    if (documentResults.length > 0) {
+      for (const docResult of documentResults) {
+        sources.push({
+          type: 'document',
+          title: docResult.title,
+          excerpt: docResult.excerpt,
+          confidence: docResult.matchScore,
+        });
+      }
+    }
+
+    // Générer la réponse finale
+    if (sources.length > 0) {
+      let answer = '';
+      let maxConfidence = 0;
+      const usedSources = [];
+
+      // Priorité à la base hardcodée si bon score
+      const kbSource = sources.find(s => s.type === 'knowledge_base');
+      if (kbSource && kbSource.confidence > 0.6) {
+        answer = kbSource.answer;
+        maxConfidence = kbSource.confidence;
+        usedSources.push({
+          type: 'knowledge_base',
+          category: kbSource.category,
+        });
+      }
+
+      // Ajouter les informations des documents
+      const docSources = sources.filter(s => s.type === 'document');
+      if (docSources.length > 0) {
+        if (answer) {
+          answer += '\n\n📚 **Informations complémentaires** :\n';
+        }
+
+        for (const docSource of docSources.slice(0, 2)) {
+          answer += `\n• ${docSource.excerpt}\n  *(Source: ${docSource.title})*`;
+          maxConfidence = Math.max(maxConfidence, docSource.confidence);
+          usedSources.push({
+            type: 'document',
+            title: docSource.title,
+          });
+        }
+      }
+
+      return {
+        question,
+        answer,
+        confidence: maxConfidence,
+        source: usedSources.length > 1 ? 'Base de connaissances + Documents' : usedSources[0]?.type === 'document' ? 'Documents uploadés' : 'Base de connaissances ISO 59000',
+        category: kbSource?.category || 'general',
+        sources: usedSources,
       };
     }
 
