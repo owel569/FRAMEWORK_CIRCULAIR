@@ -84,14 +84,41 @@ export class ScoreService {
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
     
+    // Bonus pour valorisation des déchets
     if (company.pourcentageValorisation !== null && company.pourcentageValorisation !== undefined) {
-      const bonusValorisation = (company.pourcentageValorisation / 100) * 15;
+      const bonusValorisation = (company.pourcentageValorisation / 100) * 12;
       baseScore = Math.min(100, baseScore + bonusValorisation);
     }
     
+    // Bonus pour achats locaux
     if (company.partAchatsLocaux !== null && company.partAchatsLocaux !== undefined) {
-      const bonusLocal = (company.partAchatsLocaux / 100) * 10;
-      baseScore = Math.min(100, baseScore + bonusLocal);
+      const bonusAchatsLocaux = (company.partAchatsLocaux / 100) * 8;
+      baseScore = Math.min(100, baseScore + bonusAchatsLocaux);
+    }
+    
+    // Bonus pour achats responsables
+    if (company.achatsResponsablesPct !== null && company.achatsResponsablesPct !== undefined) {
+      const bonusAchatsResponsables = (company.achatsResponsablesPct / 100) * 10;
+      baseScore = Math.min(100, baseScore + bonusAchatsResponsables);
+    }
+    
+    // Bonus pour économie potentielle
+    if (company.economiePotentielleMad !== null && company.economiePotentielleMad !== undefined && company.economiePotentielleMad > 0) {
+      baseScore = Math.min(100, baseScore + 5);
+    }
+    
+    // Bonus pour taux d'utilisation des équipements
+    if (company.tauxUtilisationEqPct !== null && company.tauxUtilisationEqPct !== undefined) {
+      if (company.tauxUtilisationEqPct >= 80) {
+        baseScore = Math.min(100, baseScore + 8);
+      } else if (company.tauxUtilisationEqPct >= 60) {
+        baseScore = Math.min(100, baseScore + 5);
+      }
+    }
+    
+    // Bonus pour utilisation de matières recyclées
+    if (company.matieresRecycleesMad !== null && company.matieresRecycleesMad !== undefined && company.matieresRecycleesMad > 0) {
+      baseScore = Math.min(100, baseScore + 7);
     }
     
     return baseScore;
@@ -103,14 +130,47 @@ export class ScoreService {
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
     
+    // Bonus pour emplois locaux (ancien champ)
     if (company.partEmploisLocaux !== null && company.partEmploisLocaux !== undefined) {
-      const bonusEmploi = (company.partEmploisLocaux / 100) * 15;
+      const bonusEmploi = (company.partEmploisLocaux / 100) * 12;
       baseScore = Math.min(100, baseScore + bonusEmploi);
     }
     
+    // Bonus pour emplois locaux (nouveau champ)
+    if (company.partEmploisLocauxPct !== null && company.partEmploisLocauxPct !== undefined) {
+      const bonusEmploiPct = (company.partEmploisLocauxPct / 100) * 12;
+      baseScore = Math.min(100, baseScore + bonusEmploiPct);
+    }
+    
+    // Bonus pour heures de formation (ancien champ)
     if (company.heuresFormation !== null && company.heuresFormation !== undefined) {
-      const bonusFormation = (Math.min(20, company.heuresFormation) / 20) * 10;
+      const bonusFormation = (Math.min(20, company.heuresFormation) / 20) * 8;
       baseScore = Math.min(100, baseScore + bonusFormation);
+    }
+    
+    // Bonus pour heures de formation par salarié (nouveau champ)
+    if (company.heuresFormationSalarieAn !== null && company.heuresFormationSalarieAn !== undefined) {
+      if (company.heuresFormationSalarieAn >= 40) {
+        baseScore = Math.min(100, baseScore + 10);
+      } else if (company.heuresFormationSalarieAn >= 30) {
+        baseScore = Math.min(100, baseScore + 7);
+      } else if (company.heuresFormationSalarieAn >= 20) {
+        baseScore = Math.min(100, baseScore + 5);
+      }
+    }
+    
+    // Bonus pour recrutement
+    if (company.recrutementAn !== null && company.recrutementAn !== undefined && company.recrutementAn > 0) {
+      baseScore = Math.min(100, baseScore + 5);
+    }
+    
+    // Bonus pour parité femmes
+    if (company.partFemmesPct !== null && company.partFemmesPct !== undefined) {
+      if (company.partFemmesPct >= 40 && company.partFemmesPct <= 60) {
+        baseScore = Math.min(100, baseScore + 10);
+      } else if (company.partFemmesPct >= 30) {
+        baseScore = Math.min(100, baseScore + 5);
+      }
     }
     
     return baseScore;

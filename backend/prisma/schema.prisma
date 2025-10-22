@@ -46,6 +46,23 @@ model Company {
   pourcentageValorisation Float?
   dechetsDangereux        Float?
 
+  // Indicateurs économiques avancés
+  depensesMaintenanceMad  Float?
+  dureeVieEquipementAns   Float?
+  tauxRebutPct            Float?
+  beneficeEconomique      Float?
+  coutAlternatifMad       Float?
+  economiePotentielleMad  Float?
+  tauxUtilisationEqPct    Float?
+  matieresRecycleesMad    Float?
+
+  // Indicateurs sociaux avancés
+  achatsResponsablesPct   Float?
+  partEmploisLocauxPct    Float?
+  recrutementAn           Float?
+  heuresFormationSalarieAn Float?
+  partFemmesPct           Float?
+
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
