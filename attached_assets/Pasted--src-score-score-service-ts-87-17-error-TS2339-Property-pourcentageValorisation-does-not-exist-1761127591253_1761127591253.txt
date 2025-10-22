@@ -1,0 +1,132 @@
+
+src/score/score.service.ts:87:17 - error TS2339: Property 'pourcentageValorisation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+87     if (company.pourcentageValorisation !== null && company.pourcentageValorisation !== undefined) {
+                   ~~~~~~~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:87:61 - error TS2339: Property 'pourcentageValorisation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+87     if (company.pourcentageValorisation !== null && company.pourcentageValorisation !== undefined) {
+                                                               ~~~~~~~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:88:42 - error TS2339: Property 'pourcentageValorisation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+88       const bonusValorisation = (company.pourcentageValorisation / 100) * 15;
+                                            ~~~~~~~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:92:17 - error TS2339: Property 'partAchatsLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+92     if (company.partAchatsLocaux !== null && company.partAchatsLocaux !== undefined) {
+                   ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:92:54 - error TS2339: Property 'partAchatsLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+92     if (company.partAchatsLocaux !== null && company.partAchatsLocaux !== undefined) {
+                                                        ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:93:35 - error TS2339: Property 'partAchatsLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+93       const bonusLocal = (company.partAchatsLocaux / 100) * 10;
+                                     ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:106:17 - error TS2339: Property 'partEmploisLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+106     if (company.partEmploisLocaux !== null && company.partEmploisLocaux !== undefined) {
+                    ~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:106:55 - error TS2339: Property 'partEmploisLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+106     if (company.partEmploisLocaux !== null && company.partEmploisLocaux !== undefined) {
+                                                          ~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:107:36 - error TS2339: Property 'partEmploisLocaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+107       const bonusEmploi = (company.partEmploisLocaux / 100) * 15;
+                                       ~~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:111:17 - error TS2339: Property 'heuresFormation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+111     if (company.heuresFormation !== null && company.heuresFormation !== undefined) {
+                    ~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:111:53 - error TS2339: Property 'heuresFormation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+111     if (company.heuresFormation !== null && company.heuresFormation !== undefined) {
+                                                        ~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:112:52 - error TS2339: Property 'heuresFormation' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+112       const bonusFormation = (Math.min(20, company.heuresFormation) / 20) * 10;
+                                                       ~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:126:15 - error TS2339: Property 'emissionsScope12' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+126       company.emissionsScope12 !== null &&
+                  ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:127:15 - error TS2339: Property 'emissionsScope12' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+127       company.emissionsScope12 !== undefined &&
+                  ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:128:15 - error TS2339: Property 'employeeCount' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+128       company.employeeCount !== null &&
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:129:15 - error TS2339: Property 'employeeCount' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+129       company.employeeCount !== undefined &&
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:130:15 - error TS2339: Property 'employeeCount' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+130       company.employeeCount > 0
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:132:43 - error TS2339: Property 'emissionsScope12' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+132       const emissionsParEmploye = company.emissionsScope12 / company.employeeCount;
+                                              ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:132:70 - error TS2339: Property 'employeeCount' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+132       const emissionsParEmploye = company.emissionsScope12 / company.employeeCount;
+                                                                         ~~~~~~~~~~~~~
+
+src/score/score.service.ts:144:15 - error TS2339: Property 'dechetsDangereux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+144       company.dechetsDangereux !== null &&
+                  ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:145:15 - error TS2339: Property 'dechetsDangereux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+145       company.dechetsDangereux !== undefined &&
+                  ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:146:15 - error TS2339: Property 'dechetsTotaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+146       company.dechetsTotaux !== null &&
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:147:15 - error TS2339: Property 'dechetsTotaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+147       company.dechetsTotaux !== undefined &&
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:148:15 - error TS2339: Property 'dechetsTotaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+148       company.dechetsTotaux > 0
+                  ~~~~~~~~~~~~~
+
+src/score/score.service.ts:150:46 - error TS2339: Property 'dechetsDangereux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+150       const ratioDechetsDangereux = (company.dechetsDangereux / company.dechetsTotaux) * 100;
+                                                 ~~~~~~~~~~~~~~~~
+
+src/score/score.service.ts:150:73 - error TS2339: Property 'dechetsTotaux' does not exist on type '{ name: string; sector: string; email: string; phone: string; id: string; createdAt: Date; updatedAt: Date; }'.
+
+150       const ratioDechetsDangereux = (company.dechetsDangereux / company.dechetsTotaux) * 100;
+                                                                            ~~~~~~~~~~~~~
+
+[9:59:05 AM] Found 26 errors. Watching for file changes.

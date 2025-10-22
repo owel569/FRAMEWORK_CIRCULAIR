@@ -1,0 +1,163 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Company {
+  id                      String   @id @default(cuid())
+  name                    String
+  sector                  String
+  email                   String   @unique
+  phone                   String?
+  employeeCount           Int?
+
+  // Logistique et Centres
+  tonnageLogistique       Float?
+  emissionsLogistiques    Float?
+  tonnageAlternatif       Float?
+  coutActuel              Float?
+  coutTraitement          Float?
+  centreActuel            Float?
+  centreAlternatif        Float?
+
+  // Consommations énergétiques
+  electriciteKWh          Float?
+  gazKWh                  Float?
+  eauM3                   Float?
+  carburantsLitres        Float?
+  consommationEau         Float?
+  consommationCarburant   Float?
+
+  // Émissions
+  emissionsScope12        Float?
+
+  // Indicateurs sociaux
+  heuresFormation         Float?
+  partAchatsLocaux        Float?
+  partEmploisLocaux       Float?
+
+  // Gestion des déchets
+  dechetsTotaux           Float?
+  dechetsValorises        Float?
+  pourcentageValorisation Float?
+  dechetsDangereux        Float?
+
+  // Indicateurs économiques avancés
+  depensesMaintenanceMad  Float?
+  dureeVieEquipementAns   Float?
+  tauxRebutPct            Float?
+  beneficeEconomique      Float?
+  coutAlternatifMad       Float?
+  economiePotentielleMad  Float?
+  tauxUtilisationEqPct    Float?
+  matieresRecycleesMad    Float?
+
+  // Indicateurs sociaux avancés
+  achatsResponsablesPct   Float?
+  partEmploisLocauxPct    Float?
+  recrutementAn           Float?
+  heuresFormationSalarieAn Float?
+  partFemmesPct           Float?
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  scores Score[]
+}
+
+model Score {
+  id              String   @id @default(uuid())
+  companyId       String
+  company         Company  @relation(fields: [companyId], references: [id])
+
+  globalScore        Float
+  governanceScore    Float
+  economicScore      Float
+  socialScore        Float
+  environmentalScore Float
+
+  responses       String
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  actionPlan      ActionPlan?
+}
+
+model ActionPlan {
+  id              String   @id @default(uuid())
+  scoreId         String   @unique
+  score           Score    @relation(fields: [scoreId], references: [id])
+
+  recommendations String
+  priority        String
+  timeline        String
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SectorAverage {
+  id        String @id @default(uuid())
+  sector    String @unique
+  avgScore  Float
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model QuestionnaireQuestion {
+  id           String   @id @default(uuid())
+  questionId   String   @unique
+  sector       String
+  category     String
+  text         String
+  type         String
+  weight       Float
+  unit         String?
+  choices      String?
+  isoReference String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String
+  details   String
+  timestamp DateTime @default(now())
+  userId    String?
+}
+
+model ChatbotDocument {
+  id          String    @id @default(uuid())
+  filename    String
+  fileType    String
+  filePath    String
+  fileSize    Int
+  title       String
+  description String?
+  content     String
+  isActive    Boolean   @default(true)
+  uploadedBy  String
+  uploadedAt  DateTime  @default(now())
+  wordCount   Int?
+  language    String?
+  usageCount  Int       @default(0)
+  lastUsed    DateTime?
+}

@@ -1,0 +1,42 @@
+
+Immobilier et logement
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Performance énergétique moyenne du parc (kWh/m².an) ?
+Part de rénovations lourdes / BBC réalisées (%) ?
+Gestion de l’eau et végétalisation (îlots de fraîcheur) ? Gestion circulaire des déchets de maintenance ?
+Diagnostic économique & production
+Taux de vacance et rotation des locataires ?
+CAPEX vert (isolation, HVAC, PV) sur 3 ans ?
+Montage financier (CEE, subventions, tiers-financement) ? Pilotage GTB / smart meters (optimisation) ?
+Diagnostic social & territorial
+Logements abordables / sociaux (part du parc) ?
+Accessibilité et adaptation (PMR, seniors) ?
+Qualité de service (délai d’intervention, satisfaction) ? Dispositifs anti-précarité énergétique ?
+Logistique & chaîne d’approvisionnement
+Approvisionnements responsables pour maintenance ?
+Boucles de réemploi des matériaux (réhab) ?
+Plan mobilité des occupants (mobilité douce) ?
+Gestion des prestataires (SLA, traçabilité) ?
+ 
+
+Sciences et technologies
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Gestion des substances et déchets de laboratoire ?
+Efficience énergétique des équipements (paillasses, HVAC) ?
+Réutilisation/partage des instruments coûteux ?
+Politique d’achats ‘green lab’ (verrerie réutilisable, solvants) ?
+Diagnostic économique & production
+Taux de valorisation des prototypes/sous-produits ?
+Part des projets intégrant l’écoconception dès amont ?
+Partenariats industrie pour transfert/industrialisation frugale ? Financements dédiés à l’innovation durable (%) ?
+Diagnostic social & territorial
+Éthique et sécurité (protocoles, biosécurité) ?
+Formation aux pratiques de labo sobres ?
+Diversité des équipes scientifiques ?
+Ouverture (sciences participatives, médiation) ?
+Logistique & chaîne d’approvisionnement
+Traçabilité des réactifs et consommables (code-barres) ?
+Approvisionnement critique (froid, matières rares) ?
+Plan de fin de vie des équipements (don, reprise, recyclage) ?
+Partage d’infrastructures (plateformes, core facilities) ?
+ 

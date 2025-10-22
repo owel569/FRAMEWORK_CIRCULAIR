@@ -1,0 +1,42 @@
+Énergie et environnement
+Part d’énergies renouvelables produites/fournies (%) ?
+Rendement moyen des installations et pertes en réseau ?
+Émissions évitées (tCO₂e/an) et facteurs d’émission utilisés ?
+Politique de gestion de l’eau (refroidissement, recyclage) ?
+Plan de démantèlement/recyclage des équipements (pales, panneaux) ?
+Diagnostic économique & production
+Capex/opex dédiés à l’efficacité et au stockage (3 ans) ?
+Part des contrats de type PPA/CPP bas-carbone ? Taux de disponibilité des actifs (% uptime) ?
+Part de services d’effacement/flexibilité vendus ?
+Diagnostic social & territorial
+Emplois locaux et formation technique (heures/an) ?
+Partenariats territoire (collectivités, riverains) ?
+Santé-sécurité (TF/TG) et culture sécurité ?
+Dispositifs de concertation et acceptabilité sociale ?
+Logistique & chaîne d’approvisionnement
+Localisation des pièces critiques (stock tampon) ?
+Taux de fournisseurs certifiés (QSE/RSE) ?
+Logistique de transport spécial (convois, risques) maîtrisée ?
+Fin de vie : boucles de reprise des composants ?
+ 
+
+Santé et action sociale
+Gestion des DASRI et déchets pharmaceutiques (% valorisation) ?
+Consommation d’énergie par lit ou par acte (kWh/unité) ?
+Eau : dispositifs de réduction et de réutilisation ?
+Politique d’achats écoresponsables (dispositifs, consommables) ?
+Diagnostic économique & production
+Taux de réutilisation de dispositifs (lorsque réglementairement possible) ?
+Plan d’optimisation des consommables (stérilisation, stocks) ?
+Investissements d’efficacité (CVC, éclairage, GTB) ?
+Taux d’occupation et efficience des blocs/plateaux techniques ?
+Diagnostic social & territorial
+Qualité de vie au travail (QVT) et prévention TMS/RPS ?
+Formation sobriété/écogestes des équipes ?
+Accès égalitaire aux soins (indicateurs) ?
+Ancrage local (emplois, partenariats médico-sociaux) ?
+Logistique & chaîne d’approvisionnement
+Pharmacie : traçabilité et retours sécurisés ?
+Approvisionnement critique (chaîne du froid, médicaments) ?
+Gestion des flux patients/visiteurs (mobilité douce) ?
+Plan de continuité d’activité (PCA) testé ?

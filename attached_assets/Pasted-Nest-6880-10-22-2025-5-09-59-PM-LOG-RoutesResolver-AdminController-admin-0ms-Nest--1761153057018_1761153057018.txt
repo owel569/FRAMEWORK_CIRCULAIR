@@ -1,0 +1,38 @@
+Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RoutesResolver] AdminController {/admin}: +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/login, POST} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/stats, GET} route +1ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/demo-mode, GET} route +6ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/demo-mode, POST} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions, GET} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions, POST} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions/:id, PUT} route +1ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions/:id, DELETE} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions/bulk-import, POST} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/questions/export, GET} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/companies/:id, GET} route +0ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [RouterExplorer] Mapped {/admin/companies/search, GET} route +1ms
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+[Nest] 6880  - 10/22/2025, 5:09:59 PM     LOG [NestApplication] Nest application successfully started +118ms
+[Nest] 6880  - 10/22/2025, 5:09:59 PM   ERROR [NestApplication] Error: listen EADDRINUSE: address already in use 0.0.0.0:3000 +3ms
+node:net:1908
+    const ex = new UVExceptionWithHostPort(err, 'listen', address, port);
+               ^
+
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at doListen (node:net:2139:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 3000
+}
+
+Node.js v20.19.3

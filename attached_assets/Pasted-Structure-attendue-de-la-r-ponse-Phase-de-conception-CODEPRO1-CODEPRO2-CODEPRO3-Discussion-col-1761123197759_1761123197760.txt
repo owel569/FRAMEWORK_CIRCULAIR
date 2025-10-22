@@ -1,0 +1,62 @@
+Structure attendue de la réponse
+
+Phase de conception (CODEPRO1, CODEPRO2, CODEPRO3)
+
+Discussion collaborative sur les choix technologiques, l’architecture logicielle, et les modèles de données.
+
+Présentation claire de la stack technique proposée (frameworks, bases de données, librairies).
+
+Schéma ou description textuelle de l’architecture globale (backend ↔ frontend ↔ base de données ↔ moteur de calcul).
+
+Phase d’implémentation (principalement CODEPRO1 et CODEPRO2)
+
+Présentation de fragments de code avancés et réutilisables, commentés ligne par ligne.
+
+Exemple de modules backend (API REST/GraphQL, gestion des utilisateurs, soumission du questionnaire).
+
+Exemple de composants frontend (formulaire dynamique, tableau de bord avec graphiques, affichage du score).
+
+Exemple de mécanisme de calcul (CODEPRO3) pour le score d’économie circulaire et le suivi de performance.
+
+Phase de tests et de déploiement (tous les rôles)
+
+Exemples de tests unitaires et d’intégration (Jest, Vitest, etc.).
+
+Configuration d’un pipeline CI/CD (Docker, GitHub Actions, ou autre).
+
+Définition d’un plan de déploiement (hébergement, sécurité, sauvegardes, gestion des environnements).
+
+🧩 Contraintes et exigences techniques
+
+Langage principal : TypeScript
+
+Frontend : Next.js (React) + Tailwind CSS + Recharts ou Chart.js
+
+Backend : NestJS (ou Express avec architecture modulaire)
+
+Base de données : PostgreSQL (ORM Prisma recommandé)
+
+Files d’attente / jobs : Redis + BullMQ
+
+Stockage fichiers : S3-compatible (MinIO ou AWS S3)
+
+Authentification : JWT / OAuth2 avec rôles (administrateur, entreprise, consultant)
+
+Chatbot : moteur IA (RAG) avec base vectorielle (Pinecone, Milvus ou autre)
+
+Sécurité : validation des entrées, chiffrement, politique RBAC, journalisation et monitoring.
+
+💬 Règles de collaboration
+
+Chaque CODEPRO explique ses choix techniques et raisonnements.
+
+Le code fourni doit être fonctionnel, clair et commenté pour être compris par un utilisateur non expert.
+
+Les suggestions d’optimisation doivent viser les performances, la maintenabilité et l’évolutivité.
+
+Le style de réponse doit être fluide, structuré et didactique, sans jargon inutile.
+
+🧠 Attendus finaux
+
+L’IA doit livrer une architecture de haut niveau, des exemples de code avancé, des bonnes pratiques de déploiement, et une cohérence d’ensemble entre les trois rôles.
+Le résultat doit permettre à une équipe de développement réelle de créer l’application complète à partir de ces fondations.
