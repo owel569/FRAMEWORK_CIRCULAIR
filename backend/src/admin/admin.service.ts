@@ -201,20 +201,31 @@ export class AdminService {
 
   // Import/Export bulk de questions
   async bulkImportQuestions(questions: CreateQuestionDto[]) {
-    return this.prisma.questionnaireQuestion.createMany({
-      data: questions.map((q) => ({
-        questionId: q.questionId,
-        sector: q.sector,
-        category: q.category,
-        text: q.text,
-        type: q.type,
-        weight: q.weight,
-        unit: q.unit,
-        choices: q.choices ? JSON.stringify(q.choices) : null,
-        isoReference: q.isoReference,
-      })),
-      skipDuplicates: true,
-    });
+    const results = [];
+    for (const q of questions) {
+      try {
+        const result = await this.prisma.questionnaireQuestion.create({
+          data: {
+            questionId: q.questionId,
+            sector: q.sector,
+            category: q.category,
+            text: q.text,
+            type: q.type,
+            weight: q.weight,
+            unit: q.unit,
+            choices: q.choices ? JSON.stringify(q.choices) : null,
+            isoReference: q.isoReference,
+          },
+        });
+        results.push(result);
+      } catch (error) {
+        // Ignore duplicates
+        if (!error.code || error.code !== 'P2002') {
+          throw error;
+        }
+      }
+    }
+    return { count: results.length };
   }
 
   async exportQuestions(sector?: string) {
