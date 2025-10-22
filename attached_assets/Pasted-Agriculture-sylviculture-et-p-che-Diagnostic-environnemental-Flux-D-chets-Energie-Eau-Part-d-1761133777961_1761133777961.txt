@@ -1,0 +1,64 @@
+Agriculture, sylviculture et pêche
+Diagnostic environnemental (Flux, Déchets, Energie, Eau)
+Part des engrais ou intrants d’origine renouvelable ?
+Pourcentage d’exploitation sous label biologique ou HVE (Haute Valeur Environnementale) ?
+Consommation d’eau moyenne par hectare ou par tonne produite ?
+Systèmes de récupération ou de recyclage des eaux usées mis en place ?
+Gestion des effluents d’élevage (stockage, valorisation, méthanisation) ?
+Taux de couverture des sols ou pratiques d’agroforesterie ?
+Utilisation de traitements phytosanitaires de synthèse (kg/ha) ?
+Pourcentage d’énergie renouvelable utilisée sur le site (photovoltaïque, biomasse…) ?
+Diagnostic économique & production
+Part de la production vendue en circuits courts (<80 km) ?
+Ratio coût/production lié aux intrants (engrais, semences, énergie) ?
+Taux de pertes post-récolte (%) ?
+Valorisation des sous-produits (paille, tourteaux, déchets organiques, etc.) ?
+Existence d’une stratégie de diversification (transformation, tourisme, vente directe) ?
+Part de l’investissement allouée à la durabilité (matériel économe, stockage vert, etc.) ?
+Diagnostic social & territorial
+Part d’emplois locaux permanents (%) ?
+Nombre de saisonniers employés par an ?
+Taux de formation continue sur les bonnes pratiques environnementales ?
+Collaboration avec des exploitations voisines (entraide, coopératives) ?
+Taux de transmission d’exploitation ou installation de jeunes agriculteurs ?
+Dispositifs d’insertion sociale ou d’accueil de publics en difficulté ?
+Logistique & chaîne d’approvisionnement
+Distances moyennes entre site de production et marché de distribution (km) ?
+Fréquence des livraisons vers les points de vente ?
+Utilisation de plateformes de mutualisation logistique (coopératives, circuits courts) ?
+Mode de transport principal (camion, tracteur, train,...) ?
+Volume de stockage sur site vs externalisé ?
+Coût logistique moyen par tonne ou unité vendue ?
+
+Industrie manufacturière
+Diagnostic environnemental (Flux, Déchets, Energie, Eau)
+Taux de matières premières recyclées ou recyclables utilisées dans la production ?
+Pourcentage de chutes de production réutilisées ou valorisées en interne ?
+Consommation énergétique moyenne par unité produite (kWh/unité) ?
+Existence d’un système de récupération ou réutilisation des eaux industrielles ?
+Gestion des déchets dangereux et non dangereux (t/an, % valorisé) ?
+Utilisation d’énergies renouvelables dans les procédés de production ?
+Niveau de maîtrise des émissions atmosphériques (poussières, COV, CO₂, NOx) ?
+Suivi de la performance environnementale par indicateurs internes (ISO 14001, bilan carbone, etc.) ?
+Diagnostic économique & production
+Productivité énergétique (unités produites / kWh consommé) ?
+Taux d’automatisation ou de maintenance prédictive ?
+Coût unitaire moyen de production et taux d’amélioration annuel ?
+Taux d’utilisation des machines (% du temps opérationnel) ?
+Pourcentage des produits conçus selon une approche d’écoconception ?
+Existence de boucles internes de réemploi (pièces, composants, eaux de process, chaleur fatale) ?
+Dépenses d’investissement annuelles consacrées à la modernisation durable (en %) ?
+Ratio matière première / produit fini (rendement matière) ?
+Diagnostic social & territorial
+Part de main-d’œuvre locale dans les effectifs totaux ?
+Taux d’emploi permanent vs intérim ou sous-traitance ?
+Nombre moyen d’heures de formation par salarié et par an ?
+Présence d’un plan d’amélioration des conditions de travail (ergonomie, sécurité, bruit, chaleur) ?
+Taux de fréquence / gravité des accidents du travail ?
+Actions d’insertion ou partenariats avec écoles techniques locales ?
+Égalité professionnelle (F/H, diversité, inclusion) ?
+Satisfaction sociale des salariés (enquête interne, turnover, absentéisme) ?
+Logistique & chaîne d’approvisionnement
+Taux de fournisseurs locaux (<200 km) ?
+Pourcentage d’approvisionnements issus de filières certifiées (ISO 14001, RSE, équitables) ?
+Taux de remplissage des camions ou conteneurs (%) 

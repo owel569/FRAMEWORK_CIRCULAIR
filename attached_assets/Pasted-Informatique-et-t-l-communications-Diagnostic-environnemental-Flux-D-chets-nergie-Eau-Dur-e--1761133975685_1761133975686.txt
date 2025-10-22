@@ -1,0 +1,39 @@
+Informatique et télécommunications
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Durée de vie moyenne des équipements IT et taux de reconditionné ?
+Efficacité énergétique des data centers (PUE) ?
+Politique de recyclage des DEEE (taux de collecte) ?
+Green coding / optimisation des charges et requêtes ?
+Diagnostic économique & production
+Part de services ‘as-a-service’ favorisant l’usage vs propriété ?
+Efficience des licences et mutualisation des ressources ?
+Part du CA liée à des offres ‘numérique responsable’ ? Taux d’automatisation/observabilité (SLO/SLA) ?
+Diagnostic social & territorial
+Compétences vertes (formations cloud/efficience) ?
+Diversité & inclusion dans les équipes tech ?
+Protection des données / cybersécurité (incidents/an) ? Ancrage territorial (partenariats écoles, fablabs) ?
+Logistique & chaîne d’approvisionnement
+Traçabilité des composants (minéraux responsables) ?
+Boucles de reprise des équipements (take-back) ?
+Localisation des hébergeurs / latence vs impact ?
+Souveraineté/sécurité de la supply (multi-sourcing) ?
+ 
+
+Banque, assurance et finance
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Empreinte directe des sites (énergie, papier, mobilité) ?
+Politique numérique responsable (cloud, PUE, éco-impression) ? Achats responsables pour les prestations externes ?
+Diagnostic économique & production
+Intégration ESG dans le crédit et l’investissement (taux couvert) ?
+Exclusions sectorielles carbone et trajectoires alignées ?
+Part des produits financiers verts (green bonds, fonds ISR) ? Engagement actionnarial (votes, dialogues) ?
+Diagnostic social & territorial
+Accès aux services financiers des publics fragiles ?
+Égalité pro et formation des conseillers aux risques climatiques ?
+Protection client (conformité, éthique) ?
+Ancrage local (financement économie réelle) ?
+Logistique & chaîne d’approvisionnement
+KYC/AML digitalisés et sécurisés ?
+Résilience fournisseurs critiques (BPO/IT) ?
+Plan de continuité (tests, redondance) ?
+Traçabilité des données (RGPD, souveraineté) ?

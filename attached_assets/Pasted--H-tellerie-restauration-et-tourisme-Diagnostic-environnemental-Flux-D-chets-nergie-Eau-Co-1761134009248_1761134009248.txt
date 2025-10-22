@@ -1,0 +1,44 @@
+
+Hôtellerie, restauration et tourisme
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Consommations énergétiques par chambre/couvert (kWh/unité) ?
+Gestion de l’eau (réducteurs, réutilisation, linge à la demande) ?
+Tri/valorisation des biodéchets et huiles ?
+Achats alimentaires durables (local, saison, labels) ?
+Diagnostic économique & production
+Taux d’occupation moyen et durée de séjour ?
+Part des offres bas-carbone (vélo, train, compensation) ?
+Réduction du gaspillage alimentaire (%) ?
+Investissements d’efficacité (CVC, froid, éclairage) ?
+Diagnostic social & territorial
+Conditions de travail (horaires, saisonnalité, logement) ?
+Formation client/accueil à l’écoresponsabilité ?
+Relations avec acteurs locaux (guides, producteurs) ? Accessibilité (PMR) et sécurité sanitaire ?
+Logistique & chaîne d’approvisionnement
+Approvisionnements locaux (km, % fournisseurs) ?
+Livraisons mutualisées et fenêtres horaires optimisées ?
+Gestion des retours emballages et bouteilles consignées ?
+Mobilité des clients/employés (plans mobilité) ?
+ 
+
+Culture, médias et communication
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Éco-conception des événements (énergie, déchets, déplacements) ?
+Réemploi des décors, costumes, supports ?
+Supports imprimés : papier recyclé/encres végétales ?
+Stratégie numérique sobre (streaming, compression) ?
+Diagnostic économique & production
+Part des productions labellisées écoresponsables ?
+Modèles de diffusion hybrides (physique ↔ numérique) ?
+Taux de remplissage des salles / occupation des équipements ? Partenariats mécénat/CSR pour circularité ?
+Diagnostic social & territorial
+Accès à la culture des publics éloignés ?
+Conditions de travail des intermittents (sécurité, temps) ?
+Parité et diversité à l’affiche ?
+Engagement citoyen via campagnes de sensibilisation ?
+Logistique & chaîne d’approvisionnement
+Itinérance optimisée des tournées (routing) ?
+Réutilisation/partage de matériels (banques de décors) ?
+Gestion retours merchandising et invendus ?
+Billetterie et flux : mobilité douce encouragée ?
+ 

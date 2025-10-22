@@ -1,0 +1,46 @@
+Commerce et distribution
+Part de produits certifiés (bio, écolabel, équitable) ?
+Réduction/éco-conception des emballages (poids, matériaux) ?
+Taux de déchets valorisés (cartons, plastiques, biodéchets) ?
+Consommation énergétique par m² de surface de vente (kWh/m²) ?
+Politique anti-gaspillage (dons, anti-gaspi, DLC courtes) ? Usage d’énergies renouvelables (PV, PPA, etc.) ?
+Diagnostic économique & production
+Part des ventes en circuits courts / locaux (%) ?
+Taux de démarque inconnue et actions de réduction ?
+Part du chiffre d’affaires issu de l’économie de l’usage (location, reprise) ?
+Taux d’équipement de revente seconde main / reconditionné ? Investissements d’efficacité (froid, éclairage, GTB) sur 3 ans ?
+Diagnostic social & territorial
+Emplois locaux (%) et qualité de l’emploi (CDI, temps plein) ?
+Heures de formation client/produit/sobriété par salarié ?
+Accessibilité et inclusion (handicap, prix solidaires, dons) ? Satisfaction clients (NPS) et gestion des retours ?
+Logistique & chaîne d’approvisionnement
+Taux de mutualisation des livraisons magasins ?
+Part de la flotte bas-carbone (électrique, GNV) ?
+Taux de remplissage des tournées (%) et optimisation des itinéraires ?
+Système retour/consigne des emballages en place ?
+Distance moyenne entre plateforme et magasin (km) ?
+ 
+
+Transport et logistique
+Intensité carbone (gCO₂/t.km ou gCO₂/colis) ?
+Part de carburants alternatifs (BEV, GNV, HVO, H₂) ?
+Politique d’éco-conduite et télématique embarquée ?
+Taux de valorisation des déchets d’exploitation (pneus, huiles) ? Énergie renouvelable sur sites/loges (PV, PPA) ?
+Diagnostic économique & production
+Taux d’occupation moyen (camions, wagons, conteneurs) ?
+Taux de livraisons réussies du 1er coup (first-attempt) ?
+Part du chiffre d’affaires via offres bas-carbone ?
+Coût logistique par colis/tonne et évolution (3 ans) ?
+Niveau de digitalisation (TMS/WMS, ETA temps réel) ?
+Diagnostic social & territorial
+Taux de turnover conducteurs / préparateurs ?
+Heures de formation sécurité/éco-conduite par salarié ?
+Accidents et sinistralité (par million de km) ?
+Qualité de service perçue (retards, avaries) ?
+Logistique & chaîne d’approvisionnement
+Part du rail/fluviatile dans le mix modal (%) ?
+Dernier kilomètre décarboné (%) ?
+Mutualisation inter-clients (groupage, hubs urbains) ?
+Taux de retours logistiques (emballages, palettes) ?
+Utilisation de véhicules ULEZ/CRIT’Air favorisés ?
+ 
