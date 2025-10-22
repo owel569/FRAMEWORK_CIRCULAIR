@@ -289,9 +289,9 @@ export class AdminService {
     return this.prisma.company.findMany({
       where: {
         OR: [
-          { name: { contains: query, mode: 'insensitive' } },
-          { email: { contains: query, mode: 'insensitive' } },
-          { sector: { contains: query, mode: 'insensitive' } },
+          { name: { contains: query } },
+          { email: { contains: query } },
+          { sector: { contains: query } },
         ],
       },
       include: {
