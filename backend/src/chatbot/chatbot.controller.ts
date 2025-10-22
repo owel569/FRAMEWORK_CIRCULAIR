@@ -3,6 +3,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ChatbotService } from './chatbot.service';
 import { ChatbotDocumentsService } from './chatbot-documents.service';
 
+interface UploadedFile {
+  originalname: string;
+  buffer: Buffer;
+  size: number;
+  mimetype: string;
+}
+
 @Controller('chatbot')
 export class ChatbotController {
   constructor(
@@ -26,7 +33,7 @@ export class ChatbotController {
   @Post('documents/upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadDocument(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: UploadedFile,
     @Body() data: { title: string; description?: string },
     @Headers('authorization') auth: string,
   ) {
