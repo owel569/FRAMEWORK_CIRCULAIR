@@ -1,0 +1,72 @@
+Services aux particuliers
+Produits/consommables écoresponsables utilisés ?
+Gestion des déchets générés chez les clients ?
+Équipements sobres (énergie/eau) ?
+Empreinte des déplacements domicile-clients ?
+Diagnostic économique & production
+Modèles d’abonnement/forfait favorisant l’usage ?
+Optimisation des plannings (tournées, annulations) ?
+Offres de réparation/rénovation plutôt que remplacement ? Taux de satisfaction et rétention clients ?
+Diagnostic social & territorial
+Emplois locaux et conditions (temps, salaires) ?
+Formation sécurité/qualité (heures/an) ?
+Accessibilité des services (publics fragiles) ? Assurance et conformité réglementaire ?
+Logistique & chaîne d’approvisionnement
+Rayon d’intervention (km) et mutualisation des trajets ?
+Gestion des stocks/retours de consommables ?
+Traçabilité interventions (outils numériques) ?
+Boucles de reprise avec fournisseurs (emballages) ?
+
+Associations et ONG
+Politique écoresponsable d’événements et de locaux ?
+Gestion des dons matériels (tri, réemploi) ?
+Empreinte numérique et déplacements sobres ? Sensibilisation environnementale du public ?
+Diagnostic économique & production
+Diversification des financements (dons, subventions, ESS) ?
+Efficience administrative (frais généraux %) ?
+Modèles circulaires (réemploi, réparation) au cœur des projets ? Partenariats avec entreprises/fondations locales ?
+Diagnostic social & territorial
+Impact social mesuré (bénéficiaires, indicateurs) ?
+Gouvernance participative/transparente ?
+Gestion des bénévoles (formation, assurance) ? Inclusion des publics vulnérables ?
+Logistique & chaîne d’approvisionnement
+Collecte et distribution : optimisation des tournées ?
+Traçabilité des dons et affectations ?
+Partenariats logistiques (banques alimentaires, plateformes) ?
+Boucles de reprise/valorisation des invendus ?
+
+Autres secteurs émergents
+Impacts environnementaux principaux identifiés ?
+Part d’énergies renouvelables dans l’activité ?
+Éco-conception des produits/services ?
+Plan de fin de vie et réemploi des composants ?
+Diagnostic économique & production
+Modèle d’affaires orienté usage/partage ?
+Indicateurs de performance circulaire suivis ?
+Part de revenus issus d’offres ‘circulaires’ ?
+Accès à des financements verts/innovants ?
+Diagnostic social & territorial
+Création d’emplois locaux/qualifiés ?
+Compétences vertes des équipes (formations) ?
+Accessibilité et bénéfices sociaux du service ? Gouvernance ouverte/partenariale ?
+Logistique & chaîne d’approvisionnement
+Supply multi-sourcing pour résilience ?
+Traçabilité et reprise des produits ?
+Mutualisation d’infrastructures (hubs, fablabs) ?
+Implantation proche des usagers (km) ?
+
+Mise en œuvre de l’économie circulaire – Fiche Entreprise
+Dernière mise à jour : 2025-10-07 14:02
+Identité & Données générales
+Nom de l’entreprise
+Secteur d’activité (BTP, industrie, pharmacie, commerce, services…)
+Sous-secteur
+Localisation (ville, pays) - adresse
+Nombre d’employés (ETP)
+Chiffre d’affaires (Mad/an)
+Nombre de sites
+Surface totale des sites (m²)
+Production annuelle (unités / tonnes)
+Matières premières principales
+Système QSE/RSE en place ? (Oui/Non)
+Certifications (ISO 9001, 14001, 45001, 50001…) 

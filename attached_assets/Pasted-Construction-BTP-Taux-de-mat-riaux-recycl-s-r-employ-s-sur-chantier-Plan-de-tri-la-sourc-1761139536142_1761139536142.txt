@@ -1,0 +1,69 @@
+Construction / BTP
+Taux de matériaux recyclés/réemployés sur chantier (%) ?
+Plan de tri à la source des déchets de chantier en place ?
+Part de matériaux biosourcés (bois, chanvre, terre crue, etc.) ?
+Suivi des consommations d’eau et d’énergie par chantier ?
+Émissions liées aux engins (L carburant/heure, tCO₂e) ?
+Mesures de protection des sols et biodiversité (chantier responsable) ? Étude ACV / RE2020 intégrée dès la conception ?
+Diagnostic économique & production
+Part de chantiers intégrant un plan de valorisation des matériaux ?
+Part de matériel loué/mutualisé entre chantiers (%) ?
+Utilisation du BIM/SIG pour optimiser quantités et phasage ?
+Ratio coût total / m² construit et évolution (3 ans) ?
+Part de marchés avec clauses environnementales gagnés (%) ?
+Partenariats réemploi (béton concassé, acier recyclé) en place ?
+Diagnostic social & territorial
+Taux d’emplois locaux sur chantier (%) ?
+Heures de formation sécurité / salarié / an ?
+Accidents du travail (TF/TG) et plan de prévention ?
+Nombre de personnes en insertion par projet ?
+Engagement RSE des sous-traitants (chartes, audits) ? Satisfaction MOA/MOE (réception, réserves, SAV) ?
+Logistique & chaîne d’approvisionnement
+Distance moyenne dépôt ↔ chantier (km) ?
+Nombre moyen de rotations camions/engins par jour ?
+Taux de remplissage bennes/camions (%) ?
+Livraisons groupées / bases logistiques partagées ?
+Part de fournisseurs régionaux (%) ?
+Part d’engins/véhicules à faibles émissions (%) ?
+
+Artisanat et métiers de proximité
+Diagnostic environnemental (Flux, Déchets, Énergie, Eau)
+Gestion des déchets de production (bois, métaux, vernis) ?
+Équipements sobres (aspiration, LED, compresseurs) ?
+Matières premières locales/recyclées (%) ?
+Gestion des solvants/colles/peintures (sécurité, rejets) ?
+Diagnostic économique & production
+Part de réparation/réemploi dans l’activité ?
+Taux de rebut et actions de réduction ?
+Mutualisation d’ateliers/équipements (fablabs) ?
+Diversification de l’offre (personnalisation, location) ?
+Diagnostic social & territorial
+Apprentissage et transmission (nb d’apprentis) ?
+Emplois locaux (%) et qualité de l’emploi ?
+Sécurité/ergonomie des postes (TMS) ?
+Relations avec réseaux locaux (chambres métiers) ?
+Logistique & chaîne d’approvisionnement
+Approvisionnements locaux (km, % fournisseurs) ?
+Gestion des tournées client (mobilité douce) ?
+Boucles de reprise avec fournisseurs (emballages) ?
+Stockage et retours de pièces (traçabilité) ?
+
+Services aux entreprises
+Empreinte des bureaux (énergie, eau, déchets, papier) ?
+Numérique responsable (impressions, cloud, postes) ?
+Achats responsables (prestations, fournitures) ? Déplacements pros : politique mobilité sobre ?
+Diagnostic économique & production
+Part d’offres circulaires (location, maintenance, performance) ?
+Productivité par ETP et amélioration continue (lean office) ?
+Taux d’externalisation et efficience des contrats ?
+Innovation/automatisation des process (RPA, IA) ?
+Diagnostic social & territorial
+Qualité de vie au travail (QVT), télétravail ?
+Formation des collaborateurs (heures/an) ?
+Égalité pro, inclusion, diversité ?
+Engagement client (NPS, réclamations) ?
+Logistique & chaîne d’approvisionnement
+Gestion des prestataires critiques (SLA, PCA) ?
+Traçabilité des données/contrats (RGPD) ?
+Mobilier/IT : reprise et reconditionnement ?
+Parc véhicules : verdissement (%) ?
