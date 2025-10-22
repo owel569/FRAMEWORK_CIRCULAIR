@@ -8,66 +8,67 @@ datasource db {
 }
 
 model Company {
-  id        String   @id @default(uuid())
-  name      String
-  sector    String
-  email     String   @unique
-  phone     String?
-  
-  // Taille entreprise (nombre d'employés)
-  employeeCount Int?
-  
-  // Métriques logistiques
-  tonnageLogistique Float?
-  emissionsLogistiques Float?
-  tonnageAlternatif Float?
-  coutActuel Float?
-  
-  // Métriques opérationnelles
-  coutTraitement Float?
-  centreActuel Float?
-  centreAlternatif Float?
-  electriciteKWh Float?
-  gazKWh Float?
-  eauM3 Float?
-  carburantsLitres Float?
-  
-  // Métriques environnementales
-  consommationEau Float?
-  consommationCarburant Float?
-  emissionsScope12 Float?
-  heuresFormation Float?
-  
-  // Métriques économie circulaire
-  partAchatsLocaux Float?
-  partEmploisLocaux Float?
-  dechetsTotaux Float?
-  dechetsValorises Float?
+  id                      String   @id @default(cuid())
+  name                    String
+  sector                  String
+  email                   String
+  phone                   String?
+  employeeCount           Int?
+
+  // Logistique et Centres
+  tonnageLogistique       Float?
+  emissionsLogistiques    Float?
+  tonnageAlternatif       Float?
+  coutActuel              Float?
+  coutTraitement          Float?
+  centreActuel            Float?
+  centreAlternatif        Float?
+
+  // Consommations énergétiques
+  electriciteKWh          Float?
+  gazKWh                  Float?
+  eauM3                   Float?
+  carburantsLitres        Float?
+  consommationEau         Float?
+  consommationCarburant   Float?
+
+  // Émissions
+  emissionsScope12        Float?
+
+  // Indicateurs sociaux
+  heuresFormation         Float?
+  partAchatsLocaux        Float?
+  partEmploisLocaux       Float?
+
+  // Gestion des déchets
+  dechetsTotaux           Float?
+  dechetsValorises        Float?
   pourcentageValorisation Float?
-  dechetsDangereux Float?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  scores    Score[]
+  dechetsDangereux        Float?
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  scores Score[]
+  plans  Plan[]
 }
 
 model Score {
   id              String   @id @default(uuid())
   companyId       String
   company         Company  @relation(fields: [companyId], references: [id])
-  
+
   globalScore        Float
   governanceScore    Float
   economicScore      Float
   socialScore        Float
   environmentalScore Float
-  
+
   responses       String
-  
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  
+
   actionPlan      ActionPlan?
 }
 
@@ -75,11 +76,11 @@ model ActionPlan {
   id              String   @id @default(uuid())
   scoreId         String   @unique
   score           Score    @relation(fields: [scoreId], references: [id])
-  
+
   recommendations String
   priority        String
   timeline        String
-  
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
