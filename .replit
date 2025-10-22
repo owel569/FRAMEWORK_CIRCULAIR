@@ -37,6 +37,7 @@ externalPort = 3000
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 43889
-externalPort = 3001
+[deployment]
+deploymentTarget = "vm"
+run = ["bash", "start.sh"]
+build = ["bash", "-c", "cd backend && npm install && npx prisma generate && cd ../frontend && npm install && npm run build"]
