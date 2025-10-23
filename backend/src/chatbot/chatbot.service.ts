@@ -500,8 +500,135 @@ export class ChatbotService {
     },
   ];
 
+  private handleSmallTalk(question: string): string | null {
+    const greetings = [
+      /^(salut|bonjour|hello|hi|hey|bonsoir|coucou)/i,
+      /^(ça va|comment ça va|comment vas-tu|comment allez-vous|tu vas bien|vous allez bien)/i,
+    ];
+
+    const farewells = [
+      /^(au revoir|bye|à bientôt|à plus|ciao|salut|tchao)/i,
+      /^(merci|merci beaucoup|merci bien)/i,
+    ];
+
+    const aboutMe = [
+      /^(qui es-tu|qui êtes-vous|c'est quoi|qu'est-ce que tu es|tu es qui|vous êtes qui)/i,
+      /^(comment tu t'appelles|comment vous vous appelez|ton nom|votre nom)/i,
+    ];
+
+    const help = [
+      /^(aide|help|aidez-moi|peux-tu m'aider|pouvez-vous m'aider)/i,
+    ];
+
+    const jokes = [
+      /^(raconte.*blague|une blague|fais.*rire)/i,
+    ];
+
+    const thanks = [
+      /^(merci|thanks|thank you|merci beaucoup)/i,
+    ];
+
+    const howAreYou = [
+      /^(comment ça va|ça va|tu vas bien|vous allez bien)/i,
+    ];
+
+    // Salutations
+    for (const pattern of greetings) {
+      if (pattern.test(question)) {
+        const responses = [
+          '👋 Bonjour ! Je suis ravi de vous aider dans votre transition vers l\'économie circulaire ! Comment puis-je vous accompagner aujourd\'hui ?',
+          '🌟 Bonjour et bienvenue ! Je suis votre assistant spécialisé en économie circulaire ISO 59000. Que souhaitez-vous savoir ?',
+          '✨ Bonjour ! Prêt à découvrir comment rendre votre entreprise plus circulaire et durable ? Je suis là pour vous guider !',
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+      }
+    }
+
+    // Comment ça va
+    for (const pattern of howAreYou) {
+      if (pattern.test(question)) {
+        const responses = [
+          '😊 Je vais très bien, merci ! Prêt à vous aider à transformer votre entreprise vers l\'économie circulaire. Et vous, comment puis-je vous assister ?',
+          '🌟 Super, merci de demander ! Je suis toujours enthousiaste quand il s\'agit de parler d\'économie circulaire. Quelle est votre question ?',
+          '✨ Excellemment bien ! Chaque question sur l\'économie circulaire me passionne. Que voulez-vous savoir sur ISO 59000 ou votre transition circulaire ?',
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+      }
+    }
+
+    // Au revoir
+    for (const pattern of farewells) {
+      if (pattern.test(question)) {
+        const responses = [
+          '👋 Au revoir ! N\'hésitez pas à revenir si vous avez d\'autres questions sur l\'économie circulaire. Bonne continuation dans votre transition ! 🌍',
+          '✨ À bientôt ! Félicitations pour votre engagement vers une économie plus durable. Je reste disponible pour vous accompagner ! 💚',
+          '🌟 Merci pour cet échange ! Continuez votre belle démarche circulaire. À très bientôt ! ♻️',
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+      }
+    }
+
+    // Remerciements
+    for (const pattern of thanks) {
+      if (pattern.test(question)) {
+        const responses = [
+          '😊 Avec plaisir ! C\'est un honneur d\'accompagner votre transition vers l\'économie circulaire. N\'hésitez pas si vous avez d\'autres questions !',
+          '🌟 De rien ! Je suis là pour vous aider à réussir votre transformation circulaire. Continuez comme ça ! 💪',
+          '✨ Je vous en prie ! Votre engagement pour une économie plus durable est inspirant. Bonne continuation ! 🌍',
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
+      }
+    }
+
+    // Qui es-tu
+    for (const pattern of aboutMe) {
+      if (pattern.test(question)) {
+        return '🤖 Je suis votre assistant virtuel spécialisé en économie circulaire ! Mon expertise couvre les normes ISO 59000, les bonnes pratiques sectorielles, et je peux vous guider dans l\'utilisation de cette plateforme d\'évaluation ISO 59000. Je suis ici pour rendre l\'économie circulaire accessible et concrète pour votre entreprise marocaine ! 🇲🇦♻️';
+      }
+    }
+
+    // Aide
+    for (const pattern of help) {
+      if (pattern.test(question)) {
+        return '🆘 Bien sûr ! Je peux vous aider sur plusieurs sujets :\n\n' +
+               '💡 **Économie circulaire** : principes, modèles d\'affaires, bénéfices\n' +
+               '📋 **Normes ISO 59000** : ISO 59004, 59020, 59010, 59014\n' +
+               '🏭 **Pratiques sectorielles** : adapté à 20 secteurs d\'activité\n' +
+               '📊 **Cette plateforme** : comment faire votre diagnostic, interpréter vos scores\n' +
+               '🎯 **Plan d\'action** : comment améliorer votre circularité\n\n' +
+               'Posez-moi une question spécifique et je vous guiderai ! 😊';
+      }
+    }
+
+    // Blagues
+    for (const pattern of jokes) {
+      if (pattern.test(question)) {
+        const jokes = [
+          '😄 Pourquoi les entreprises circulaires sont-elles si heureuses ? Parce qu\'elles tournent en rond... mais dans le bon sens ! ♻️',
+          '🤣 Quelle est la différence entre une économie linéaire et une blague ? Une blague, on peut la recycler ! 📦',
+          '😂 Qu\'est-ce qu\'une entreprise qui fait de l\'économie circulaire dit à ses déchets ? "On se reverra bientôt !" ♻️',
+        ];
+        return jokes[Math.floor(Math.random() * jokes.length)];
+      }
+    }
+
+    return null; // Pas de small talk détecté
+  }
+
   async askQuestion(question: string, context?: string, documentsService?: any) {
     const lowerQuestion = question.toLowerCase();
+    
+    // Gestion des conversations basiques (small talk)
+    const smallTalkResponse = this.handleSmallTalk(lowerQuestion);
+    if (smallTalkResponse) {
+      return {
+        question,
+        answer: smallTalkResponse,
+        confidence: 1.0,
+        source: 'Conversation',
+        category: 'small_talk',
+      };
+    }
     
     // Normalisation de la question
     const normalizedQuestion = this.normalizeText(lowerQuestion);

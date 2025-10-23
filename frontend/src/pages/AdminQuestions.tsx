@@ -205,6 +205,12 @@ export default function AdminQuestions() {
                 >
                   📝 Questions
                 </a>
+                <a 
+                  href="/admin/chatbot-docs" 
+                  className="px-4 py-2 rounded-lg text-gray-700 font-semibold hover:bg-gray-100 transition-colors"
+                >
+                  🤖 Chatbot
+                </a>
               </div>
             </div>
             <button
