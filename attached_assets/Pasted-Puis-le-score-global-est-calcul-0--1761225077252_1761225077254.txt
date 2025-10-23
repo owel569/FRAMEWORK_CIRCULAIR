@@ -1,0 +1,261 @@
+Puis, le score global est calculé :
+
+𝐺
+𝑙
+𝑜
+𝑏
+𝑎
+𝑙
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+=
+𝐸
+𝑛
+𝑣
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+×
+0.35
++
+𝐸
+𝑐
+𝑜
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+×
+0.30
++
+𝑆
+𝑜
+𝑐
+𝑖
+𝑎
+𝑙
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+×
+0.20
++
+𝐿
+𝑜
+𝑔
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+×
+0.15
+GlobalScore=EnvScore×0.35+EcoScore×0.30+SocialScore×0.20+LogScore×0.15
+🧩 4. Gestion des données manquantes (PME qui ne répondent pas à tout)
+
+C’est ici que ton projet devient intelligent et “humain” 👇
+Si une donnée est manquante :
+
+Le système va chercher la moyenne sectorielle correspondante (dans SectorAverage),
+
+Utilise cette moyenne comme valeur de substitution estimée,
+
+Marque la donnée comme “estimée” dans la base (isEstimated: true),
+
+Et réduit légèrement la pondération du sous-score (pour signaler une incertitude).
+
+Exemple :
+
+if (!company.waterUsage) {
+  waterUsage = sectorAvg.waterPerETP * company.employees;
+  uncertaintyPenalty += 5; // -5 points for missing data
+}
+
+🧮 5. Exemple concret de calcul (issu de ton étude de cas)
+
+Prenons un extrait fictif adapté au cas laitier marocain :
+
+Une laiterie de 60 employés consomme 90 000 kWh/an, recycle 40% de ses déchets, utilise 20% de matières recyclées, et fait 12h de formation/an.
+
+Étape 1 — Données de référence sectorielles (Industrie agroalimentaire)
+
+Moyenne électricité : 1 800 kWh/ETP/an
+
+Moyenne recyclage : 50%
+
+Moyenne formation : 20h/ETP/an
+
+Étape 2 — Calcul environnemental
+𝑅
+𝑒
+𝑐
+𝑦
+𝑐
+𝑙
+𝑎
+𝑔
+𝑒
+=
+40
+%
+×
+0.4
+=
+16
+Recyclage=40%×0.4=16
+𝐸
+ˊ
+𝑛
+𝑒
+𝑟
+𝑔
+𝑖
+𝑒
+=
+(
+1800
+/
+(
+90000
+/
+60
+)
+)
+×
+30
+=
+0.9
+×
+30
+=
+27
+E
+ˊ
+nergie=(1800/(90000/60))×30=0.9×30=27
+𝑆
+𝑜
+𝑢
+𝑠
+−
+𝑠
+𝑐
+𝑜
+𝑟
+𝑒
+𝑒
+𝑛
+𝑣
+𝑖
+𝑟
+𝑜
+𝑛
+𝑛
+𝑒
+𝑚
+𝑒
+𝑛
+𝑡
+=
+16
++
+27
+=
+43
+/
+100
+Sous−scoreenvironnement=16+27=43/100
+Étape 3 — Calcul social
+𝐹
+𝑜
+𝑟
+𝑚
+𝑎
+𝑡
+𝑖
+𝑜
+𝑛
+=
+(
+12
+/
+20
+)
+×
+30
+=
+18
+Formation=(12/20)×30=18
+𝑆
+𝑜
+𝑐
+𝑖
+𝑎
+𝑙
+𝑆
+𝑐
+𝑜
+𝑟
+𝑒
+=
+18
++
+.
+.
+.
+=
+ 
+55
+SocialScore=18+...= 55
+Étape 4 — Score global
+𝐺
+𝑙
+𝑜
+𝑏
+𝑎
+𝑙
+=
+43
+×
+0.35
++
+𝐸
+𝑐
+𝑜
+×
+0.3
++
+55
+×
+0.2
++
+𝐿
+𝑜
+𝑔
+×
+0.15
+=
+ 
+48
+/
+100
+Global=43×0.35+Eco×0.3+55×0.2+Log×0.15= 48/100
+
+➡️ L’entreprise est dans une phase intermédiaire, avec un plan d’action prioritaire sur le recyclage et la formation.
+
+🧠 6. Génération du plan d’action ISO 59000
+
+Une fois les écarts identifiés (gaps[]), on les associe à la norme correspondante :
+
+Gap détecté	Lien ISO
+Faible valorisation des déchets	ISO 59004 (Transformation de modèle)
+Faible emploi local	ISO 59010 (Réseaux de valeur circulaires)
+Conso d’eau excessive	ISO 59020 (Indicateurs circulaires)
+Fournisseurs éloignés	ISO 59014 (Matériaux secondaires durables)
