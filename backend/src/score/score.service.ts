@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Company } from '@prisma/client';
+import { Company, Score } from '@prisma/client';
 import { GENERAL_QUESTIONS } from '../data/general-questions.data';
 
 interface QuestionResponse {
@@ -57,8 +57,9 @@ export class ScoreService {
     responses: DimensionResponses,
     company: Company
   ): ScoreCalculationResult {
-    const generalScore = this.calculateDimensionScore(responses.governance.filter(q => GENERAL_QUESTIONS.includes(q.id)) ?? []);
-    const governanceScore = this.calculateDimensionScore(responses.governance.filter(q => !GENERAL_QUESTIONS.includes(q.id)) ?? []);
+    const generalQuestionIds = GENERAL_QUESTIONS.map(q => q.id);
+    const generalScore = this.calculateDimensionScore(responses.governance?.filter(q => generalQuestionIds.includes(q.id)) ?? []);
+    const governanceScore = this.calculateDimensionScore(responses.governance?.filter(q => !generalQuestionIds.includes(q.id)) ?? []);
     const economicScore = this.calculateEnhancedEconomicScore(responses.economic ?? [], company);
     const socialScore = this.calculateEnhancedSocialScore(responses.social ?? [], company);
     const environmentalScore = this.calculateEnhancedEnvironmentalScore(
