@@ -1,7 +1,7 @@
-
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Company, Score } from '@prisma/client';
+import { Company } from '@prisma/client';
+import { GENERAL_QUESTIONS } from '../data/general-questions.data';
 
 interface QuestionResponse {
   id: string;
@@ -37,7 +37,7 @@ export class ScoreService {
     }
 
     const scores = this.calculateAllScores(responses, company);
-    
+
     const score = await this.prisma.score.create({
       data: {
         companyId,
@@ -57,21 +57,22 @@ export class ScoreService {
     responses: DimensionResponses,
     company: Company
   ): ScoreCalculationResult {
-    const governanceScore = this.calculateDimensionScore(responses.governance ?? []);
+    const generalScore = this.calculateDimensionScore(responses.governance.filter(q => GENERAL_QUESTIONS.includes(q.id)) ?? []);
+    const governanceScore = this.calculateDimensionScore(responses.governance.filter(q => !GENERAL_QUESTIONS.includes(q.id)) ?? []);
     const economicScore = this.calculateEnhancedEconomicScore(responses.economic ?? [], company);
     const socialScore = this.calculateEnhancedSocialScore(responses.social ?? [], company);
     const environmentalScore = this.calculateEnhancedEnvironmentalScore(
       responses.environmental ?? [],
       company
     );
-    
+
     // Pondération ISO 59000 : Env (35%), Éco (30%), Social (20%), Gouvernance (15%)
     const globalScore = Number(
       (
         environmentalScore * 0.35 +
         economicScore * 0.30 +
         socialScore * 0.20 +
-        governanceScore * 0.15
+        (governanceScore * 0.10 + generalScore * 0.05) * 0.15 // Combinaison des scores de gouvernance et généraux
       ).toFixed(2)
     );
 
@@ -90,14 +91,14 @@ export class ScoreService {
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
     let uncertaintyPenalty = 0;
-    
+
     // Moyennes sectorielles par défaut (Industrie manufacturière)
     const sectorDefaults = {
       valorisation: 50,
       achatsLocaux: 40,
       achatsResponsables: 35,
     };
-    
+
     // Bonus pour valorisation des déchets (avec fallback sectoriel)
     const valorisation = company.pourcentageValorisation ?? sectorDefaults.valorisation;
     if (company.pourcentageValorisation === null || company.pourcentageValorisation === undefined) {
@@ -107,24 +108,24 @@ export class ScoreService {
       const bonusValorisation = (valorisation / 100) * 12;
       baseScore = Math.min(100, baseScore + bonusValorisation - uncertaintyPenalty);
     }
-    
+
     // Bonus pour achats locaux
     if (company.partAchatsLocaux !== null && company.partAchatsLocaux !== undefined) {
       const bonusAchatsLocaux = (company.partAchatsLocaux / 100) * 8;
       baseScore = Math.min(100, baseScore + bonusAchatsLocaux);
     }
-    
+
     // Bonus pour achats responsables
     if (company.achatsResponsablesPct !== null && company.achatsResponsablesPct !== undefined) {
       const bonusAchatsResponsables = (company.achatsResponsablesPct / 100) * 10;
       baseScore = Math.min(100, baseScore + bonusAchatsResponsables);
     }
-    
+
     // Bonus pour économie potentielle
     if (company.economiePotentielleMad !== null && company.economiePotentielleMad !== undefined && company.economiePotentielleMad > 0) {
       baseScore = Math.min(100, baseScore + 5);
     }
-    
+
     // Bonus pour taux d'utilisation des équipements
     if (company.tauxUtilisationEqPct !== null && company.tauxUtilisationEqPct !== undefined) {
       if (company.tauxUtilisationEqPct >= 80) {
@@ -133,12 +134,12 @@ export class ScoreService {
         baseScore = Math.min(100, baseScore + 5);
       }
     }
-    
+
     // Bonus pour utilisation de matières recyclées
     if (company.matieresRecycleesMad !== null && company.matieresRecycleesMad !== undefined && company.matieresRecycleesMad > 0) {
       baseScore = Math.min(100, baseScore + 7);
     }
-    
+
     return baseScore;
   }
 
@@ -147,25 +148,25 @@ export class ScoreService {
     company: Company
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
-    
+
     // Bonus pour emplois locaux (ancien champ)
     if (company.partEmploisLocaux !== null && company.partEmploisLocaux !== undefined) {
       const bonusEmploi = (company.partEmploisLocaux / 100) * 12;
       baseScore = Math.min(100, baseScore + bonusEmploi);
     }
-    
+
     // Bonus pour emplois locaux (nouveau champ)
     if (company.partEmploisLocauxPct !== null && company.partEmploisLocauxPct !== undefined) {
       const bonusEmploiPct = (company.partEmploisLocauxPct / 100) * 12;
       baseScore = Math.min(100, baseScore + bonusEmploiPct);
     }
-    
+
     // Bonus pour heures de formation (ancien champ)
     if (company.heuresFormation !== null && company.heuresFormation !== undefined) {
       const bonusFormation = (Math.min(20, company.heuresFormation) / 20) * 8;
       baseScore = Math.min(100, baseScore + bonusFormation);
     }
-    
+
     // Bonus pour heures de formation par salarié (nouveau champ)
     if (company.heuresFormationSalarieAn !== null && company.heuresFormationSalarieAn !== undefined) {
       if (company.heuresFormationSalarieAn >= 40) {
@@ -176,12 +177,12 @@ export class ScoreService {
         baseScore = Math.min(100, baseScore + 5);
       }
     }
-    
+
     // Bonus pour recrutement
     if (company.recrutementAn !== null && company.recrutementAn !== undefined && company.recrutementAn > 0) {
       baseScore = Math.min(100, baseScore + 5);
     }
-    
+
     // Bonus pour parité femmes
     if (company.partFemmesPct !== null && company.partFemmesPct !== undefined) {
       if (company.partFemmesPct >= 40 && company.partFemmesPct <= 60) {
@@ -190,7 +191,7 @@ export class ScoreService {
         baseScore = Math.min(100, baseScore + 5);
       }
     }
-    
+
     return baseScore;
   }
 
@@ -199,7 +200,7 @@ export class ScoreService {
     company: Company
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
-    
+
     if (
       company.emissionsScope12 !== null &&
       company.emissionsScope12 !== undefined &&
@@ -208,7 +209,7 @@ export class ScoreService {
       company.employeeCount > 0
     ) {
       const emissionsParEmploye = company.emissionsScope12 / company.employeeCount;
-      
+
       if (emissionsParEmploye < 5) {
         baseScore = Math.min(100, baseScore + 15);
       } else if (emissionsParEmploye < 10) {
@@ -217,7 +218,7 @@ export class ScoreService {
         baseScore = Math.min(100, baseScore + 5);
       }
     }
-    
+
     if (
       company.dechetsDangereux !== null &&
       company.dechetsDangereux !== undefined &&
@@ -230,7 +231,7 @@ export class ScoreService {
         baseScore = Math.min(100, baseScore + 10);
       }
     }
-    
+
     return baseScore;
   }
 
@@ -238,12 +239,12 @@ export class ScoreService {
     if (!answers || answers.length === 0) {
       return 0;
     }
-    
+
     const total = answers.reduce((sum, answer) => {
       const value = Number(answer.value) || 0;
       return sum + value;
     }, 0);
-    
+
     return Number(((total / (answers.length * 5)) * 100).toFixed(2));
   }
 
@@ -265,7 +266,7 @@ export class ScoreService {
         actionPlan: true,
       },
     });
-    
+
     if (!score) {
       return null;
     }

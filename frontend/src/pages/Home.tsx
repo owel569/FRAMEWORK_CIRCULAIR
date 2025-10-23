@@ -21,12 +21,25 @@ export default function Home() {
               <span className="text-circular-blue-dark font-semibold">🌍 Conforme ISO 59000</span>
               <span className="px-2 py-0.5 bg-circular-green/20 rounded-full text-xs font-bold text-circular-green-dark">NOUVEAU</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight animate-fadeInUp">
-              Plateforme d'Évaluation
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-circular-green-dark via-circular-blue to-circular-green-dark bg-300% animate-gradientShift">
-                Économie Circulaire
-              </span>
-            </h1>
+            <div className="mb-6 mx-auto flex justify-center">
+            <img
+              src="/logo-eigsi.png"
+              alt="EIGSI Circular Lab"
+              className="w-48 h-auto"
+              onError={(e) => {
+                // Fallback si le logo n'est pas chargé
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <div className="hidden w-20 h-20 bg-gradient-to-br from-circular-blue to-circular-green rounded-full flex items-center justify-center">
+              <span className="text-white text-4xl">♻️</span>
+            </div>
+          </div>
+          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-circular-blue-dark to-circular-green-dark bg-clip-text text-transparent">
+            EIGSI Circular Lab
+          </h1>
+          <p className="text-xl text-gray-600 mb-4">Plateforme ISO 59000</p>
             <p className="text-xl md:text-2xl text-gray-600 mb-10 leading-relaxed animate-fadeInUp animation-delay-200">
               Accompagnement professionnel des PME marocaines dans leur transition vers l'économie circulaire
               selon les normes <span className="font-semibold text-circular-blue-dark">ISO 59000, ISO 59004, ISO 59010 et ISO 59020</span>

@@ -22,6 +22,7 @@ export enum SectorCategory {
 }
 
 export enum DiagnosticCategory {
+  GOVERNANCE = 'Diagnostic de gouvernance (ISO 59004)',
   ENVIRONMENTAL = 'Diagnostic environnemental (Flux, Déchets, Énergie, Eau)',
   ECONOMIC = 'Diagnostic économique & production',
   SOCIAL = 'Diagnostic social & territorial',
