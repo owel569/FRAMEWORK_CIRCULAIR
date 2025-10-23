@@ -91,10 +91,13 @@ export default function ScoreDashboard() {
             
             <div>
               <div className="flex justify-between mb-2">
-                <span className="font-semibold">Gouvernance (ISO 59004)</span>
+                <span className="font-semibold">Gouvernance (ISO 59004) - Pondération 15%</span>
                 <span className="text-gray-600">{score.governanceScore.toFixed(1)}%</span>
               </div>
               <ProgressBar value={score.governanceScore} color="bg-blue-500" />
+              <p className="text-xs text-gray-500 mt-1">
+                📊 Moyenne sectorielle : 65% | Écart : {(score.governanceScore - 65).toFixed(1)} points
+              </p>
             </div>
 
             <div>

@@ -65,8 +65,14 @@ export class ScoreService {
       company
     );
     
+    // Pondération ISO 59000 : Env (35%), Éco (30%), Social (20%), Gouvernance (15%)
     const globalScore = Number(
-      ((governanceScore + economicScore + socialScore + environmentalScore) / 4).toFixed(2)
+      (
+        environmentalScore * 0.35 +
+        economicScore * 0.30 +
+        socialScore * 0.20 +
+        governanceScore * 0.15
+      ).toFixed(2)
     );
 
     return {
@@ -83,11 +89,23 @@ export class ScoreService {
     company: Company
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
+    let uncertaintyPenalty = 0;
     
-    // Bonus pour valorisation des déchets
-    if (company.pourcentageValorisation !== null && company.pourcentageValorisation !== undefined) {
-      const bonusValorisation = (company.pourcentageValorisation / 100) * 12;
-      baseScore = Math.min(100, baseScore + bonusValorisation);
+    // Moyennes sectorielles par défaut (Industrie manufacturière)
+    const sectorDefaults = {
+      valorisation: 50,
+      achatsLocaux: 40,
+      achatsResponsables: 35,
+    };
+    
+    // Bonus pour valorisation des déchets (avec fallback sectoriel)
+    const valorisation = company.pourcentageValorisation ?? sectorDefaults.valorisation;
+    if (company.pourcentageValorisation === null || company.pourcentageValorisation === undefined) {
+      uncertaintyPenalty += 2; // Pénalité pour donnée manquante
+    }
+    if (valorisation !== null && valorisation !== undefined) {
+      const bonusValorisation = (valorisation / 100) * 12;
+      baseScore = Math.min(100, baseScore + bonusValorisation - uncertaintyPenalty);
     }
     
     // Bonus pour achats locaux
