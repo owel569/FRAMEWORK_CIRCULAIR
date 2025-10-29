@@ -697,34 +697,6 @@ export class ChatbotService {
       // PRIORITÉ AUX DOCUMENTS UPLOADÉS (vos fichiers)
       const docSources = sources.filter(s => s.type === 'document');
       if (docSources.length > 0) {
-
-  private async generateLlamaResponse(question: string, context: string): Promise<string> {
-    try {
-      const prompt = `Tu es un assistant spécialisé en économie circulaire et normes ISO 59000.
-      
-Contexte : ${context}
-
-Question : ${question}
-
-Réponds de manière claire, précise et professionnelle en français. Utilise des emojis appropriés.`;
-
-      const response = await this.hf.textGeneration({
-        model: 'meta-llama/Meta-Llama-3-8B-Instruct',
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 500,
-          temperature: 0.7,
-          top_p: 0.95,
-        },
-      });
-
-      return response.generated_text.replace(prompt, '').trim();
-    } catch (error) {
-      console.error('Erreur Llama 3:', error);
-      return null;
-    }
-  }
-
         // Utiliser les documents comme source principale
         answer = '📚 **Réponse basée sur vos documents** :\n\n';
         
