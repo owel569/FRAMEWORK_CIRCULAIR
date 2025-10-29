@@ -115,13 +115,22 @@ export class ChatbotService {
       }
     }
 
-    // Recherche dans les documents uploadés avec RAG
+    // Recherche dans les documents uploadés (recherche textuelle simple)
     let documentResults: any = null;
     if (documentsService) {
       try {
-        documentResults = await documentsService.searchInDocumentsRAG(question);
+        const results = await documentsService.searchInDocuments(question);
+        if (results.length > 0) {
+          const bestResult = results[0];
+          documentResults = {
+            answer: `D'après le document "${bestResult.title}" :\n\n${bestResult.excerpt}`,
+            confidence: Math.min(0.9, bestResult.matchScore / 10),
+            source: bestResult.title,
+            explanation: `Trouvé ${bestResult.matchedWords} mots-clés pertinents`,
+          };
+        }
       } catch (error) {
-        console.error('Erreur recherche documents RAG:', error);
+        console.error('Erreur recherche documents:', error);
       }
     }
 
