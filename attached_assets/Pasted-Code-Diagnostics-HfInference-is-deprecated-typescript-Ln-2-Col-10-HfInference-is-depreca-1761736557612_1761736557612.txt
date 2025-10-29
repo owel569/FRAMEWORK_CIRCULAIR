@@ -1,0 +1,280 @@
+Code Diagnostics
+'HfInference' is deprecated.
+(typescript)
+Ln 2, Col 10
+'HfInference' is deprecated.
+(typescript)
+Ln 13, Col 15
+'HfInference' is deprecated.
+(typescript)
+Ln 18, Col 19
+'context' is declared but its value is never read.
+(typescript)
+Ln 627, Col 39
+Property 'normalizeText' does not exist on type 'ChatbotService'.
+(typescript)
+Ln 643, Col 37
+Property 'calculateMatchScore' does not exist on type 'ChatbotService'.
+(typescript)
+Ln 649, Col 31
+'answer' is declared but its value is never read.
+(typescript)
+Ln 693, Col 11
+'maxConfidence' is declared but its value is never read.
+(typescript)
+Ln 694, Col 11
+'usedSources' is declared but its value is never read.
+(typescript)
+Ln 695, Col 13
+Declaration or statement expected.
+(typescript)
+Ln 701, Col 3
+'generateLlamaResponse' is declared but its value is never read.
+(typescript)
+Ln 701, Col 17
+'for' implicitly has an 'any' return type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 9
+Parameter '(Missing)' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 14
+Identifier expected. 'const' is a reserved word that cannot be used here.
+(typescript)
+Ln 731, Col 14
+Parameter 'docSource' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 20
+',' expected.
+(typescript)
+Ln 731, Col 20
+Parameter 'of' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 30
+',' expected.
+(typescript)
+Ln 731, Col 30
+Parameter 'docSources' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 33
+',' expected.
+(typescript)
+Ln 731, Col 33
+',' expected.
+(typescript)
+Ln 731, Col 43
+Parameter 'slice' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 731, Col 44
+',' expected.
+(typescript)
+Ln 731, Col 49
+Left side of comma operator is unused and has no side effects.
+(typescript)
+Ln 731, Col 50
+';' expected.
+(typescript)
+Ln 731, Col 55
+Cannot find name 'answer'.
+(typescript)
+Ln 732, Col 11
+Cannot find name 'docSource'.
+(typescript)
+Ln 732, Col 24
+Cannot find name 'answer'.
+(typescript)
+Ln 733, Col 11
+Cannot find name 'docSource'.
+(typescript)
+Ln 733, Col 34
+Cannot find name 'maxConfidence'.
+(typescript)
+Ln 734, Col 11
+Cannot find name 'maxConfidence'.
+(typescript)
+Ln 734, Col 36
+Cannot find name 'docSource'.
+(typescript)
+Ln 734, Col 51
+Cannot find name 'usedSources'.
+(typescript)
+Ln 735, Col 11
+Cannot find name 'docSource'.
+(typescript)
+Ln 737, Col 20
+Cannot redeclare block-scoped variable 'kbSource'.
+(typescript)
+Ln 742, Col 15
+Cannot find name 'sources'.
+(typescript)
+Ln 742, Col 26
+Parameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 742, Col 39
+Cannot find name 'answer'.
+(typescript)
+Ln 744, Col 11
+Cannot find name 'answer'.
+(typescript)
+Ln 745, Col 11
+Cannot find name 'usedSources'.
+(typescript)
+Ln 746, Col 11
+Declaration or statement expected.
+(typescript)
+Ln 751, Col 7
+Declaration or statement expected.
+(typescript)
+Ln 751, Col 9
+Cannot find name 'sources'.
+(typescript)
+Ln 753, Col 26
+Parameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 753, Col 39
+Cannot find name 'answer'.
+(typescript)
+Ln 755, Col 11
+Cannot find name 'maxConfidence'.
+(typescript)
+Ln 756, Col 11
+Cannot find name 'usedSources'.
+(typescript)
+Ln 757, Col 11
+Cannot redeclare block-scoped variable 'kbSource'.
+(typescript)
+Ln 764, Col 13
+Cannot find name 'sources'.
+(typescript)
+Ln 764, Col 24
+Parameter 's' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 764, Col 37
+No value exists in scope for the shorthand property 'question'. Either declare one or provide an initializer.
+(typescript)
+Ln 767, Col 9
+No value exists in scope for the shorthand property 'answer'. Either declare one or provide an initializer.
+(typescript)
+Ln 768, Col 9
+Cannot find name 'maxConfidence'.
+(typescript)
+Ln 769, Col 21
+Cannot find name 'usedSources'.
+(typescript)
+Ln 770, Col 17
+Cannot find name 'usedSources'.
+(typescript)
+Ln 770, Col 80
+Cannot find name 'usedSources'.
+(typescript)
+Ln 772, Col 18
+Declaration or statement expected.
+(typescript)
+Ln 774, Col 5
+Unreachable code detected.
+(typescript)
+Ln 777, Col 5
+No value exists in scope for the shorthand property 'question'. Either declare one or provide an initializer.
+(typescript)
+Ln 778, Col 7
+Declaration or statement expected.
+(typescript)
+Ln 791, Col 3
+Declaration or statement expected.
+(typescript)
+Ln 793, Col 3
+Cannot find name 'normalizeText'.
+(typescript)
+Ln 793, Col 11
+Cannot find name 'text'.
+(typescript)
+Ln 793, Col 25
+',' expected.
+(typescript)
+Ln 793, Col 29
+'string' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 793, Col 31
+';' expected.
+(typescript)
+Ln 793, Col 38
+'string' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 793, Col 40
+Unexpected keyword or identifier.
+(typescript)
+Ln 793, Col 40
+Cannot find name 'text'.
+(typescript)
+Ln 794, Col 12
+Declaration or statement expected.
+(typescript)
+Ln 803, Col 3
+Cannot find name 'calculateMatchScore'.
+(typescript)
+Ln 803, Col 11
+Cannot find name 'question'.
+(typescript)
+Ln 803, Col 31
+',' expected.
+(typescript)
+Ln 803, Col 39
+'string' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 803, Col 41
+Cannot find name 'entry'.
+(typescript)
+Ln 803, Col 49
+',' expected.
+(typescript)
+Ln 803, Col 54
+'KnowledgeEntry' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 803, Col 56
+';' expected.
+(typescript)
+Ln 803, Col 71
+'number' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 803, Col 73
+Unexpected keyword or identifier.
+(typescript)
+Ln 803, Col 73
+Cannot find name 'question'.
+(typescript)
+Ln 805, Col 27
+Cannot find name 'entry'.
+(typescript)
+Ln 808, Col 27
+Object is possibly 'undefined'.
+(typescript)
+Ln 809, Col 33
+Cannot find name 'question'.
+(typescript)
+Ln 813, Col 11
+Cannot find name 'entry'.
+(typescript)
+Ln 814, Col 24
+Parameter 'qw' implicitly has an 'any' type, but a better type may be inferred from usage.
+(typescript)
+Ln 820, Col 32
+Cannot find name 'entry'.
+(typescript)
+Ln 826, Col 63
+Cannot find name 'getSuggestedQuestions'.
+(typescript)
+Ln 833, Col 3
+';' expected.
+(typescript)
+Ln 833, Col 26
+'string' only refers to a type, but is being used as a value here.
+(typescript)
+Ln 833, Col 28
+An element access expression should take an argument.
+(typescript)
+Ln 833, Col 35
+';' expected.
+(typescript)
+Ln 833, Col 37
+Declaration or statement expected.
+(typescript)
+Ln 845, Col 1
