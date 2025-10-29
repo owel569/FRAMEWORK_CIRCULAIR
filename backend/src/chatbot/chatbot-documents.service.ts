@@ -1,6 +1,7 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { HuggingFaceRAGService } from './huggingface-rag.service';
 import * as fs from 'fs';
 import * as path from 'path';
 import { exec } from 'child_process';
@@ -12,7 +13,10 @@ const execAsync = promisify(exec);
 export class ChatbotDocumentsService {
   private readonly uploadDir = path.join(process.cwd(), 'uploads', 'chatbot');
 
-  constructor(private readonly prisma: PrismaService) {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly ragService: HuggingFaceRAGService,
+  ) {
     // Créer le dossier uploads si inexistant
     if (!fs.existsSync(this.uploadDir)) {
       fs.mkdirSync(this.uploadDir, { recursive: true });
@@ -53,7 +57,53 @@ export class ChatbotDocumentsService {
       },
     });
 
+    // Générer les chunks et embeddings en arrière-plan
+    this.generateChunksAndEmbeddings(document.id, content, title).catch((error) => {
+      console.error('Erreur génération embeddings:', error);
+    });
+
     return document;
+  }
+
+  private async generateChunksAndEmbeddings(
+    documentId: string,
+    content: string,
+    title: string,
+  ): Promise<void> {
+    try {
+      // Diviser le contenu en chunks
+      const chunks = this.ragService.splitTextIntoChunks(content, 500, 100);
+      
+      console.log(`Génération de ${chunks.length} chunks pour le document ${title}...`);
+
+      // Générer les embeddings pour chaque chunk
+      for (let i = 0; i < chunks.length; i++) {
+        const chunkText = chunks[i];
+        
+        try {
+          const embedding = await this.ragService.generateEmbedding(chunkText);
+          
+          // Stocker le chunk et son embedding
+          await this.prisma.documentChunk.create({
+            data: {
+              documentId,
+              chunkIndex: i,
+              content: chunkText,
+              embedding: JSON.stringify(embedding),
+            },
+          });
+          
+          console.log(`Chunk ${i + 1}/${chunks.length} traité`);
+        } catch (error) {
+          console.error(`Erreur traitement chunk ${i}:`, error);
+        }
+      }
+      
+      console.log(`✅ Document ${title} indexé avec ${chunks.length} chunks`);
+    } catch (error) {
+      console.error('Erreur génération chunks:', error);
+      throw error;
+    }
   }
 
   async getAllDocuments() {
@@ -102,13 +152,108 @@ export class ChatbotDocumentsService {
         fs.unlinkSync(document.filePath);
       }
 
-      // Supprimer de la base
+      // Supprimer de la base (les chunks sont supprimés automatiquement avec onDelete: Cascade)
       await this.prisma.chatbotDocument.delete({
         where: { id },
       });
     }
 
     return { message: 'Document supprimé avec succès' };
+  }
+
+  async searchInDocumentsRAG(query: string): Promise<{
+    answer: string;
+    confidence: number;
+    source: string;
+    explanation: string;
+  }> {
+    try {
+      // Générer l'embedding de la question
+      const queryEmbedding = await this.ragService.generateEmbedding(query);
+
+      // Récupérer tous les chunks des documents actifs
+      const activeDocuments = await this.prisma.chatbotDocument.findMany({
+        where: { isActive: true },
+        include: { chunks: true },
+      });
+
+      if (activeDocuments.length === 0 || activeDocuments.every(doc => doc.chunks.length === 0)) {
+        return {
+          answer: 'Aucun document n\'est actuellement disponible dans la base de connaissances. Veuillez uploader des documents pertinents.',
+          confidence: 0,
+          source: 'Aucune source',
+          explanation: 'Aucun document trouvé dans la base.',
+        };
+      }
+
+      // Calculer la similarité pour chaque chunk
+      const chunksWithSimilarity: Array<{
+        content: string;
+        source: string;
+        similarity: number;
+        documentId: string;
+      }> = [];
+
+      for (const document of activeDocuments) {
+        for (const chunk of document.chunks) {
+          try {
+            const chunkEmbedding = JSON.parse(chunk.embedding) as number[];
+            const similarity = this.ragService.cosineSimilarity(queryEmbedding, chunkEmbedding);
+
+            chunksWithSimilarity.push({
+              content: chunk.content,
+              source: document.title,
+              similarity,
+              documentId: document.id,
+            });
+          } catch (error) {
+            console.error('Erreur parsing embedding:', error);
+          }
+        }
+      }
+
+      // Trier par similarité et garder les top 5
+      const topChunks = chunksWithSimilarity
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, 5);
+
+      // Filtrer les chunks avec une similarité minimale (seuil: 0.3)
+      const relevantChunks = topChunks.filter(chunk => chunk.similarity > 0.3);
+
+      if (relevantChunks.length === 0) {
+        return {
+          answer: 'Je n\'ai pas trouvé d\'informations pertinentes dans la documentation actuelle pour répondre à votre question. Pourriez-vous reformuler ou poser une autre question ?',
+          confidence: 0,
+          source: 'Aucune source pertinente',
+          explanation: 'Aucun passage avec une similarité suffisante n\'a été trouvé.',
+        };
+      }
+
+      // Mettre à jour les compteurs d'utilisation
+      const usedDocumentIds = [...new Set(relevantChunks.map(c => c.documentId))];
+      for (const docId of usedDocumentIds) {
+        await this.prisma.chatbotDocument.update({
+          where: { id: docId },
+          data: {
+            usageCount: { increment: 1 },
+            lastUsed: new Date(),
+          },
+        });
+      }
+
+      // Générer la réponse avec le LLM
+      const response = await this.ragService.generateAnswer(query, relevantChunks);
+
+      return response;
+    } catch (error) {
+      console.error('Erreur recherche RAG:', error);
+      return {
+        answer: 'Une erreur est survenue lors de la recherche. Veuillez réessayer.',
+        confidence: 0,
+        source: 'Erreur système',
+        explanation: error.message,
+      };
+    }
   }
 
   async searchInDocuments(query: string): Promise<any[]> {

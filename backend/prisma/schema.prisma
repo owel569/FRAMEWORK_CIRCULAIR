@@ -160,4 +160,18 @@ model ChatbotDocument {
   language    String?
   usageCount  Int       @default(0)
   lastUsed    DateTime?
+  
+  chunks      DocumentChunk[]
+}
+
+model DocumentChunk {
+  id            String           @id @default(uuid())
+  documentId    String
+  document      ChatbotDocument  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  chunkIndex    Int
+  content       String
+  embedding     String
+  createdAt     DateTime         @default(now())
+  
+  @@index([documentId])
 }
