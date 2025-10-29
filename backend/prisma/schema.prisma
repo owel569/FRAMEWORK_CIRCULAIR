@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
@@ -9,13 +8,26 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+model User {
+  id                      String   @id @default(uuid())
+  email                   String   @unique
+  password                String   // Hash bcrypt
+  companyName             String
+  createdAt               DateTime @default(now())
+
+  companies               Company[]
+}
+
 model Company {
-  id                      String   @id @default(cuid())
+  id                      String   @id @default(uuid())
   name                    String
   sector                  String
   email                   String   @unique
   phone                   String?
   employeeCount           Int?
+
+  userId                  String?
+  user                    User?    @relation(fields: [userId], references: [id])
 
   // Logistique et Centres
   tonnageLogistique       Float?
@@ -160,7 +172,7 @@ model ChatbotDocument {
   language    String?
   usageCount  Int       @default(0)
   lastUsed    DateTime?
-  
+
   chunks      DocumentChunk[]
 }
 
@@ -172,6 +184,6 @@ model DocumentChunk {
   content       String
   embedding     String
   createdAt     DateTime         @default(now())
-  
+
   @@index([documentId])
 }

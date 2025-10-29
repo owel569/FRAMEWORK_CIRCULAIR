@@ -1,9 +1,9 @@
-
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null)
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen bg-white">
@@ -30,12 +30,12 @@ export default function Home() {
               <a href="#how-it-works" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Comment ça marche</a>
               <a href="#features" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Fonctionnalités</a>
               <a href="#faq" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">FAQ</a>
-              <Link
-                to="/questionnaire"
+              <button
+                onClick={() => navigate('/auth')}
                 className="bg-gradient-to-r from-circular-blue to-circular-green text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-lg transition-all duration-300"
               >
                 Commencer l'évaluation
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function Home() {
           <div className="absolute top-40 right-10 w-96 h-96 bg-circular-green rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
           <div className="absolute bottom-20 left-1/2 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -59,23 +59,23 @@ export default function Home() {
                 </span>
                 <span className="text-sm font-semibold text-circular-blue-dark">Certifié ISO 59000 • Maroc</span>
               </div>
-              
+
               <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Transformez votre entreprise vers l'
                 <span className="bg-gradient-to-r from-circular-blue to-circular-green bg-clip-text text-transparent">
                   économie circulaire
                 </span>
               </h1>
-              
+
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
                 Première plateforme marocaine d'évaluation et d'accompagnement ISO 59000. 
                 Mesurez, analysez et améliorez votre performance circulaire en moins de 30 minutes.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link
-                  to="/questionnaire"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-circular-blue to-circular-blue-dark text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden text-center"
+                <button
+                  onClick={() => navigate('/auth')}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-circular-blue to-circular-blue-dark text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     <span>🚀</span>
@@ -85,8 +85,8 @@ export default function Home() {
                     </svg>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-circular-blue-dark to-circular-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Link>
-                
+                </button>
+
                 <a
                   href="#about"
                   className="group px-8 py-4 text-lg font-semibold bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-circular-blue hover:text-circular-blue transition-all duration-300 shadow-md hover:shadow-xl text-center"
@@ -94,7 +94,7 @@ export default function Home() {
                   En savoir plus
                 </a>
               </div>
-              
+
               <div className="flex items-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -116,7 +116,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative">
               <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
                 <div className="grid grid-cols-2 gap-6">
@@ -137,7 +137,7 @@ export default function Home() {
                     <div className="text-sm text-gray-600">59000 conforme</div>
                   </div>
                 </div>
-                
+
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
@@ -151,7 +151,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-circular-green rounded-full opacity-20 blur-2xl"></div>
               <div className="absolute -top-4 -left-4 w-32 h-32 bg-circular-blue rounded-full opacity-20 blur-2xl"></div>
             </div>
@@ -594,8 +594,8 @@ export default function Home() {
             Rejoignez les centaines d'entreprises marocaines engagées dans la transition vers l'économie circulaire
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-            <Link
-              to="/questionnaire"
+            <button
+              onClick={() => navigate('/auth')}
               className="group relative px-10 py-5 bg-white text-circular-blue text-lg font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -605,7 +605,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
-            </Link>
+            </button>
             <a
               href="#about"
               className="px-10 py-5 text-lg font-semibold bg-white/10 backdrop-blur-sm border-2 border-white text-white rounded-2xl hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -613,7 +613,7 @@ export default function Home() {
               En savoir plus
             </a>
           </div>
-          
+
           <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/80 text-sm">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
