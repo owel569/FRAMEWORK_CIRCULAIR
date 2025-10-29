@@ -142,8 +142,8 @@ export class ChatbotDocumentsService {
         }
       }
 
-      // Vérifier si au moins 40% des mots sont trouvés
-      const minMatches = Math.max(1, Math.floor(queryWords.length * 0.4));
+      // Vérifier si au moins 30% des mots sont trouvés (plus sensible)
+      const minMatches = Math.max(1, Math.floor(queryWords.length * 0.3));
       
       if (exactMatches >= minMatches && matchScore > 0) {
         // Extraire un extrait pertinent
@@ -168,7 +168,7 @@ export class ChatbotDocumentsService {
       }
     }
 
-    return results.sort((a, b) => b.matchScore - a.matchScore).slice(0, 3);
+    return results.sort((a, b) => b.matchScore - a.matchScore).slice(0, 5);
   }
 
   private normalizeText(text: string): string {
@@ -261,23 +261,25 @@ export class ChatbotDocumentsService {
       return content.substring(0, 300) + '...';
     }
 
-    // Prendre la meilleure phrase et la suivante si proche
-    let excerpt = bestSentences[0].sentence;
+    // Prendre les 3 meilleures phrases pour un contexte plus riche
+    let excerpt = '';
+    const sentencesToInclude = Math.min(3, bestSentences.length);
     
-    if (bestSentences.length > 1 && 
-        Math.abs(bestSentences[0].index - bestSentences[1].index) <= 2 &&
-        excerpt.length < 250) {
-      const secondBest = bestSentences[1];
-      if (secondBest.index > bestSentences[0].index) {
-        excerpt += '. ' + secondBest.sentence;
-      } else {
-        excerpt = secondBest.sentence + '. ' + excerpt;
+    for (let i = 0; i < sentencesToInclude; i++) {
+      if (excerpt.length > 0) {
+        excerpt += '. ';
+      }
+      excerpt += bestSentences[i].sentence;
+      
+      // Arrêter si on dépasse 500 caractères
+      if (excerpt.length > 500) {
+        break;
       }
     }
 
-    // Limiter la longueur
-    if (excerpt.length > 400) {
-      excerpt = excerpt.substring(0, 400) + '...';
+    // Limiter la longueur totale
+    if (excerpt.length > 600) {
+      excerpt = excerpt.substring(0, 600) + '...';
     }
 
     return excerpt;

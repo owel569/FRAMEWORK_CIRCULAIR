@@ -685,30 +685,41 @@ export class ChatbotService {
       let maxConfidence = 0;
       const usedSources = [];
 
-      // Priorité à la base hardcodée si bon score
-      const kbSource = sources.find(s => s.type === 'knowledge_base');
-      if (kbSource && kbSource.confidence > 0.6) {
-        answer = kbSource.answer;
-        maxConfidence = kbSource.confidence;
-        usedSources.push({
-          type: 'knowledge_base',
-          category: kbSource.category,
-        });
-      }
-
-      // Ajouter les informations des documents
+      // PRIORITÉ AUX DOCUMENTS UPLOADÉS (vos fichiers)
       const docSources = sources.filter(s => s.type === 'document');
       if (docSources.length > 0) {
-        if (answer) {
-          answer += '\n\n📚 **Informations complémentaires** :\n';
-        }
-
-        for (const docSource of docSources.slice(0, 2)) {
-          answer += `\n• ${docSource.excerpt}\n  *(Source: ${docSource.title})*`;
+        // Utiliser les documents comme source principale
+        answer = '📚 **Réponse basée sur vos documents** :\n\n';
+        
+        for (const docSource of docSources.slice(0, 3)) {
+          answer += `${docSource.excerpt}\n\n`;
+          answer += `*(Source: ${docSource.title})*\n\n`;
           maxConfidence = Math.max(maxConfidence, docSource.confidence);
           usedSources.push({
             type: 'document',
             title: docSource.title,
+          });
+        }
+
+        // Ajouter la base hardcodée SEULEMENT en complément si pertinent
+        const kbSource = sources.find(s => s.type === 'knowledge_base');
+        if (kbSource && kbSource.confidence > 0.7) {
+          answer += '\n\n💡 **Informations complémentaires (ISO 59000)** :\n\n';
+          answer += kbSource.answer;
+          usedSources.push({
+            type: 'knowledge_base',
+            category: kbSource.category,
+          });
+        }
+      } else {
+        // Si aucun document trouvé, utiliser la base hardcodée
+        const kbSource = sources.find(s => s.type === 'knowledge_base');
+        if (kbSource && kbSource.confidence > 0.3) {
+          answer = kbSource.answer;
+          maxConfidence = kbSource.confidence;
+          usedSources.push({
+            type: 'knowledge_base',
+            category: kbSource.category,
           });
         }
       }
