@@ -211,9 +211,19 @@ export default function AuthPage() {
           </div>
         </div>
 
-        <p className="text-center text-gray-600 mt-6 text-sm">
-          🔒 Vos données sont sécurisées et confidentielles
-        </p>
+        <div className="mt-6 space-y-3">
+          <p className="text-center text-gray-600 text-sm">
+            🔒 Vos données sont sécurisées et confidentielles
+          </p>
+          <p className="text-center">
+            <a
+              href="/admin/login"
+              className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              Accès administrateur
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )

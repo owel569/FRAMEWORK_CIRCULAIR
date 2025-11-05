@@ -93,6 +93,15 @@ export default function AdminLogin() {
             Se connecter
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <a
+            href="/auth"
+            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            ← Retour à l'espace entreprises
+          </a>
+        </div>
       </div>
     </div>
   )
