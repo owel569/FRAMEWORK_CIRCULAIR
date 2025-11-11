@@ -1,0 +1,36 @@
+Feuille	Domaine 	Données manquantes	Comment obtenir ces données ?!	Sources marocaine recommandées (lien)	
+Questionnaire Environnementale	Environnement	Déchets totaux (t/an)	Additionner les tonnages figurant sur les bordereaux de suivi, factures de collecte et contrats de traitement.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Déchets valorisés (t/an)	Additionner les tonnages envoyés vers des filières de recyclage, réemploi ou valorisation (preuves : BSD, certificats prestataires).	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	% de valorisation (calculé) (% de matière recyclées réutilisées)	Calculer : (déchets valorisés / déchets totaux) × 100.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Déchets dangereux (t/an)	Additionner les masses figurant sur les BSDD et factures de traitement agréées.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Coût actuel de traitement (Mad/t)	Diviser le coût total annuel des contrats de traitement par le tonnage total.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Centre de traitement ACTUEL – distance (km)	Mesurer la distance du site au centre agréé via Google Maps ou SIG.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Centre de traitement ALTERNATIF – distance (km)	Même méthode, pour le centre pressenti ou alternatif.	https://www.environnement.gov.ma	
+Questionnaire Environnementale	Environnement	Electricité (kWh/an)	Relever la consommation sur les 12 factures ONEE ou exporter depuis le portail client.	https://www.onee.ma	
+Questionnaire Environnementale	Environnement	Gaz (kWh/an)	Additionner les consommations figurant sur les factures de gaz, propane ou butane. Convertir en kWh si exprimé en m³.	https://www.mtedd.gov.ma	
+Questionnaire Environnementale	Environnement	Eau (m³/an)	Relever les volumes sur les factures d’eau potable ou compteurs internes.	https://www.onee.ma	
+Questionnaire Environnementale	Environnement	Carburants (L/an)	Totaliser les litres achetés via factures ou cartes flotte pour tous véhicules et engins.	https://www.cgem.ma	
+Questionnaire Environnementale	Environnement	Kilomètres parcourus logistique (km/an)	Exporter les km annuels depuis le logiciel de gestion de flotte ou les relevés GPS.	https://www.oncf.ma	
+Questionnaire Environnementale	Environnement	Facteur émission (kgCO2/km)	Utiliser les facteurs d’émission officiels publiés par l’AMEE ou, à défaut, par l’ADEME.	https://www.amee.ma	
+Questionnaire Environnementale	Environnement	Émissions logistiques estimées (tCO₂e/an) – calcul	Calcul : (km parcourus × facteur émission) ÷ 1000.	https://www.amee.ma	
+Questionnaire Environnementale	Environnement	Bilan carbone Scope 1 (tCO₂e/an)	Additionner les émissions issues des combustibles, carburants et procédés directs selon les facteurs d’émission AMEE/CGEM.	https://www.cgem.ma	
+Questionnaire Environnementale	Environnement	Bilan carbone Scope 2 (tCO₂e/an)	Multiplier la consommation électrique par le facteur d’émission du réseau marocain (kgCO₂/kWh).	https://www.amee.ma	
+Questionnaire Environnementale	Environnement	Bilan carbone Scope 3 (tCO₂e/an) – si disponible	Estimer les émissions indirectes (achats, transport, déchets, déplacements) via la méthode GHG Protocol.	https://ghgprotocol.org	
+Questionnaire Economique 	Economique	Taux d’utilisation des équipements (%)	Calcul : (heures de marche / heures disponibles) × 100. Données issues du MES, SCADA ou GMAO.	https://www.amee.ma	
+Questionnaire Economique 	Economique	Matières recyclées dans les achats (%)	Masse de matières recyclées utilisées / masse totale achetée × 100.	https://www.hcp.ma	
+Questionnaire Economique 	Economique	Dépenses de maintenance (Mad/an)	Additionner les coûts issus du service maintenance (pièces, contrats, main-d’œuvre).	https://www.amee.ma	
+Questionnaire Economique 	Economique	Durée de vie moyenne des équipements (années)	Moyenne des durées d’amortissement comptable ou historiques de remplacement.	https://www.hcp.ma	
+Questionnaire Economique 	Economique	Taux de rebut / non-qualité (%)	Calcul : (pièces rebutées / pièces produites) × 100. Données issues du service qualité.	https://www.hcp.ma	
+Questionnaire Economique 	Economique	Modèle économique (Vente / Location / Service)	Identifier le mode de génération de valeur principale de l’entreprise.	https://www.cgem.ma	
+Questionnaire Economique 	Economique	Achats responsables (% de fournisseurs locaux / labellisés)	Proportion d’achats réalisés auprès de fournisseurs locaux ou certifiés ISO/RSE.	https://www.cgem.ma	
+Questionnaire Social	Social	Part d’emplois locaux (%)	Salariés résidant à moins de 100 km / effectif total × 100.	https://www.hcp.ma	
+Questionnaire Social	Social	Recrutements en insertion / alternance / handicap (nb/an)	Comptabiliser les recrutements dans ces catégories à partir des données RH.	https://www.hcp.ma	
+Questionnaire Social	Social	Heures de formation par salarié et par an (h/an)	Total heures formation / effectif moyen. Source : service formation ou LMS.	https://www.hcp.ma	
+Questionnaire Social	Social	Part de femmes (%)	Nombre de femmes / effectif total × 100.	https://www.hcp.ma	
+Questionnaire Social	Social	Initiatives locales (nb/an)	Nombre d’actions avec acteurs locaux (associations, écoles, collectivités…).	https://www.cgem.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	Nombre de fournisseurs (nb)	Total des fournisseurs actifs selon la base comptable/ERP.	https://www.cgem.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	% de fournisseurs locaux (<100 km)	Fournisseurs situés à moins de 100 km / total fournisseurs × 100.	https://www.cgem.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	Distance moyenne d’approvisionnement (km)	Moyenne pondérée des distances fournisseur → site.	https://www.cgem.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	Système de retour (Oui/Non)	Vérifier l’existence d’un dispositif de reprise ou réutilisation emballages/produits.	https://www.cgem.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	Taux de remplissage moyen des camions (%)	Volume transporté / capacité totale × 100.	https://www.amee.ma	
+Questionnaire Logistic et Appro	Logistique et approvisionnement	% de véhicules à faibles émissions	Véhicules hybrides, électriques, GNV ou H₂ / total flotte × 100.	https://www.amee.ma	
