@@ -514,6 +514,54 @@ export default function QuestionnaireForm() {
     </form>
   )
 
+  // Mapping des questions aux ressources d'aide
+  const getHelpResource = (questionText: string, categoryId: string) => {
+    const helpResources: { [key: string]: { url: string; label: string } } = {
+      // Environnement
+      'déchets': { url: 'https://www.environnement.gov.ma', label: 'Ministère de l\'Environnement' },
+      'valorisation': { url: 'https://www.environnement.gov.ma', label: 'Gestion des déchets' },
+      'recyclage': { url: 'https://www.environnement.gov.ma', label: 'Recyclage au Maroc' },
+      'énergie': { url: 'https://www.amee.ma', label: 'AMEE - Efficacité Énergétique' },
+      'électricité': { url: 'https://www.onee.ma', label: 'ONEE - Factures' },
+      'eau': { url: 'https://www.onee.ma', label: 'ONEE - Consommation' },
+      'carbone': { url: 'https://www.amee.ma', label: 'Bilan Carbone' },
+      'émissions': { url: 'https://www.amee.ma', label: 'Facteurs d\'émission' },
+      'carburant': { url: 'https://www.cgem.ma', label: 'CGEM - Guide RSE' },
+      
+      // Économique
+      'équipements': { url: 'https://www.amee.ma', label: 'Efficacité des équipements' },
+      'maintenance': { url: 'https://www.hcp.ma', label: 'HCP - Statistiques' },
+      'fournisseurs': { url: 'https://www.cgem.ma', label: 'CGEM - Achats responsables' },
+      
+      // Social
+      'emploi': { url: 'https://www.hcp.ma', label: 'HCP - Emploi' },
+      'formation': { url: 'https://www.hcp.ma', label: 'Formation professionnelle' },
+      'insertion': { url: 'https://www.hcp.ma', label: 'Insertion sociale' },
+      
+      // Logistique
+      'transport': { url: 'https://www.oncf.ma', label: 'Transport au Maroc' },
+      'logistique': { url: 'https://www.cgem.ma', label: 'Logistique responsable' },
+      'véhicules': { url: 'https://www.amee.ma', label: 'Véhicules propres' }
+    };
+
+    const questionLower = questionText.toLowerCase();
+    for (const [keyword, resource] of Object.entries(helpResources)) {
+      if (questionLower.includes(keyword)) {
+        return resource;
+      }
+    }
+    
+    // Ressources par défaut selon la catégorie
+    const defaultResources: { [key: string]: { url: string; label: string } } = {
+      environmental: { url: 'https://www.environnement.gov.ma', label: 'Ministère de l\'Environnement' },
+      economic: { url: 'https://www.cgem.ma', label: 'CGEM - Guide RSE' },
+      social: { url: 'https://www.hcp.ma', label: 'HCP - Statistiques' },
+      logistics: { url: 'https://www.amee.ma', label: 'AMEE - Transport' }
+    };
+    
+    return defaultResources[categoryId] || { url: 'https://www.cgem.ma', label: 'Ressources disponibles' };
+  };
+
   const renderDiagnosticQuestions = () => {
     const categoryIndex = currentStep - 1
     const category = DIAGNOSTIC_CATEGORIES[categoryIndex]
@@ -541,6 +589,12 @@ export default function QuestionnaireForm() {
               }}
             />
           </div>
+          <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+            <p className="text-sm text-white/90 flex items-start">
+              <span className="mr-2">💡</span>
+              <span>Besoin d'aide pour répondre ? Consultez nos guides et ressources officielles ci-dessous.</span>
+            </p>
+          </div>
         </div>
 
         {questions.length === 0 ? (
@@ -551,7 +605,9 @@ export default function QuestionnaireForm() {
           </div>
         ) : (
           <div className="space-y-6">
-            {questions.map((question: any, index: number) => (
+            {questions.map((question: any, index: number) => {
+              const helpResource = getHelpResource(question.text, category.id);
+              return (
             <div key={question.id} className="bg-white rounded-xl shadow-lg p-6 border-l-4 hover:shadow-xl transition-all" 
                  style={{ borderLeftColor: responses[category.id]?.[question.id] !== undefined ? '#10b981' : '#e5e7eb' }}>
               <div className="flex items-start mb-4">
@@ -559,44 +615,74 @@ export default function QuestionnaireForm() {
                   {index + 1}
                 </span>
                 <div className="flex-1">
-                  <p className="text-lg font-semibold text-gray-900 mb-1">{question.text}</p>
-                  {question.unit && (
-                    <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                      Unité: {question.unit}
-                    </span>
-                  )}
-                  {question.weight > 1 && (
-                    <span className="inline-block ml-2 px-3 py-1 bg-orange-50 text-orange-700 text-xs font-medium rounded-full">
-                      ⭐ Poids: {question.weight}x
-                    </span>
-                  )}
+                  <p className="text-lg font-semibold text-gray-900 mb-2">{question.text}</p>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {question.unit && (
+                      <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                        📊 Unité: {question.unit}
+                      </span>
+                    )}
+                    {question.weight > 1 && (
+                      <span className="inline-flex items-center px-3 py-1 bg-orange-50 text-orange-700 text-xs font-medium rounded-full">
+                        ⭐ Question prioritaire (×{question.weight})
+                      </span>
+                    )}
+                  </div>
+                  {/* Lien d'aide pour obtenir les données */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+                    <div className="flex items-start">
+                      <span className="text-blue-600 mr-2">ℹ️</span>
+                      <div className="flex-1">
+                        <p className="text-xs text-blue-800 font-medium mb-1">Besoin d'aide pour obtenir cette donnée ?</p>
+                        <a 
+                          href={helpResource.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-600 hover:text-blue-800 underline font-semibold flex items-center"
+                        >
+                          {helpResource.label} →
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {question.type === 'boolean' && (
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleResponse(category.id, question.id, true)}
-                    className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg ${
-                      responses[category.id]?.[question.id] === true
-                        ? 'bg-gradient-to-r from-green-500 to-green-600 border-green-600 text-white shadow-lg scale-105'
-                        : 'border-gray-300 hover:border-green-400 hover:bg-green-50'
-                    }`}
-                  >
-                    ✓ Oui
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleResponse(category.id, question.id, false)}
-                    className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg ${
-                      responses[category.id]?.[question.id] === false
-                        ? 'bg-gradient-to-r from-red-500 to-red-600 border-red-600 text-white shadow-lg scale-105'
-                        : 'border-gray-300 hover:border-red-400 hover:bg-red-50'
-                    }`}
-                  >
-                    ✗ Non
-                  </button>
+                <div className="space-y-2">
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleResponse(category.id, question.id, true)}
+                      className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg shadow-md hover:shadow-lg ${
+                        responses[category.id]?.[question.id] === true
+                          ? 'bg-gradient-to-r from-green-500 to-green-600 border-green-600 text-white shadow-lg scale-105'
+                          : 'border-gray-300 hover:border-green-400 hover:bg-green-50 bg-white'
+                      }`}
+                    >
+                      <span className="flex items-center justify-center">
+                        <span className="mr-2 text-2xl">✓</span>
+                        <span>Oui</span>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleResponse(category.id, question.id, false)}
+                      className={`flex-1 py-4 px-6 rounded-xl border-2 transition-all font-bold text-lg shadow-md hover:shadow-lg ${
+                        responses[category.id]?.[question.id] === false
+                          ? 'bg-gradient-to-r from-red-500 to-red-600 border-red-600 text-white shadow-lg scale-105'
+                          : 'border-gray-300 hover:border-red-400 hover:bg-red-50 bg-white'
+                      }`}
+                    >
+                      <span className="flex items-center justify-center">
+                        <span className="mr-2 text-2xl">✗</span>
+                        <span>Non</span>
+                      </span>
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 text-center italic">
+                    Cette question est essentielle pour votre diagnostic
+                  </p>
                 </div>
               )}
 
@@ -667,7 +753,8 @@ export default function QuestionnaireForm() {
                 />
               )}
             </div>
-          ))}
+          );
+            })}
         </div>
         )}
       </div>
