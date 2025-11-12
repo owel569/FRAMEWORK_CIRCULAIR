@@ -338,13 +338,13 @@ export class ChatbotDocumentsService {
       } else if (ext === '.pdf') {
         // Utiliser Python pour extraire le PDF
         const { stdout } = await execAsync(
-          `python3 ${path.join(process.cwd(), 'backend', 'scripts', 'extract_pdf.py')} "${filePath}"`,
+          `python3 ${path.join(process.cwd(), 'scripts', 'extract_pdf.py')} "${filePath}"`,
         );
         return stdout.trim();
       } else if (ext === '.docx') {
         // Utiliser Python pour extraire le DOCX
         const { stdout } = await execAsync(
-          `python3 ${path.join(process.cwd(), 'backend', 'scripts', 'extract_docx.py')} "${filePath}"`,
+          `python3 ${path.join(process.cwd(), 'scripts', 'extract_docx.py')} "${filePath}"`,
         );
         return stdout.trim();
       }
