@@ -1,0 +1,81 @@
+🚀 Améliorations Recommandées
+Court Terme (1-2 jours) ⚡
+
+Activer le RAG (URGENT !)
+
+typescript   // chatbot.service.ts
+   const ragResults = await this.documentsService.searchInDocumentsRAG(question);
+
+Injection de dépendances propre
+
+typescript   constructor(private readonly documentsService: ChatbotDocumentsService) {}
+
+Meilleure gestion d'erreurs
+
+typescript   try {
+     return await this.documentsService.searchInDocumentsRAG(question);
+   } catch (error) {
+     console.error('RAG Error:', error);
+     // Fallback vers base hardcodée
+   }
+
+Moyen Terme (1 semaine) 🔄
+
+Cache des embeddings
+
+typescript   private embeddingCache = new Map<string, number[]>();
+   
+   async generateEmbedding(text: string) {
+     if (this.embeddingCache.has(text)) {
+       return this.embeddingCache.get(text)!;
+     }
+     const embedding = await this.hf.featureExtraction(...);
+     this.embeddingCache.set(text, embedding);
+     return embedding;
+   }
+
+Timeout pour Llama-3
+
+typescript   const controller = new AbortController();
+   const timeout = setTimeout(() => controller.abort(), 15000); // 15s max
+   
+   try {
+     const stream = this.hf.chatCompletionStream({ 
+       signal: controller.signal,
+       // ...
+     });
+   } finally {
+     clearTimeout(timeout);
+   }
+
+Logs structurés
+
+typescript   console.log(JSON.stringify({
+     timestamp: new Date(),
+     question,
+     confidence: ragResults.confidence,
+     source: ragResults.source,
+     chunksUsed: relevantChunks.length
+   }));
+
+Long Terme (1 mois) 🎯
+
+Recherche hybride (keywords + sémantique)
+
+typescript   const ragScore = ragResults.confidence;
+   const keywordScore = bestMatch?.score || 0;
+   const hybridScore = (ragScore * 0.7) + (keywordScore * 0.3);
+
+Feedback loop
+
+typescript   // Stocker les questions sans réponse pertinente
+   if (confidence < 0.3) {
+     await this.prisma.feedbackQuestion.create({
+       data: { question, confidence, timestamp: new Date() }
+     });
+   }
+
+Re-ranking des chunks
+
+typescript   // Après top 5 par similarité, re-rank par pertinence contextuelle
+   const reranked = await this.crossEncoderRerank(question, topChunks);
