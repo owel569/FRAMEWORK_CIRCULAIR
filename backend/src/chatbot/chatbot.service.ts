@@ -42,25 +42,47 @@ export class ChatbotService {
     },
   ];
 
+  // Calcul de la distance de Levenshtein pour détecter les fautes de frappe
+  private levenshteinDistance(str1: string, str2: string): number {
+    const m = str1.length;
+    const n = str2.length;
+    const dp: number[][] = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+
+    for (let i = 0; i <= m; i++) dp[i][0] = i;
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (str1[i - 1] === str2[j - 1]) {
+          dp[i][j] = dp[i - 1][j - 1];
+        } else {
+          dp[i][j] = Math.min(
+            dp[i - 1][j] + 1,     // deletion
+            dp[i][j - 1] + 1,     // insertion
+            dp[i - 1][j - 1] + 1  // substitution
+          );
+        }
+      }
+    }
+
+    return dp[m][n];
+  }
+
+  // Vérifier si un mot est similaire avec tolérance aux fautes
+  private isSimilar(word: string, targetWord: string, maxDistance: number = 2): boolean {
+    if (word === targetWord) return true;
+    if (Math.abs(word.length - targetWord.length) > maxDistance) return false;
+    return this.levenshteinDistance(word.toLowerCase(), targetWord.toLowerCase()) <= maxDistance;
+  }
+
   private handleSmallTalk(question: string): string | null {
-    const greetings = [
-      /^(salut|bonjour|hello|hi|hey|bonsoir|coucou)/i,
-      /^(ça va|comment ça va|comment vas-tu|comment allez-vous|tu vas bien|vous allez bien)/i,
-    ];
+    const normalizedQuestion = question.toLowerCase().trim();
+    const firstWord = normalizedQuestion.split(/\s+/)[0];
 
-    const farewells = [
-      /^(au revoir|bye|à bientôt|à plus|ciao|salut|tchao)/i,
-      /^(merci|merci beaucoup|merci bien)/i,
-    ];
-
-    const aboutMe = [
-      /^(qui es-tu|qui êtes-vous|c'est quoi|qu'est-ce que tu es|tu es qui|vous êtes qui)/i,
-      /^(comment tu t'appelles|comment vous vous appelez|ton nom|votre nom)/i,
-    ];
-
-    // Salutations
-    for (const pattern of greetings) {
-      if (pattern.test(question)) {
+    // Salutations avec tolérance aux fautes
+    const greetingWords = ['salut', 'bonjour', 'hello', 'hi', 'hey', 'bonsoir', 'coucou', 'hola', 'salam'];
+    for (const greeting of greetingWords) {
+      if (this.isSimilar(firstWord, greeting, 2) || this.isSimilar(normalizedQuestion, greeting, 2)) {
         const responses = [
           '👋 Bonjour ! Je suis ravi de vous aider dans votre transition vers l\'économie circulaire ! Comment puis-je vous accompagner aujourd\'hui ?',
           '🌟 Bonjour et bienvenue ! Je suis votre assistant spécialisé en économie circulaire ISO 59000. Que souhaitez-vous savoir ?',
@@ -69,18 +91,38 @@ export class ChatbotService {
       }
     }
 
-    // Au revoir
-    for (const pattern of farewells) {
-      if (pattern.test(question)) {
+    // "Ça va" / "Comment ça va" avec tolérance
+    if (
+      /^(ca va|sa va|ça va|comment ca va|comment sa va|comment ça va)/i.test(normalizedQuestion) ||
+      this.isSimilar(normalizedQuestion, 'ca va', 2) ||
+      this.isSimilar(normalizedQuestion, 'ça va', 2)
+    ) {
+      return '😊 Je vais très bien, merci ! Je suis prêt à vous aider avec toutes vos questions sur l\'économie circulaire. Et vous, comment puis-je vous assister ?';
+    }
+
+    // Au revoir avec tolérance
+    const farewellWords = ['bye', 'au revoir', 'aurevoir', 'à bientôt', 'a bientot', 'à plus', 'a plus', 'ciao', 'tchao'];
+    for (const farewell of farewellWords) {
+      if (this.isSimilar(normalizedQuestion, farewell, 2)) {
         return '👋 Au revoir ! N\'hésitez pas à revenir si vous avez d\'autres questions sur l\'économie circulaire. Bonne continuation ! 🌍';
       }
     }
 
-    // Qui es-tu
-    for (const pattern of aboutMe) {
-      if (pattern.test(question)) {
-        return '🤖 Je suis votre assistant virtuel spécialisé en économie circulaire ! Mon expertise couvre les normes ISO 59000, les bonnes pratiques sectorielles, et je peux vous guider dans l\'utilisation de cette plateforme d\'évaluation ISO 59000. 🇲🇦♻️';
-      }
+    // Merci avec tolérance
+    if (
+      /^(merci|mercy|mersi|thanks|thank you)/i.test(normalizedQuestion) ||
+      this.isSimilar(normalizedQuestion, 'merci', 2)
+    ) {
+      return '🙏 Avec plaisir ! N\'hésitez pas si vous avez d\'autres questions. Je suis là pour vous aider ! 😊';
+    }
+
+    // Qui es-tu avec tolérance
+    if (
+      /qui (es|est|et)[ -]?tu/i.test(normalizedQuestion) ||
+      /c'?est quoi/i.test(normalizedQuestion) ||
+      /ton nom/i.test(normalizedQuestion)
+    ) {
+      return '🤖 Je suis votre assistant virtuel spécialisé en économie circulaire ! Mon expertise couvre les normes ISO 59000, les bonnes pratiques sectorielles, et je peux vous guider dans l\'utilisation de cette plateforme d\'évaluation ISO 59000. 🇲🇦♻️';
     }
 
     return null; // Pas de small talk détecté
@@ -200,11 +242,16 @@ export class ChatbotService {
         score += 1.0 * entry.priority / 10;
       }
 
-      // Match partiel : proportion de mots-clés trouvés
+      // Match partiel : proportion de mots-clés trouvés avec tolérance aux fautes
       let matchedWords = 0;
       for (const kw of keywordWords) {
+        // Match exact ou inclusion
         if (questionWords.some(qw => qw.includes(kw) || kw.includes(qw))) {
           matchedWords++;
+        }
+        // Match avec tolérance aux fautes (distance de Levenshtein)
+        else if (questionWords.some(qw => this.isSimilar(qw, kw, 2))) {
+          matchedWords += 0.8; // Score légèrement réduit pour match approximatif
         }
       }
 
