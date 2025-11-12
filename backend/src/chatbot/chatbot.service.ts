@@ -202,7 +202,25 @@ export class ChatbotService {
       };
     }
 
-    // Réponse par défaut
+    // Fallback : Tentative avec Hugging Face si clé API disponible
+    if (process.env.HUGGING_FACE_API_KEY) {
+      try {
+        const aiResponse = await this.askHuggingFace(question);
+        if (aiResponse && aiResponse.length > 20) {
+          return {
+            question,
+            answer: `🤖 Voici ma meilleure réponse basée sur l'IA :\n\n${aiResponse}\n\n💡 _Cette réponse est générée par IA et peut nécessiter vérification._`,
+            confidence: 0.5,
+            source: 'Hugging Face AI',
+            category: 'ai_generated',
+          };
+        }
+      } catch (error) {
+        console.error('Erreur Hugging Face:', error);
+      }
+    }
+
+    // Réponse par défaut si tout échoue
     return {
       question,
       answer: '🤔 Je n\'ai pas trouvé de réponse précise à votre question. Voici quelques sujets que je maîtrise bien :\n\n' +
@@ -216,6 +234,28 @@ export class ChatbotService {
       source: 'Réponse par défaut',
       category: 'general',
     };
+  }
+
+  private async askHuggingFace(question: string): Promise<string> {
+    try {
+      const prompt = `Tu es un assistant spécialisé en économie circulaire et normes ISO 59000. Réponds de manière concise et professionnelle en français.\n\nQuestion: ${question}\n\nRéponse:`;
+      
+      const response = await this.hf.textGeneration({
+        model: 'mistralai/Mistral-7B-Instruct-v0.2',
+        inputs: prompt,
+        parameters: {
+          max_new_tokens: 250,
+          temperature: 0.7,
+          top_p: 0.9,
+          return_full_text: false,
+        },
+      });
+
+      return response.generated_text?.trim() || '';
+    } catch (error) {
+      console.error('Erreur génération Hugging Face:', error);
+      return '';
+    }
   }
 
   private normalizeText(text: string): string {
