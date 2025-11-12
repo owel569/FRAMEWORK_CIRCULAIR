@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HfInference } from '@huggingface/inference';
+import { ChatbotDocumentsService } from './chatbot-documents.service';
 
 interface KnowledgeEntry {
   keywords: string[];
@@ -12,7 +13,9 @@ interface KnowledgeEntry {
 export class ChatbotService {
   private hf: HfInference;
 
-  constructor() {
+  constructor(
+    private readonly documentsService: ChatbotDocumentsService,
+  ) {
     // Remplacer par votre clé API Hugging Face (à mettre dans Secrets)
     const HF_API_KEY = process.env.HUGGING_FACE_API_KEY || '';
     this.hf = new HfInference(HF_API_KEY);
@@ -128,10 +131,10 @@ export class ChatbotService {
     return null; // Pas de small talk détecté
   }
 
-  async askQuestion(question: string, context?: string, documentsService?: any) {
+  async askQuestion(question: string) {
     const lowerQuestion = question.toLowerCase();
 
-    // Gestion des conversations basiques (small talk)
+    // 1️⃣ PRIORITÉ : Small Talk (réponse immédiate)
     const smallTalkResponse = this.handleSmallTalk(lowerQuestion);
     if (smallTalkResponse) {
       return {
@@ -143,10 +146,32 @@ export class ChatbotService {
       };
     }
 
-    // Normalisation de la question
-    const normalizedQuestion = this.normalizeText(lowerQuestion);
+    // 2️⃣ PRIORITÉ : RAG Documents (info spécifique et à jour)
+    try {
+      const ragResults = await this.documentsService.searchInDocumentsRAG(question);
+      
+      if (ragResults && ragResults.confidence > 0.3) {
+        console.log('🔍 RAG Results:', {
+          confidence: ragResults.confidence,
+          source: ragResults.source,
+        });
+        
+        return {
+          question,
+          answer: ragResults.answer,
+          confidence: ragResults.confidence,
+          source: ragResults.source,
+          category: 'rag_documents',
+          explanation: ragResults.explanation,
+        };
+      }
+    } catch (error) {
+      console.error('❌ Erreur RAG:', error.message);
+      // Continue vers fallback
+    }
 
-    // Recherche dans la base hardcodée
+    // 3️⃣ FALLBACK : Base de connaissances hardcodée
+    const normalizedQuestion = this.normalizeText(lowerQuestion);
     let bestMatch: { entry: KnowledgeEntry; score: number } | null = null;
 
     for (const entry of this.knowledgeBase) {
@@ -155,40 +180,6 @@ export class ChatbotService {
       if (matchScore > 0 && (!bestMatch || matchScore > bestMatch.score)) {
         bestMatch = { entry, score: matchScore };
       }
-    }
-
-    // Recherche dans les documents uploadés (recherche textuelle simple)
-    let documentResults: any = null;
-    if (documentsService) {
-      try {
-        const results = await documentsService.searchInDocuments(question);
-        if (results.length > 0) {
-          const bestResult = results[0];
-          documentResults = {
-            answer: `D'après le document "${bestResult.title}" :\n\n${bestResult.excerpt}`,
-            confidence: Math.min(0.9, bestResult.matchScore / 10),
-            source: bestResult.title,
-            explanation: `Trouvé ${bestResult.matchedWords} mots-clés pertinents`,
-          };
-        }
-      } catch (error) {
-        console.error('Erreur recherche documents:', error);
-      }
-    }
-
-    // Combiner les résultats
-    const sources = [];
-
-    // Priorité aux documents uploadés (RAG)
-    if (documentResults && documentResults.confidence > 0.3) {
-      return {
-        question,
-        answer: documentResults.answer,
-        confidence: documentResults.confidence,
-        source: documentResults.source,
-        category: 'documents',
-        explanation: documentResults.explanation,
-      };
     }
 
     // Si match dans la base hardcodée
@@ -220,17 +211,16 @@ export class ChatbotService {
       }
     }
 
-    // Réponse par défaut si tout échoue
+    // 4️⃣ DERNIER RECOURS : Réponse par défaut
     return {
       question,
-      answer: '🤔 Je n\'ai pas trouvé de réponse précise à votre question. Voici quelques sujets que je maîtrise bien :\n\n' +
+      answer: '🤔 Je n\'ai pas trouvé de réponse précise. Voici ce que je peux vous expliquer :\n\n' +
               '• Les normes ISO 59000 (ISO 59004, ISO 59020, ISO 59010)\n' +
               '• Les principes de l\'économie circulaire\n' +
-              '• L\'écoconception et les modèles d\'affaires circulaires\n' +
-              '• La gestion des déchets et la valorisation\n' +
+              '• L\'écoconception et modèles d\'affaires circulaires\n' +
               '• Comment utiliser cette plateforme\n\n' +
-              'Pouvez-vous reformuler ou préciser votre question ?',
-      confidence: 0.3,
+              'Pouvez-vous reformuler votre question ?',
+      confidence: 0.2,
       source: 'Réponse par défaut',
       category: 'general',
     };

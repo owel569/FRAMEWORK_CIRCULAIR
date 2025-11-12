@@ -12,7 +12,7 @@ export class ChatbotController {
 
   @Post('ask')
   async ask(@Body() data: { question: string; context?: string }) {
-    return this.chatbotService.askQuestion(data.question, data.context, this.documentsService);
+    return this.chatbotService.askQuestion(data.question);
   }
 
   @Get('suggestions')
