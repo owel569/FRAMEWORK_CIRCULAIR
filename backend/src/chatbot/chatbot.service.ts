@@ -147,15 +147,16 @@ export class ChatbotService {
     }
 
     // 2️⃣ PRIORITÉ : RAG Documents (info spécifique et à jour)
+    let ragResults = null;
     try {
-      const ragResults = await this.documentsService.searchInDocumentsRAG(question);
-      
+      ragResults = await this.documentsService.searchInDocumentsRAG(question);
+
       if (ragResults && ragResults.confidence > 0.3) {
         console.log('🔍 RAG Results:', {
           confidence: ragResults.confidence,
           source: ragResults.source,
         });
-        
+
         return {
           question,
           answer: ragResults.answer,
@@ -166,8 +167,8 @@ export class ChatbotService {
         };
       }
     } catch (error) {
-      console.error('❌ Erreur RAG:', error.message);
-      // Continue vers fallback
+      console.error('❌ Erreur RAG, fallback vers base hardcodée:', error.message);
+      // Continue vers la base hardcodée
     }
 
     // 3️⃣ FALLBACK : Base de connaissances hardcodée
@@ -229,7 +230,7 @@ export class ChatbotService {
   private async askHuggingFace(question: string): Promise<string> {
     try {
       const prompt = `Tu es un assistant spécialisé en économie circulaire et normes ISO 59000. Réponds de manière concise et professionnelle en français.\n\nQuestion: ${question}\n\nRéponse:`;
-      
+
       const response = await this.hf.textGeneration({
         model: 'mistralai/Mistral-7B-Instruct-v0.2',
         inputs: prompt,

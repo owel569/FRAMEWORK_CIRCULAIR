@@ -35,12 +35,12 @@ export class HuggingFaceRAGService {
 
   async generateEmbeddings(texts: string[]): Promise<number[][]> {
     const embeddings: number[][] = [];
-    
+
     for (const text of texts) {
       const embedding = await this.generateEmbedding(text);
       embeddings.push(embedding);
     }
-    
+
     return embeddings;
   }
 
@@ -117,7 +117,14 @@ Réponds maintenant de manière professionnelle et précise.`;
 
     try {
       let fullResponse = '';
-      
+
+      // Timeout de 20 secondes pour éviter blocages
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        console.warn('⏱️ Timeout Llama-3 (20s) - génération annulée');
+      }, 20000);
+
       const stream = this.hf.chatCompletionStream({
         model: this.generationModel,
         messages: [
@@ -128,6 +135,7 @@ Réponds maintenant de manière professionnelle et précise.`;
         ],
         max_tokens: 1024,
         temperature: 0.3,
+        abortSignal: controller.signal, // Utilisation du signal d'AbortController
       });
 
       for await (const chunk of stream) {
@@ -139,6 +147,8 @@ Réponds maintenant de manière professionnelle et précise.`;
         }
       }
 
+      clearTimeout(timeoutId); // Annuler timeout si succès
+
       const avgSimilarity = relevantChunks.reduce((sum, chunk) => sum + chunk.similarity, 0) / relevantChunks.length;
       const confidence = Math.min(0.95, avgSimilarity);
 
@@ -149,14 +159,23 @@ Réponds maintenant de manière professionnelle et précise.`;
         .join(', ');
 
       return {
-        answer: fullResponse.trim() || 'Je n\'ai pas pu générer une réponse appropriée.',
+        answer: fullResponse.trim() || 'Réponse incomplète (timeout possible)',
         confidence: confidence,
         source: sources || 'Documents de la base de connaissances',
         explanation: `Réponse générée à partir de ${relevantChunks.length} passage(s) pertinent(s) avec une similarité moyenne de ${(avgSimilarity * 100).toFixed(1)}%.`,
       };
     } catch (error) {
+      if (error.name === 'AbortError') {
+        console.error('⏱️ Génération Llama-3 interrompue (timeout 20s)');
+        return {
+          answer: 'La génération de réponse a pris trop de temps. Veuillez réessayer avec une question plus simple.',
+          confidence: 0,
+          source: 'Timeout',
+          explanation: 'Timeout après 20 secondes',
+        };
+      }
       console.error('Erreur génération réponse:', error);
-      
+
       const manualAnswer = this.generateManualAnswer(question, relevantChunks);
       return manualAnswer;
     }
@@ -195,10 +214,10 @@ Réponds maintenant de manière professionnelle et précise.`;
 
     for (const sentence of sentences) {
       const trimmedSentence = sentence.trim();
-      
+
       if ((currentChunk + ' ' + trimmedSentence).length > chunkSize && currentChunk.length > 0) {
         chunks.push(currentChunk.trim());
-        
+
         const words = currentChunk.split(' ');
         const overlapWords = words.slice(-Math.floor(overlap / 5));
         currentChunk = overlapWords.join(' ') + ' ' + trimmedSentence;
