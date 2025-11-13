@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { API_URL } from '../config'
@@ -514,6 +514,9 @@ export default function QuestionnaireForm() {
     </form>
   )
 
+  // État pour tracker les questions nécessitant de l'aide
+  const [questionsNeedingHelp, setQuestionsNeedingHelp] = React.useState<Set<string>>(new Set())
+
   // Mapping des questions aux ressources d'aide
   const getHelpResource = (questionText: string, categoryId: string) => {
     const helpResources: { [key: string]: { url: string; label: string } } = {
@@ -560,6 +563,19 @@ export default function QuestionnaireForm() {
     };
     
     return defaultResources[categoryId] || { url: 'https://www.cgem.ma', label: 'Ressources disponibles' };
+  };
+
+  // Basculer l'affichage de l'aide pour une question
+  const toggleHelpForQuestion = (questionId: string) => {
+    setQuestionsNeedingHelp(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(questionId)) {
+        newSet.delete(questionId);
+      } else {
+        newSet.add(questionId);
+      }
+      return newSet;
+    });
   };
 
   const renderDiagnosticQuestions = () => {
