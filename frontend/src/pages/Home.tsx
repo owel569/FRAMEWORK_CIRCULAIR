@@ -1,5 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import TeamSection from '../components/TeamSection'
+import TestimonialsSection from '../components/TestimonialsSection'
 
 export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null)
@@ -29,6 +31,8 @@ export default function Home() {
               <a href="#about" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">À propos</a>
               <a href="#how-it-works" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Comment ça marche</a>
               <a href="#features" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Fonctionnalités</a>
+              <a href="#team" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Équipe</a>
+              <a href="#testimonials" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Témoignages</a>
               <a href="#faq" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">FAQ</a>
               <button
                 onClick={() => navigate('/auth')}
@@ -518,6 +522,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Team Section */}
+      <TeamSection />
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-white">
