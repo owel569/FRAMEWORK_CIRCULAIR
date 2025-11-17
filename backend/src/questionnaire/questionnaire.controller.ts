@@ -3,10 +3,24 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { SectorCategory } from '../types/questionnaire.types';
 import { SECTOR_QUESTIONNAIRES } from '../data/questionnaires.data';
+import { GENERAL_QUESTIONS } from '../data/general-questions.data';
+import { getGuidanceForQuestion } from '../data/data-guidance';
 
 @Controller('questionnaires')
 export class QuestionnaireController {
   constructor(private readonly prisma: PrismaService) {}
+
+  @Get('general')
+  getGeneralQuestions() {
+    const questionsWithGuidance = GENERAL_QUESTIONS.map(q => ({
+      ...q,
+      guidance: getGuidanceForQuestion(q.text, q.category, q.unit)
+    }));
+    
+    return {
+      questions: questionsWithGuidance,
+    };
+  }
 
   @Get(':sector')
   async getQuestionnaireBySector(@Param('sector') sector: string) {
@@ -17,26 +31,21 @@ export class QuestionnaireController {
       return { error: 'Secteur non trouvé' };
     }
 
-    const questions = await this.prisma.questionnaireQuestion.findMany({
-      where: { sector: sectorName },
-      orderBy: [{ category: 'asc' }],
-    });
+    const sectorData = SECTOR_QUESTIONNAIRES[sectorKey];
+    
+    if (!sectorData) {
+      return { error: 'Secteur non trouvé' };
+    }
 
-    const formattedQuestions = questions.map(q => ({
-      id: q.questionId,
-      category: q.category,
-      text: q.text,
-      type: q.type,
-      weight: q.weight,
-      unit: q.unit,
-      choices: q.choices ? JSON.parse(q.choices) : undefined,
-      isoReference: q.isoReference,
+    const questionsWithGuidance = sectorData.questions.map(q => ({
+      ...q,
+      guidance: getGuidanceForQuestion(q.text, q.category, q.unit)
     }));
     
     return {
       sector: sectorName,
-      subSectors: SECTOR_QUESTIONNAIRES[sectorKey]?.subSectors || [],
-      questions: formattedQuestions,
+      subSectors: sectorData.subSectors,
+      questions: questionsWithGuidance,
     };
   }
 
