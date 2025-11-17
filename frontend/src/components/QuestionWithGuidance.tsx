@@ -31,14 +31,10 @@ export default function QuestionWithGuidance({
   hasData,
   onResponseChange 
 }: QuestionWithGuidanceProps) {
-  const [showGuidance, setShowGuidance] = useState(false)
-
   const handleHasDataChange = (hasDataResponse: boolean) => {
     if (hasDataResponse) {
-      setShowGuidance(false)
       onResponseChange(true, value)
     } else {
-      setShowGuidance(true)
       onResponseChange(false, undefined)
     }
   }
