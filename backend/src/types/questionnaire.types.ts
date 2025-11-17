@@ -29,6 +29,12 @@ export enum DiagnosticCategory {
   LOGISTICS = 'Logistique & chaîne d\'approvisionnement'
 }
 
+export interface DataGuidance {
+  howToObtain: string;
+  source: string;
+  sourceUrl: string;
+}
+
 export interface Question {
   id: string;
   category: DiagnosticCategory;
@@ -38,6 +44,13 @@ export interface Question {
   choices?: string[];
   weight: number;
   isoReference?: string;
+  guidance?: DataGuidance;
+}
+
+export interface QuestionResponse {
+  questionId: string;
+  hasData: boolean;
+  value?: number | string | boolean;
 }
 
 export interface SectorQuestionnaire {
