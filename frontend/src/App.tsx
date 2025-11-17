@@ -4,6 +4,8 @@ import AuthPage from './pages/AuthPage'
 import QuestionnaireForm from './pages/QuestionnaireForm'
 import ScoreDashboard from './pages/ScoreDashboard'
 import ActionPlan from './pages/ActionPlan'
+import Team from './pages/Team'
+import Testimonials from './pages/Testimonials'
 import ChatbotWidget from './components/ChatbotWidget'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
@@ -21,6 +23,8 @@ function App() {
           <Route path="/questionnaire" element={<QuestionnaireForm />} />
           <Route path="/dashboard/:scoreId" element={<ScoreDashboard />} />
           <Route path="/plan/:scoreId" element={<ActionPlan />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/questions" element={<AdminQuestions />} />

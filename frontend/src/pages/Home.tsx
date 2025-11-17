@@ -28,7 +28,8 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-8">
               <a href="#about" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">À propos</a>
               <a href="#how-it-works" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Comment ça marche</a>
-              <a href="#features" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Fonctionnalités</a>
+              <Link to="/team" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Notre Équipe</Link>
+              <Link to="/testimonials" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">Témoignages</Link>
               <a href="#faq" className="text-gray-700 hover:text-circular-blue font-medium transition-colors">FAQ</a>
               <button
                 onClick={() => navigate('/auth')}
@@ -663,7 +664,8 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#about" className="hover:text-white transition-colors">À propos</a></li>
                 <li><a href="#how-it-works" className="hover:text-white transition-colors">Comment ça marche</a></li>
-                <li><a href="#features" className="hover:text-white transition-colors">Fonctionnalités</a></li>
+                <li><Link to="/team" className="hover:text-white transition-colors">Notre Équipe</Link></li>
+                <li><Link to="/testimonials" className="hover:text-white transition-colors">Témoignages</Link></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>
