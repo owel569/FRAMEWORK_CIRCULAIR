@@ -1,0 +1,258 @@
+ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+✅ Connexion à la base de données établie
+[Nest] 4022  - 11/17/2025, 2:31:59 PM     LOG [NestApplication] Nest application successfully started +78ms
+🚀 Backend NestJS démarré sur http://localhost:3000
+📊 API prête pour l'évaluation ISO 59000
+2:32:29 PM [vite] page reload src/components/QuestionWithGuidance.tsx
+[Nest] 4022  - 11/17/2025, 2:36:26 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:31 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:34 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:43 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:46 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:54 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:36:59 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:37:23 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:48:41
+
+  45 
+  46 async login(email: string, password: string) {
+  47   // Trouver l'utilisateur
+→ 48   const user = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.login (/home/runner/workspace/backend/src/auth/auth.service.ts:48:18)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:38:10 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:13:49
+
+  10 
+  11 async register(email: string, password: string, companyName: string) {
+  12   // Vérifier si l'utilisateur existe déjà
+→ 13   const existingUser = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:13:49
+
+  10 
+  11 async register(email: string, password: string, companyName: string) {
+  12   // Vérifier si l'utilisateur existe déjà
+→ 13   const existingUser = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.register (/home/runner/workspace/backend/src/auth/auth.service.ts:13:26)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
+[Nest] 4022  - 11/17/2025, 2:38:11 PM   ERROR [ExceptionsHandler] 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:13:49
+
+  10 
+  11 async register(email: string, password: string, companyName: string) {
+  12   // Vérifier si l'utilisateur existe déjà
+→ 13   const existingUser = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+PrismaClientKnownRequestError: 
+Invalid `this.prisma.user.findUnique()` invocation in
+/home/runner/workspace/backend/src/auth/auth.service.ts:13:49
+
+  10 
+  11 async register(email: string, password: string, companyName: string) {
+  12   // Vérifier si l'utilisateur existe déjà
+→ 13   const existingUser = await this.prisma.user.findUnique(
+The table `main.User` does not exist in the current database.
+    at $n.handleRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6623)
+    at $n.request (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:121:6307)
+    at async l (/home/runner/workspace/backend/node_modules/.prisma/client/runtime/library.js:130:9633)
+    at async AuthService.register (/home/runner/workspace/backend/src/auth/auth.service.ts:13:26)
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-execution-context.js:46:28
+    at async /home/runner/workspace/backend/node_modules/@nestjs/core/router/router-proxy.js:9:17
