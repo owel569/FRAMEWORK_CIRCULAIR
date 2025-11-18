@@ -19,7 +19,7 @@ const teamMembers: TeamMember[] = [
     name: "Dr. Amina Benali",
     role: "Directrice Générale",
     bio: "Experte en économie circulaire avec 15 ans d'expérience dans le développement durable.",
-    image: "👩‍💼",
+    image: "/team/amina-benali.jpg",
     email: "amina.benali@eigsi-circular-lab.ma",
     linkedin: "#",
     specialties: ["Stratégie", "ISO 59000", "Innovation"]
@@ -29,7 +29,7 @@ const teamMembers: TeamMember[] = [
     name: "Youssef El Idrissi",
     role: "Directeur Technique",
     bio: "Ingénieur spécialisé en systèmes d'évaluation environnementale et digitalisation.",
-    image: "👨‍💻",
+    image: "/team/youssef-elidrissi.jpg",
     email: "youssef.elidrissi@eigsi-circular-lab.ma",
     linkedin: "#",
     specialties: ["Tech", "Data Analysis", "Automation"]
@@ -39,7 +39,7 @@ const teamMembers: TeamMember[] = [
     name: "Fatima Zahra Alami",
     role: "Responsable Formation",
     bio: "Formatrice certifiée en économie circulaire et accompagnement des entreprises.",
-    image: "👩‍🏫",
+    image: "/team/fatima-alami.jpg",
     email: "fatima.alami@eigsi-circular-lab.ma",
     linkedin: "#",
     specialties: ["Formation", "Conseil", "Accompagnement"]
@@ -49,7 +49,7 @@ const teamMembers: TeamMember[] = [
     name: "Mehdi Hamza",
     role: "Analyste Senior",
     bio: "Expert en analyse de données et modélisation des impacts environnementaux.",
-    image: "👨‍🔬",
+    image: "/team/mehdi-hamza.jpg",
     email: "mehdi.hamza@eigsi-circular-lab.ma",
     linkedin: "#",
     specialties: ["Analytics", "Reporting", "KPIs"]
@@ -59,7 +59,7 @@ const teamMembers: TeamMember[] = [
     name: "Sarah Bennani",
     role: "Chargée de Communication",
     bio: "Spécialiste en communication RSE et engagement des parties prenantes.",
-    image: "👩‍💼",
+    image: "/team/sarah-bennani.jpg",
     email: "sarah.bennani@eigsi-circular-lab.ma",
     linkedin: "#",
     specialties: ["Communication", "Marketing", "RSE"]
@@ -128,8 +128,15 @@ export default function Team() {
                 
                 <div className="relative p-8">
                   <div className="flex justify-center mb-4">
-                    <div className={`text-8xl transform transition-transform duration-500 ${hoveredId === member.id ? 'scale-110 rotate-12' : ''}`}>
-                      {member.image}
+                    <div className={`relative w-32 h-32 rounded-full overflow-hidden border-4 border-circular-blue/20 transform transition-transform duration-500 ${hoveredId === member.id ? 'scale-110 border-circular-blue' : ''}`}>
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/150/0EA5E9/ffffff?text=' + member.name.split(' ').map(n => n[0]).join('');
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -222,7 +229,13 @@ export default function Team() {
           >
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center gap-4">
-                <div className="text-6xl">{selectedMember.image}</div>
+                <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-circular-blue/20">
+                  <img
+                    src={selectedMember.image}
+                    alt={selectedMember.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900">{selectedMember.name}</h2>
                   <p className="text-circular-blue-dark font-semibold">{selectedMember.role}</p>
