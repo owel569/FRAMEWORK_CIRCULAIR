@@ -255,9 +255,20 @@ export default function QuestionnaireForm() {
           }
 
           const sectorKey = sectorMap[company.sector]
+          console.log('🔍 Chargement des questions pour secteur:', company.sector, '→', sectorKey)
+          
           if (sectorKey) {
             const response = await axios.get(`${BACKEND_URL}/questionnaires/${sectorKey}`)
-            const questions = response.data.questions
+            console.log('📥 Réponse API:', response.data)
+            
+            if (response.data.error) {
+              console.error('❌ Erreur API:', response.data.error)
+              alert(`Erreur: ${response.data.error}`)
+              return
+            }
+            
+            const questions = response.data.questions || []
+            console.log(`✅ ${questions.length} questions reçues`)
 
             // Grouper par catégorie
             const grouped = {
@@ -267,10 +278,20 @@ export default function QuestionnaireForm() {
               logistics: questions.filter((q: any) => q.category.includes('Logistique'))
             }
 
+            console.log('📊 Questions groupées:', {
+              environmental: grouped.environmental.length,
+              economic: grouped.economic.length,
+              social: grouped.social.length,
+              logistics: grouped.logistics.length
+            })
+
             setSectorQuestions(grouped)
+          } else {
+            console.error('❌ Secteur non mappé:', company.sector)
           }
-        } catch (error) {
-          console.error('Erreur chargement questions:', error)
+        } catch (error: any) {
+          console.error('❌ Erreur chargement questions:', error)
+          console.error('Détails:', error.response?.data || error.message)
         }
       }
     }

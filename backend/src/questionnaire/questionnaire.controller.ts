@@ -24,29 +24,39 @@ export class QuestionnaireController {
 
   @Get(':sector')
   async getQuestionnaireBySector(@Param('sector') sector: string) {
-    const sectorKey = sector as SectorCategory;
-    const sectorName = SectorCategory[sectorKey];
-    
-    if (!sectorName) {
-      return { error: 'Secteur non trouvé' };
-    }
+    try {
+      const sectorKey = sector.toUpperCase() as SectorCategory;
+      
+      // Vérifier si le secteur existe
+      const sectorData = SECTOR_QUESTIONNAIRES[sectorKey];
+      
+      if (!sectorData) {
+        console.error(`Secteur non trouvé: ${sector}`);
+        return { 
+          error: 'Secteur non trouvé',
+          availableSectors: Object.keys(SECTOR_QUESTIONNAIRES)
+        };
+      }
 
-    const sectorData = SECTOR_QUESTIONNAIRES[sectorKey];
-    
-    if (!sectorData) {
-      return { error: 'Secteur non trouvé' };
+      const questionsWithGuidance = sectorData.questions.map(q => ({
+        ...q,
+        guidance: getGuidanceForQuestion(q.text, q.category, q.unit)
+      }));
+      
+      console.log(`✅ Questions chargées pour ${sectorKey}: ${questionsWithGuidance.length} questions`);
+      
+      return {
+        sector: SectorCategory[sectorKey],
+        subSectors: sectorData.subSectors,
+        questions: questionsWithGuidance,
+      };
+    } catch (error) {
+      console.error('Erreur lors du chargement des questions:', error);
+      return { 
+        error: 'Erreur lors du chargement des questions',
+        message: error.message 
+      };
     }
-
-    const questionsWithGuidance = sectorData.questions.map(q => ({
-      ...q,
-      guidance: getGuidanceForQuestion(q.text, q.category, q.unit)
-    }));
-    
-    return {
-      sector: sectorName,
-      subSectors: sectorData.subSectors,
-      questions: questionsWithGuidance,
-    };
   }
 
   @Get()
