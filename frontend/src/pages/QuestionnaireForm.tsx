@@ -5,6 +5,48 @@ import { API_URL } from '../config'
 
 const BACKEND_URL = API_URL
 
+// Interfaces TypeScript
+interface Question {
+  id: string;
+  text: string;
+  type: 'boolean' | 'percentage' | 'number' | 'choice' | 'text';
+  category: string;
+  unit?: string;
+  weight: number;
+  choices?: string[];
+}
+
+interface CompanyData {
+  name: string;
+  sector: string;
+  subSector: string;
+  email: string;
+  phone: string;
+  employeeCount?: number;
+}
+
+interface ResponsesData {
+  [categoryId: string]: {
+    [questionId: string]: any;
+  };
+}
+
+interface SectorQuestions {
+  environmental: Question[];
+  economic: Question[];
+  social: Question[];
+  logistics: Question[];
+}
+
+interface QuestionnaireProgress {
+  company: CompanyData;
+  responses: ResponsesData;
+  currentStep: number;
+  lastSaved: number;
+}
+
+const STORAGE_KEY = 'questionnaire-progress'
+
 // Import des secteurs et sous-secteurs depuis votre structure de données
 const SECTORS = {
   'Agriculture, sylviculture et pêche': [
@@ -207,24 +249,80 @@ const DIAGNOSTIC_CATEGORIES = [
 export default function QuestionnaireForm() {
   const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(0)
-  const [company, setCompany] = useState({
+  const [company, setCompany] = useState<CompanyData>({
     name: '',
     sector: '',
     subSector: '',
     email: '',
     phone: '',
-    employeeCount: undefined as number | undefined
+    employeeCount: undefined
   })
-  const [responses, setResponses] = useState<any>({})
+  const [responses, setResponses] = useState<ResponsesData>({})
   const [loading, setLoading] = useState(false)
-  const [sectorQuestions, setSectorQuestions] = useState<any>({
+  const [sectorQuestions, setSectorQuestions] = useState<SectorQuestions>({
     environmental: [],
     economic: [],
     social: [],
     logistics: []
   })
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved')
 
   const totalSteps = 5 // Info entreprise + 4 diagnostics
+
+  // 💾 Restaurer la progression au chargement
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      try {
+        const data: QuestionnaireProgress = JSON.parse(saved)
+        const timeSinceLastSave = Date.now() - data.lastSaved
+        
+        // Si sauvegardé il y a moins de 24h
+        if (timeSinceLastSave < 24 * 60 * 60 * 1000) {
+          const shouldRestore = window.confirm(
+            '💾 Nous avons trouvé une évaluation en cours. Voulez-vous la continuer ?'
+          )
+          
+          if (shouldRestore) {
+            setCompany(data.company)
+            setResponses(data.responses)
+            setCurrentStep(data.currentStep)
+          } else {
+            localStorage.removeItem(STORAGE_KEY)
+          }
+        } else {
+          localStorage.removeItem(STORAGE_KEY)
+        }
+      } catch (error) {
+        console.error('Erreur de restauration:', error)
+        localStorage.removeItem(STORAGE_KEY)
+      }
+    }
+  }, [])
+
+  // 💾 Sauvegarde automatique
+  useEffect(() => {
+    if (company.name || Object.keys(responses).length > 0) {
+      setAutoSaveStatus('saving')
+      const saveTimer = setTimeout(() => {
+        try {
+          const progress: QuestionnaireProgress = {
+            company,
+            responses,
+            currentStep,
+            lastSaved: Date.now()
+          }
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
+          setAutoSaveStatus('saved')
+        } catch (error) {
+          console.error('Erreur de sauvegarde:', error)
+          setAutoSaveStatus('error')
+        }
+      }, 1000) // Sauvegarde après 1 seconde d'inactivité
+
+      return () => clearTimeout(saveTimer)
+    }
+  }, [company, responses, currentStep])
 
   useEffect(() => {
     const loadSectorQuestions = async () => {
@@ -373,6 +471,9 @@ export default function QuestionnaireForm() {
         responses
       })
 
+      // Nettoyer la sauvegarde automatique après succès
+      localStorage.removeItem(STORAGE_KEY)
+      
       navigate(`/dashboard/${scoreResponse.data.id}`)
     } catch (error) {
       console.error('Erreur:', error)
@@ -785,6 +886,43 @@ export default function QuestionnaireForm() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-green-50 py-12">
       <div className="max-w-6xl mx-auto px-4">
+        {/* Indicateur de sauvegarde automatique */}
+        {(company.name || Object.keys(responses).length > 0) && (
+          <div className="mb-4 flex justify-end">
+            <div className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 ${
+              autoSaveStatus === 'saved' ? 'bg-green-50 text-green-700' :
+              autoSaveStatus === 'saving' ? 'bg-blue-50 text-blue-700' :
+              'bg-red-50 text-red-700'
+            }`}>
+              {autoSaveStatus === 'saved' && (
+                <>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Sauvegardé automatiquement
+                </>
+              )}
+              {autoSaveStatus === 'saving' && (
+                <>
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sauvegarde en cours...
+                </>
+              )}
+              {autoSaveStatus === 'error' && (
+                <>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  Erreur de sauvegarde
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        
         {/* En-tête professionnel */}
         <div className="bg-white rounded-t-2xl shadow-sm border-b-4 border-gradient-to-r from-circular-blue to-circular-green p-6 mb-0">
           <div className="flex items-center justify-between">
