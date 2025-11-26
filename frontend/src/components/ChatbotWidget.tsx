@@ -12,7 +12,11 @@ export default function ChatbotWidget() {
   const [isTyping, setIsTyping] = useState(false)
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [showSuggestions, setShowSuggestions] = useState(true)
+  const [isListening, setIsListening] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const recognitionRef = useRef<any>(null)
+  const synthRef = useRef<SpeechSynthesis | null>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -23,6 +27,40 @@ export default function ChatbotWidget() {
   useEffect(() => {
     scrollToBottom()
   }, [messages, isTyping])
+
+  useEffect(() => {
+    // Initialiser la reconnaissance vocale
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      recognitionRef.current = new SpeechRecognition()
+      recognitionRef.current.continuous = false
+      recognitionRef.current.interimResults = false
+      recognitionRef.current.lang = 'fr-FR'
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript
+        setInput(transcript)
+        setIsListening(false)
+      }
+
+      recognitionRef.current.onerror = () => {
+        setIsListening(false)
+      }
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false)
+      }
+    }
+
+    // Initialiser la synthèse vocale
+    synthRef.current = window.speechSynthesis
+
+    return () => {
+      if (synthRef.current) {
+        synthRef.current.cancel()
+      }
+    }
+  }, [])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -77,6 +115,48 @@ export default function ChatbotWidget() {
 
   const handleSuggestionClick = (suggestion: string) => {
     handleSend(suggestion)
+  }
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop()
+      setIsListening(false)
+    } else {
+      if (recognitionRef.current) {
+        recognitionRef.current.start()
+        setIsListening(true)
+      } else {
+        alert('La reconnaissance vocale n\'est pas supportée par votre navigateur. Veuillez utiliser Chrome, Edge ou Safari.')
+      }
+    }
+  }
+
+  const speakText = (text: string) => {
+    if (!synthRef.current) {
+      alert('La synthèse vocale n\'est pas supportée par votre navigateur.')
+      return
+    }
+
+    // Arrêter toute lecture en cours
+    synthRef.current.cancel()
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'fr-FR'
+    utterance.rate = 0.9
+    utterance.pitch = 1
+
+    utterance.onstart = () => setIsSpeaking(true)
+    utterance.onend = () => setIsSpeaking(false)
+    utterance.onerror = () => setIsSpeaking(false)
+
+    synthRef.current.speak(utterance)
+  }
+
+  const stopSpeaking = () => {
+    if (synthRef.current) {
+      synthRef.current.cancel()
+      setIsSpeaking(false)
+    }
   }
 
   const formatTime = (date: Date) => {
@@ -142,6 +222,18 @@ export default function ChatbotWidget() {
                         : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
                     }`}>
                       <p className="text-sm leading-relaxed whitespace-pre-line">{msg.text}</p>
+                      {msg.type === 'bot' && (
+                        <button
+                          onClick={() => speakText(msg.text)}
+                          className="mt-2 text-xs text-circular-blue hover:text-circular-blue-dark flex items-center gap-1 transition-colors"
+                          title="Écouter la réponse"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                          </svg>
+                          Écouter
+                        </button>
+                      )}
                     </div>
                     <span className="text-xs text-gray-400 mt-1 px-2">
                       {formatTime(msg.timestamp)}
@@ -194,15 +286,47 @@ export default function ChatbotWidget() {
           </div>
 
           <div className="p-4 border-t border-gray-100 bg-white">
+            {isSpeaking && (
+              <div className="mb-2 flex items-center justify-between bg-circular-blue/10 px-3 py-2 rounded-lg">
+                <span className="text-xs text-circular-blue-dark flex items-center gap-2">
+                  <svg className="w-4 h-4 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                  </svg>
+                  Lecture en cours...
+                </span>
+                <button
+                  onClick={stopSpeaking}
+                  className="text-xs text-red-600 hover:text-red-700 font-medium"
+                >
+                  Arrêter
+                </button>
+              </div>
+            )}
             <div className="flex space-x-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && !loading && handleSend()}
-                placeholder="Tapez votre question..."
+                placeholder={isListening ? "🎤 Parlez maintenant..." : "Tapez votre question..."}
                 className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all duration-200 text-sm"
               />
+              <button
+                onClick={toggleListening}
+                disabled={loading}
+                className={`px-4 py-3 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 ${
+                  isListening
+                    ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                }`}
+                title={isListening ? "Arrêter l'enregistrement" : "Commencer l'enregistrement vocal"}
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                  <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                </svg>
+              </button>
               <button 
                 onClick={() => handleSend()}
                 disabled={loading || !input.trim()}
