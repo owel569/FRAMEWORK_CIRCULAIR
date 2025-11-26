@@ -99,6 +99,28 @@ body {
     }
   }
   
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
   @keyframes slideInLeft {
     from {
       opacity: 0;
@@ -211,5 +233,13 @@ body {
   
   .animate-bounce-slow {
     animation: bounce 2s ease-in-out infinite;
+  }
+  
+  .animate-fadeInLeft {
+    animation: fadeInLeft 0.8s ease-out forwards;
+  }
+  
+  .animate-fadeInRight {
+    animation: fadeInRight 0.8s ease-out forwards;
   }
 }

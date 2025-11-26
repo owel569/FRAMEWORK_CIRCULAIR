@@ -52,8 +52,8 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-circular-blue/20">
+            <div className="animate-fadeInLeft">
+              <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-circular-blue/20 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-circular-blue opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-circular-blue"></span>
@@ -61,90 +61,91 @@ export default function Home() {
                 <span className="text-sm font-semibold text-circular-blue-dark">Certifié ISO 59000 • Maroc</span>
               </div>
 
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight animate-fadeInUp">
                 Transformez votre entreprise vers l'
-                <span className="bg-gradient-to-r from-circular-blue to-circular-green bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-circular-blue via-purple-600 to-circular-green bg-clip-text text-transparent bg-300% animate-gradientShift">
                   économie circulaire
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed animate-fadeInUp animation-delay-200">
                 Première plateforme marocaine d'évaluation et d'accompagnement ISO 59000. 
                 Mesurez, analysez et améliorez votre performance circulaire en moins de 30 minutes.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fadeInUp animation-delay-400">
                 <button
                   onClick={() => navigate('/auth')}
                   className="group relative px-8 py-4 bg-gradient-to-r from-circular-blue to-circular-blue-dark text-white text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    <span>🚀</span>
+                    <span className="text-2xl animate-bounce">🚀</span>
                     Évaluation gratuite
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-circular-blue-dark to-circular-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-circular-blue to-circular-green opacity-0 blur-xl group-hover:opacity-50 transition-opacity duration-300"></div>
                 </button>
 
                 <a
                   href="#about"
-                  className="group px-8 py-4 text-lg font-semibold bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-circular-blue hover:text-circular-blue transition-all duration-300 shadow-md hover:shadow-xl text-center"
+                  className="group px-8 py-4 text-lg font-semibold bg-white border-2 border-gray-200 text-gray-700 rounded-xl hover:border-circular-blue hover:text-circular-blue transition-all duration-300 shadow-md hover:shadow-xl text-center transform hover:scale-105"
                 >
                   En savoir plus
                 </a>
               </div>
 
-              <div className="flex items-center gap-6 text-sm text-gray-600">
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 animate-fadeIn animation-delay-400">
+                <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+                  <svg className="w-5 h-5 text-green-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>100% gratuit</span>
+                  <span className="font-medium">100% gratuit</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+                  <svg className="w-5 h-5 text-green-500 animate-pulse animation-delay-200" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>Résultats instantanés</span>
+                  <span className="font-medium">Résultats instantanés</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+                  <svg className="w-5 h-5 text-green-500 animate-pulse animation-delay-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>Plan d'action personnalisé</span>
+                  <span className="font-medium">Plan d'action personnalisé</span>
                 </div>
               </div>
             </div>
 
-            <div className="relative">
-              <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
+            <div className="relative animate-fadeInRight">
+              <div className="bg-white p-8 rounded-2xl shadow-2xl border border-gray-100 hover:shadow-3xl transition-all duration-500 transform hover:scale-105">
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
-                    <div className="text-4xl font-bold text-circular-blue mb-2">4</div>
-                    <div className="text-sm text-gray-600">Dimensions d'analyse</div>
+                  <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-pointer group">
+                    <div className="text-4xl font-bold text-circular-blue mb-2 group-hover:scale-125 transition-transform">4</div>
+                    <div className="text-sm text-gray-600 font-medium">Dimensions d'analyse</div>
                   </div>
-                  <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
-                    <div className="text-4xl font-bold text-circular-green mb-2">20+</div>
-                    <div className="text-sm text-gray-600">Secteurs couverts</div>
+                  <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-pointer group">
+                    <div className="text-4xl font-bold text-circular-green mb-2 group-hover:scale-125 transition-transform">20+</div>
+                    <div className="text-sm text-gray-600 font-medium">Secteurs couverts</div>
                   </div>
-                  <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
-                    <div className="text-4xl font-bold text-purple-600 mb-2">360°</div>
-                    <div className="text-sm text-gray-600">Évaluation complète</div>
+                  <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-pointer group">
+                    <div className="text-4xl font-bold text-purple-600 mb-2 group-hover:scale-125 transition-transform">360°</div>
+                    <div className="text-sm text-gray-600 font-medium">Évaluation complète</div>
                   </div>
-                  <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl">
-                    <div className="text-4xl font-bold text-orange-600 mb-2">ISO</div>
-                    <div className="text-sm text-gray-600">59000 conforme</div>
+                  <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl transform hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-pointer group">
+                    <div className="text-4xl font-bold text-orange-600 mb-2 group-hover:scale-125 transition-transform">ISO</div>
+                    <div className="text-sm text-gray-600 font-medium">59000 conforme</div>
                   </div>
                 </div>
 
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                <div className="mt-6 p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg hover:shadow-md transition-all duration-300">
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">A</div>
-                      <div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">B</div>
-                      <div className="w-8 h-8 rounded-full bg-purple-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold">C</div>
+                      <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold animate-bounce">A</div>
+                      <div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold animate-bounce animation-delay-200">B</div>
+                      <div className="w-8 h-8 rounded-full bg-purple-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold animate-bounce animation-delay-400">C</div>
                     </div>
                     <div className="text-sm text-gray-600">
                       <span className="font-semibold text-gray-900">150+ entreprises</span> déjà évaluées
@@ -153,8 +154,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-circular-green rounded-full opacity-20 blur-2xl"></div>
-              <div className="absolute -top-4 -left-4 w-32 h-32 bg-circular-blue rounded-full opacity-20 blur-2xl"></div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-circular-green rounded-full opacity-20 blur-2xl animate-pulse-slow"></div>
+              <div className="absolute -top-4 -left-4 w-32 h-32 bg-circular-blue rounded-full opacity-20 blur-2xl animate-pulse-slow animation-delay-2000"></div>
             </div>
           </div>
         </div>
