@@ -1,0 +1,97 @@
+Points d'amélioration
+1. Typage TypeScript plus strict
+typescript
+// À la place de `any`
+interface Question {
+  id: string;
+  text: string;
+  type: 'boolean' | 'percentage' | 'number' | 'choice' | 'text';
+  category: string;
+  unit?: string;
+  weight: number;
+  choices?: string[];
+}
+
+interface CompanyData {
+  name: string;
+  sector: string;
+  subSector: string;
+  email: string;
+  phone: string;
+  employeeCount?: number;
+}
+2. Gestion d'erreurs améliorée
+typescript
+// Remplacer les alertes natives
+const [error, setError] = useState<string | null>(null);
+const [success, setSuccess] = useState<string | null>(null);
+3. Séparation des responsabilités
+Extraire SECTORS et DIAGNOSTIC_CATEGORIES dans des fichiers de configuration
+
+Créer des composants dédiés :
+
+CompanyInfoForm
+
+DiagnosticStep
+
+QuestionComponent
+
+4. Performance
+typescript
+// Éviter les recalculs dans les rendus
+const helpResource = useMemo(() => 
+  getHelpResource(question.text, category.id), 
+  [question.text, category.id]
+);
+5. Gestion des données sensibles
+typescript
+// Ne pas exposer les URLs en dur
+const RESOURCE_URLS = {
+  environment: process.env.REACT_APP_ENV_RESOURCE_URL,
+  economic: process.env.REACT_APP_ECO_RESOURCE_URL,
+  // ...
+};
+🛠 Suggestions d'amélioration immédiates
+1. Sauvegarde automatique
+typescript
+// Sauvegarder les réponses localement
+useEffect(() => {
+  const saved = localStorage.getItem('questionnaire-progress');
+  if (saved) {
+    const data = JSON.parse(saved);
+    setCompany(data.company);
+    setResponses(data.responses);
+    setCurrentStep(data.currentStep);
+  }
+}, []);
+
+useEffect(() => {
+  localStorage.setItem('questionnaire-progress', JSON.stringify({
+    company,
+    responses,
+    currentStep
+  }));
+}, [company, responses, currentStep]);
+2. Validation avancée par étape
+typescript
+const canProceedToNextStep = () => {
+  switch(currentStep) {
+    case 0: 
+      return validateCompanyInfo();
+    case 1:
+      return validateEnvironmentalQuestions();
+    // ...
+    default:
+      return true;
+  }
+};
+3. Composant Question réutilisable
+typescript
+const QuestionCard = ({ 
+  question, 
+  category, 
+  response, 
+  onResponse 
+}: QuestionCardProps) => {
+  // Logique de rendu spécifique au type de question
+};
