@@ -34,8 +34,28 @@ Application web complète qui sert de plateforme d'accompagnement à la mise en 
 ### Prérequis
 - Node.js 20+
 - npm ou yarn
+- Clé API HuggingFace (voir section Configuration ci-dessous)
 
-### Backend
+### Première Installation
+
+```bash
+# Initialisation complète du projet
+bash init.sh
+```
+
+### Démarrage rapide
+
+```bash
+# Démarrer l'application (backend + frontend)
+bash start.sh
+```
+
+Le backend sera disponible sur `http://localhost:3000`  
+Le frontend sera disponible sur `http://localhost:5000`
+
+### Installation manuelle (optionnel)
+
+#### Backend
 
 ```bash
 cd backend
@@ -45,17 +65,13 @@ npx prisma migrate dev --name init
 npm run start:dev
 ```
 
-Le backend sera disponible sur `http://localhost:3000`
-
-### Frontend
+#### Frontend
 
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
-Le frontend sera disponible sur `http://localhost:5000`
 
 ## 📊 Stack Technique
 
@@ -102,11 +118,29 @@ FRAMEWORK_CIRCULAIR/
 
 ### Variables d'environnement Backend
 
+**IMPORTANT** : Pour le chatbot, vous devez configurer votre clé API HuggingFace.
+
+#### Sur Replit (Recommandé)
+
+1. Ouvrez l'outil **Secrets** dans la barre latérale gauche
+2. Cliquez sur "Create new secret"
+3. Ajoutez :
+   - **Key** : `HUGGINGFACE_API_KEY`
+   - **Value** : Votre clé API HuggingFace (obtenue sur https://huggingface.co/settings/tokens)
+4. Cliquez sur "Add new secret"
+
+#### En local (fichier `.env`)
+
+Créez un fichier `backend/.env` avec :
+
 ```env
 DATABASE_URL="file:./dev.db"
 PORT=3000
 NODE_ENV=development
+HUGGINGFACE_API_KEY=votre_clé_api_ici
 ```
+
+**⚠️ Ne jamais commit le fichier `.env` !** Il est déjà dans `.gitignore`.
 
 ### Configuration Frontend
 
@@ -160,6 +194,38 @@ npm test
 
 - **ISO 59004:2024** - Lignes directrices pour la mise en œuvre
 - **ISO 59020:2024** - Mesure et évaluation de la circularité
+
+## ❓ FAQ - Questions fréquentes
+
+### Comment obtenir une clé API HuggingFace ?
+
+1. Créez un compte gratuit sur https://huggingface.co
+2. Allez dans Settings → Access Tokens : https://huggingface.co/settings/tokens
+3. Cliquez sur "Create new token"
+4. Donnez un nom (ex: "ISO59000-Project")
+5. Sélectionnez "Read" comme type
+6. Copiez la clé générée
+
+### Comment configurer la clé API sur un nouvel espace Replit ?
+
+**Sur Replit, utilisez TOUJOURS l'outil Secrets** au lieu de créer un fichier `.env` :
+
+1. Ouvrez votre Repl
+2. Dans la barre latérale gauche, cliquez sur l'icône **🔒 Secrets** (cadenas)
+3. Ajoutez la clé `HUGGINGFACE_API_KEY` avec votre token
+4. Redémarrez l'application avec `bash start.sh`
+
+Les secrets Replit sont :
+- ✅ Sécurisés (non visibles dans le code)
+- ✅ Automatiquement injectés comme variables d'environnement
+- ✅ Non partagés dans le fork/clone du projet
+
+### Le chatbot ne fonctionne pas
+
+Vérifiez que :
+1. La clé API HuggingFace est bien configurée dans Secrets
+2. Le backend démarre sans l'erreur `HUGGINGFACE_API_KEY manquante`
+3. Vous avez redémarré l'application après avoir ajouté la clé
 
 ## 👥 Contributeurs
 
