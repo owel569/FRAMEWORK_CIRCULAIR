@@ -1,8 +1,14 @@
+
 #!/bin/bash
 
 echo "🚀 Démarrage de l'application Framework Économie Circulaire..."
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "🔧 Vérification de Prisma..."
+cd "$DIR/backend"
+npx prisma generate --silent 2>/dev/null || echo "⚠️ Prisma déjà généré"
+cd "$DIR"
 
 echo "📦 Démarrage du backend NestJS sur localhost:3000..."
 cd "$DIR/backend" && npm run start:dev &
