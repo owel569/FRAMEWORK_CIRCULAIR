@@ -5,9 +5,12 @@ echo "🚀 Démarrage de l'application Framework Économie Circulaire..."
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo "🔧 Vérification de Prisma..."
+echo "🔧 Configuration de Prisma..."
 cd "$DIR/backend"
-npx prisma generate --silent 2>/dev/null || echo "⚠️ Prisma déjà généré"
+echo "   → Génération du client Prisma..."
+npx prisma generate --silent 2>/dev/null || echo "⚠️ Client déjà généré"
+echo "   → Application des migrations..."
+npx prisma migrate deploy --schema=./prisma/schema.prisma 2>/dev/null || echo "⚠️ Migrations déjà appliquées"
 cd "$DIR"
 
 echo "📦 Démarrage du backend NestJS sur localhost:3000..."
