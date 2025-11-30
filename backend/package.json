@@ -24,6 +24,7 @@
     "prisma:push": "prisma db push --schema=./prisma/schema.prisma"
   },
   "dependencies": {
+    "@google/genai": "^1.30.0",
     "@huggingface/inference": "^4.13.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",

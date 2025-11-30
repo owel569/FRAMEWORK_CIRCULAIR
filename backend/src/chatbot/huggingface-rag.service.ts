@@ -1,21 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { HfInference } from '@huggingface/inference';
+import { GoogleGenAI } from '@google/genai';
+
+// Blueprint: javascript_gemini - Using Gemini for text generation
 
 @Injectable()
 export class HuggingFaceRAGService {
-  private hf: HfInference;
+  private hf: HfInference | null = null;
+  private gemini: GoogleGenAI | null = null;
   private readonly embeddingModel = 'sentence-transformers/all-MiniLM-L6-v2';
-  private readonly generationModel = 'meta-llama/Meta-Llama-3-8B-Instruct';
+  private readonly geminiModel = 'gemini-2.5-flash';
 
   constructor() {
-    const apiKey = process.env.HUGGINGFACE_API_KEY;
-    if (!apiKey) {
-      throw new Error('HUGGINGFACE_API_KEY manquante dans les variables d\'environnement');
+    const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+    if (hfApiKey) {
+      this.hf = new HfInference(hfApiKey);
     }
-    this.hf = new HfInference(apiKey);
+
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (geminiApiKey) {
+      this.gemini = new GoogleGenAI({ apiKey: geminiApiKey });
+    }
+
+    if (!this.gemini && !this.hf) {
+      console.warn('⚠️ Aucune clé API configurée pour le chatbot (GEMINI_API_KEY ou HUGGINGFACE_API_KEY)');
+    }
   }
 
   async generateEmbedding(text: string): Promise<number[]> {
+    if (!this.hf) {
+      console.warn('⚠️ HuggingFace non configuré pour les embeddings');
+      return [];
+    }
+
     try {
       const result = await this.hf.featureExtraction({
         model: this.embeddingModel,
@@ -118,36 +135,20 @@ Réponds maintenant de manière professionnelle et précise.`;
     try {
       let fullResponse = '';
 
-      // Timeout de 20 secondes pour éviter blocages
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-        console.warn('⏱️ Timeout Llama-3 (20s) - génération annulée');
-      }, 20000);
+      if (this.gemini) {
+        // Utiliser Gemini pour la génération
+        console.log('🤖 Génération de réponse avec Gemini...');
+        
+        const response = await this.gemini.models.generateContent({
+          model: this.geminiModel,
+          contents: systemPrompt,
+        });
 
-      const stream = this.hf.chatCompletionStream({
-        model: this.generationModel,
-        messages: [
-          {
-            role: 'user',
-            content: systemPrompt,
-          },
-        ],
-        max_tokens: 1024,
-        temperature: 0.3,
-        abortSignal: controller.signal, // Utilisation du signal d'AbortController
-      });
-
-      for await (const chunk of stream) {
-        if (chunk.choices && chunk.choices.length > 0) {
-          const delta = chunk.choices[0].delta;
-          if (delta.content) {
-            fullResponse += delta.content;
-          }
-        }
+        fullResponse = response.text || '';
+      } else {
+        // Fallback: réponse manuelle si aucun modèle n'est disponible
+        return this.generateManualAnswer(question, relevantChunks);
       }
-
-      clearTimeout(timeoutId); // Annuler timeout si succès
 
       const avgSimilarity = relevantChunks.reduce((sum, chunk) => sum + chunk.similarity, 0) / relevantChunks.length;
       const confidence = Math.min(0.95, avgSimilarity);
@@ -159,23 +160,13 @@ Réponds maintenant de manière professionnelle et précise.`;
         .join(', ');
 
       return {
-        answer: fullResponse.trim() || 'Réponse incomplète (timeout possible)',
+        answer: fullResponse.trim() || 'Réponse incomplète',
         confidence: confidence,
         source: sources || 'Documents de la base de connaissances',
-        explanation: `Réponse générée à partir de ${relevantChunks.length} passage(s) pertinent(s) avec une similarité moyenne de ${(avgSimilarity * 100).toFixed(1)}%.`,
+        explanation: `Réponse générée avec Gemini à partir de ${relevantChunks.length} passage(s) pertinent(s) avec une similarité moyenne de ${(avgSimilarity * 100).toFixed(1)}%.`,
       };
     } catch (error) {
-      if (error.name === 'AbortError') {
-        console.error('⏱️ Génération Llama-3 interrompue (timeout 20s)');
-        return {
-          answer: 'La génération de réponse a pris trop de temps. Veuillez réessayer avec une question plus simple.',
-          confidence: 0,
-          source: 'Timeout',
-          explanation: 'Timeout après 20 secondes',
-        };
-      }
-      console.error('Erreur génération réponse:', error);
-
+      console.error('Erreur génération réponse Gemini:', error);
       const manualAnswer = this.generateManualAnswer(question, relevantChunks);
       return manualAnswer;
     }
