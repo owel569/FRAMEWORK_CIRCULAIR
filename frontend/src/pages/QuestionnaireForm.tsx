@@ -688,7 +688,7 @@ export default function QuestionnaireForm() {
     const categoryIndex = currentStep - 1
     const category = DIAGNOSTIC_CATEGORIES[categoryIndex]
 
-    const categoryKeys = ['environmental', 'economic', 'social', 'logistics']
+    const categoryKeys: (keyof SectorQuestions)[] = ['environmental', 'economic', 'social', 'logistics']
     const categoryKey = categoryKeys[categoryIndex]
     const questions = sectorQuestions[categoryKey] || []
 
