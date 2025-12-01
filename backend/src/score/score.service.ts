@@ -27,7 +27,7 @@ interface ScoreCalculationResult {
 export class ScoreService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async calculateScore(companyId: string, responses: DimensionResponses): Promise<Score> {
+  async calculateScore(companyId: string, responses: any): Promise<Score> {
     const company = await this.prisma.company.findUnique({
       where: { id: companyId }
     });
@@ -36,7 +36,15 @@ export class ScoreService {
       throw new Error(`Company with ID ${companyId} not found`);
     }
 
-    const scores = this.calculateAllScores(responses, company);
+    // Convertir les réponses au format attendu
+    const formattedResponses: DimensionResponses = {
+      governance: this.formatResponses(responses.governance),
+      economic: this.formatResponses(responses.economic),
+      social: this.formatResponses(responses.social),
+      environmental: this.formatResponses(responses.environmental),
+    };
+
+    const scores = this.calculateAllScores(formattedResponses, company);
 
     const score = await this.prisma.score.create({
       data: {
@@ -53,19 +61,39 @@ export class ScoreService {
     return score;
   }
 
+  private formatResponses(dimensionResponses: any): QuestionResponse[] {
+    if (!dimensionResponses) return [];
+    
+    // Si c'est déjà un tableau, le retourner
+    if (Array.isArray(dimensionResponses)) {
+      return dimensionResponses;
+    }
+    
+    // Si c'est un objet, le convertir en tableau
+    return Object.entries(dimensionResponses).map(([id, value]) => ({
+      id,
+      value: Number(value) || 0
+    }));
+  }
+
   private calculateAllScores(
     responses: DimensionResponses,
     company: Company
   ): ScoreCalculationResult {
+    console.log('📊 Calcul des scores avec réponses:', JSON.stringify(responses, null, 2));
+    
     const generalQuestionIds = GENERAL_QUESTIONS.map(q => q.id);
-    const generalScore = this.calculateDimensionScore(responses.governance?.filter(q => generalQuestionIds.includes(q.id)) ?? []);
-    const governanceScore = this.calculateDimensionScore(responses.governance?.filter(q => !generalQuestionIds.includes(q.id)) ?? []);
+    const governanceResponses = responses.governance ?? [];
+    const generalScore = this.calculateDimensionScore(governanceResponses.filter(q => generalQuestionIds.includes(q.id)));
+    const governanceScore = this.calculateDimensionScore(governanceResponses.filter(q => !generalQuestionIds.includes(q.id)));
     const economicScore = this.calculateEnhancedEconomicScore(responses.economic ?? [], company);
     const socialScore = this.calculateEnhancedSocialScore(responses.social ?? [], company);
     const environmentalScore = this.calculateEnhancedEnvironmentalScore(
       responses.environmental ?? [],
       company
     );
+    
+    console.log('✅ Scores calculés:', { governanceScore, economicScore, socialScore, environmentalScore });
 
     // Pondération ISO 59000 : Env (35%), Éco (30%), Social (20%), Gouvernance (15%)
     const globalScore = Number(
