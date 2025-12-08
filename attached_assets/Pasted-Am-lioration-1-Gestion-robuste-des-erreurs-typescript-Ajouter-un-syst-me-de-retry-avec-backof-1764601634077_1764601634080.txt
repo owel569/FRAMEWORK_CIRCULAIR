@@ -1,0 +1,75 @@
+Amélioration 1 : Gestion robuste des erreurs
+typescript
+// Ajouter un système de retry avec backoff
+private async generateEmbeddingWithRetry(
+  text: string, 
+  maxRetries = 3
+): Promise<number[]> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await this.ragService.generateEmbedding(text);
+    } catch (error) {
+      if (attempt === maxRetries) throw error;
+      await this.delay(1000 * attempt); // Backoff exponentiel
+    }
+  }
+}
+Amélioration 2 : Extraction native TypeScript
+typescript
+// Remplacer les scripts Python par:
+import * as pdf from 'pdf-parse'; // Pour PDF
+import * as mammoth from 'mammoth'; // Pour DOCX
+
+private async extractContentNative(filePath: string): Promise<string> {
+  // Implémentation pure TypeScript
+  // Plus fiable, pas de dépendance externe
+}
+Amélioration 3 : Queue et batch processing
+typescript
+// Utiliser Bull ou @nestjs/bull pour les tâches lourdes
+@Process('generate-embeddings')
+async handleEmbeddingsJob(job: Job) {
+  const { documentId, chunks } = job.data;
+  // Traitement par batch de 10
+  for (let i = 0; i < chunks.length; i += 10) {
+    const batch = chunks.slice(i, i + 10);
+    await Promise.all(batch.map(chunk => 
+      this.generateEmbeddingWithRetry(chunk)
+    ));
+  }
+}
+Amélioration 4 : Index vectoriel
+typescript
+// Configurer pgvector dans Prisma
+// schema.prisma:
+model DocumentChunk {
+  id        String   @id @default(cuid())
+  embedding Unsupported("vector(768)")? // Pour pgvector
+  
+  @@index([embedding], type: Brin) // Index ANN
+}
+
+// Recherche avec相似性 native
+async searchWithIndex(queryEmbedding: number[]) {
+  return this.prisma.$queryRaw`
+    SELECT *, embedding <-> ${queryEmbedding}::vector as distance
+    FROM "DocumentChunk"
+    WHERE documentId IN (
+      SELECT id FROM "ChatbotDocument" WHERE "isActive" = true
+    )
+    ORDER BY distance
+    LIMIT 5
+  `;
+}
+Amélioration 5 : Cache Redis
+typescript
+// Cache des embeddings fréquents
+async getCachedEmbedding(text: string): Promise<number[]> {
+  const key = `embedding:${hash(text)}`;
+  const cached = await this.redis.get(key);
+  if (cached) return JSON.parse(cached);
+  
+  const embedding = await this.generateEmbeddingWithRetry(text);
+  await this.redis.setex(key, 86400, JSON.stringify(embedding)); // 24h
+  return embedding;
+}

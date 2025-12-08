@@ -1,0 +1,89 @@
+Principe du calcul :
+Le score repose sur un calcul de comparaison simple :
+pour chaque donnée saisie, le fichier mesure l’écart en pourcentage entre la
+valeur de votre entreprise et la moyenne des PME marocaines appartenant au
+même secteur d’activité et à la même tranche d’effectif.
+C’est pourquoi il est obligatoire de renseigner votre secteur d’activité et votre
+nombre d’employés :
+• Un secteur détermine le type et le volume attendu de flux (par exemple,
+un chantier BTP génère plus de déchets qu’un cabinet de conseil)
+• Le nombre d’employés influence directement les grandeurs
+(consommation d’énergie, volume de déchets, émissions, etc.).
+•
+
+Logique du score :
+• Si la performance de votre entreprise est meilleure que la moyenne
+sectorielle (par exemple : moins de déchets, moins de consommation,
+plus de recyclage),
+→ le score associé sera négatif : il vient réduire votre score global, ce qui
+traduit une meilleure performance circulaire.
+• Si la performance est inférieure à la moyenne,
+→ le score sera positif, indiquant un potentiel d’amélioration.
+
+Guide d’utilisation
+
+Projet IE : Economie Circulaire
+
+8
+
+Calculs automatiques et coefficients :
+Pour les questions générales, vous n’avez rien à modifier :
+les coefficients et formules sont automatiquement appliqués par l’outil.
+En revanche, pour les questions spécifiques à votre domaine d’activité, le
+poids de chaque indicateur varie selon son importance dans votre secteur.
+Il vous appartient donc de choisir manuellement le coefficient associé, selon
+deux éléments :
+• Une intensité de 1 à 3, en fonction de l’influence de la donnée sur la
+performance circulaire.
+Cela signifie que vous pouvez majorer certains critères (en leur attribuant
+un poids de 3, par exemple) s’ils ont une influence forte sur votre activité.
+• Un signe (+ ou –) à appliquer :
+Cette partie est la plus délicate, car le calcul du score peut être positif ou
+négatif.
+Le signe dépend du sens de performance de la donnée :
+o Si votre donnée est meilleure que la moyenne, il faut conserver un
+score négatif, car cela reflète une bonne performance.
+Par exemple :
+▪ Vous produisez 20 tonnes de déchets/an, alors que la moyenne du
+secteur est de 40 tonnes.
+L’écart est donc de –50 %, et comme cette valeur est meilleure, on
+garde le score négatif.
+Vous appliquerez alors un coefficient positif (+1, +2 ou +3) selon
+l’importance du critère.
+
+o À l’inverse, si votre donnée est moins bonne que la moyenne, il
+faut inverser le signe pour que le résultat devienne positif,
+indiquant un axe d’amélioration.
+Par exemple :
+▪ Votre entreprise consacre 2 heures de formation/an/salarié, alors que
+la moyenne est de 4 heures.
+L’écart est aussi de –50 %, mais cette fois, la performance est
+inférieure.
+Vous devez donc appliquer un coefficient négatif (–1, –2 ou –3) afin
+d’obtenir un score final positif.
+
+Guide d’utilisation
+
+Projet IE : Economie Circulaire
+
+9
+
+Calcul du score global par domaine :
+
+Chaque questionnaire (Environnement, Économie, Social, Logistique &
+
+Approvisionnement) génère un score par question, calculé selon le principe ci-
+dessus.
+
+Ensuite, pour chaque domaine, l’outil calcule un score global moyen selon la
+formule suivante :
+Score global du domaine = (Somme des scores obtenus) ÷ (Nombre de
+questions renseignées)
+Ainsi, le résultat final d’un domaine dépend uniquement des questions
+réellement renseignées (réponses « Oui »), et non du nombre total de
+questions proposées.
+Cette méthode permet de rendre les scores comparables entre les différents
+domaines, même si certains comportent plus de questions que d’autres (par
+exemple : 25 questions en environnement contre 10 en social).
+Le score global est donc homogène, équilibré et représentatif de la
+performance réelle de l’entreprise dans chaque pilier de l’économie circulaire.
