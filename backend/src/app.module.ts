@@ -8,6 +8,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
 import { QuestionnaireModule } from './questionnaire/questionnaire.module';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
     ChatbotModule,
     QuestionnaireModule,
     AdminModule,
+    TeamModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],

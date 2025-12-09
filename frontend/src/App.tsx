@@ -11,6 +11,8 @@ import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminQuestions from './pages/AdminQuestions'
 import AdminChatbotDocs from './pages/AdminChatbotDocs'
+import AdminCompanies from './pages/AdminCompanies'
+import AdminTeam from './pages/AdminTeam'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/questions" element={<AdminQuestions />} />
           <Route path="/admin/chatbot-docs" element={<AdminChatbotDocs />} />
+          <Route path="/admin/companies" element={<AdminCompanies />} />
+          <Route path="/admin/team" element={<AdminTeam />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatbotWidget />

@@ -1,9 +1,11 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { API_URL } from '../config'
 
 interface TeamMember {
-  id: number
+  id: string
   name: string
   role: string
   bio: string
@@ -13,62 +15,34 @@ interface TeamMember {
   specialties: string[]
 }
 
-const teamMembers: TeamMember[] = [
-  {
-    id: 1,
-    name: "Dr. Amina Benali",
-    role: "Directrice Générale",
-    bio: "Experte en économie circulaire avec 15 ans d'expérience dans le développement durable.",
-    image: "/team/amina-benali.jpg",
-    email: "amina.benali@eigsi-circular-lab.ma",
-    linkedin: "#",
-    specialties: ["Stratégie", "ISO 59000", "Innovation"]
-  },
-  {
-    id: 2,
-    name: "Youssef El Idrissi",
-    role: "Directeur Technique",
-    bio: "Ingénieur spécialisé en systèmes d'évaluation environnementale et digitalisation.",
-    image: "/team/youssef-elidrissi.jpg",
-    email: "youssef.elidrissi@eigsi-circular-lab.ma",
-    linkedin: "#",
-    specialties: ["Tech", "Data Analysis", "Automation"]
-  },
-  {
-    id: 3,
-    name: "Fatima Zahra Alami",
-    role: "Responsable Formation",
-    bio: "Formatrice certifiée en économie circulaire et accompagnement des entreprises.",
-    image: "/team/fatima-alami.jpg",
-    email: "fatima.alami@eigsi-circular-lab.ma",
-    linkedin: "#",
-    specialties: ["Formation", "Conseil", "Accompagnement"]
-  },
-  {
-    id: 4,
-    name: "Mehdi Hamza",
-    role: "Analyste Senior",
-    bio: "Expert en analyse de données et modélisation des impacts environnementaux.",
-    image: "/team/mehdi-hamza.jpg",
-    email: "mehdi.hamza@eigsi-circular-lab.ma",
-    linkedin: "#",
-    specialties: ["Analytics", "Reporting", "KPIs"]
-  },
-  {
-    id: 5,
-    name: "Sarah Bennani",
-    role: "Chargée de Communication",
-    bio: "Spécialiste en communication RSE et engagement des parties prenantes.",
-    image: "/team/sarah-bennani.jpg",
-    email: "sarah.bennani@eigsi-circular-lab.ma",
-    linkedin: "#",
-    specialties: ["Communication", "Marketing", "RSE"]
-  }
-]
-
 export default function Team() {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
-  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadTeam()
+  }, [])
+
+  const loadTeam = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/team`)
+      setTeamMembers(response.data)
+    } catch (error) {
+      console.error('Erreur chargement équipe:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-2xl font-semibold text-gray-700">Chargement de l'équipe...</div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">

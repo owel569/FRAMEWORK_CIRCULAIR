@@ -3,6 +3,7 @@ import { Controller, Get, Post, Put, Patch, Delete, Body, Param, Query, Headers,
 import { AdminService } from './admin.service';
 import { CompanyManagementService } from './company-management.service';
 import { ActionPlanManagementService } from './action-plan-management.service';
+import { TeamManagementService } from './team-management.service';
 
 @Controller('admin')
 export class AdminController {
@@ -10,6 +11,7 @@ export class AdminController {
     private readonly adminService: AdminService,
     private readonly companyManagementService: CompanyManagementService,
     private readonly actionPlanManagementService: ActionPlanManagementService,
+    private readonly teamManagementService: TeamManagementService,
   ) {}
 
   private extractAdminId(authHeader: string): string {
@@ -239,5 +241,71 @@ export class AdminController {
   ) {
     this.extractAdminId(auth);
     return this.adminService.searchCompanies(query);
+  }
+
+  // ============ GESTION DE L'ÉQUIPE ============
+
+  @Get('team')
+  async getAllTeamMembers(
+    @Headers('authorization') auth: string,
+    @Query('includeInactive') includeInactive?: string,
+  ) {
+    this.extractAdminId(auth);
+    return this.teamManagementService.getAllMembers(includeInactive === 'true');
+  }
+
+  @Get('team/:id')
+  async getTeamMember(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    this.extractAdminId(auth);
+    return this.teamManagementService.getMemberById(id);
+  }
+
+  @Post('team')
+  async createTeamMember(
+    @Body() data: any,
+    @Headers('authorization') auth: string,
+  ) {
+    const adminId = this.extractAdminId(auth);
+    return this.teamManagementService.createMember(data, adminId);
+  }
+
+  @Put('team/:id')
+  async updateTeamMember(
+    @Param('id') id: string,
+    @Body() data: any,
+    @Headers('authorization') auth: string,
+  ) {
+    const adminId = this.extractAdminId(auth);
+    return this.teamManagementService.updateMember(id, data, adminId);
+  }
+
+  @Delete('team/:id')
+  async deleteTeamMember(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    const adminId = this.extractAdminId(auth);
+    return this.teamManagementService.deleteMember(id, adminId);
+  }
+
+  @Patch('team/:id/toggle')
+  async toggleTeamMemberStatus(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    const adminId = this.extractAdminId(auth);
+    return this.teamManagementService.toggleStatus(id, adminId);
+  }
+
+  @Post('team/reorder')
+  async reorderTeamMembers(
+    @Body() data: { orderedIds: string[] },
+    @Headers('authorization') auth: string,
+  ) {
+    const adminId = this.extractAdminId(auth);
+    return this.teamManagementService.reorderMembers(data.orderedIds, adminId);
   }
 }
