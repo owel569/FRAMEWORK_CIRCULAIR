@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { API_URL } from '../config'
+import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
 
 const BACKEND_URL = API_URL
 
@@ -412,11 +414,11 @@ export default function QuestionnaireForm() {
       return;
     }
 
-    // Validation stricte du téléphone (si fourni)
-    if (company.phone) {
-      const phonePattern = /^(\+212|0)[5-7][0-9]{8}$/;
-      if (!phonePattern.test(company.phone)) {
-        alert("Numéro de téléphone marocain invalide. Format attendu: +212XXXXXXXXX ou 0XXXXXXXXX");
+    // Validation du téléphone (si fourni)
+    if (company.phone && company.phone.length > 0) {
+      // La librairie gère déjà la validation du format
+      if (company.phone.length < 10) {
+        alert("Veuillez entrer un numéro de téléphone complet");
         return;
       }
     }
@@ -559,12 +561,12 @@ export default function QuestionnaireForm() {
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Téléphone
           </label>
-          <input
-            type="tel"
+          <PhoneInput
+            defaultCountry="ma"
             value={company.phone}
-            onChange={(e) => setCompany({ ...company, phone: e.target.value })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
-            placeholder="+212 5XX-XXXXXX"
+            onChange={(phone) => setCompany({ ...company, phone })}
+            className="w-full"
+            inputClassName="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
           />
         </div>
 
