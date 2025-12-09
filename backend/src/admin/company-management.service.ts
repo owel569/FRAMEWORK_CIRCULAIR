@@ -1,6 +1,11 @@
-
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import {
+  CompanyFilterDto,
+  UpdateCompanyDto,
+  AssignExpertDto
+} from './dto/admin.dto';
+import { Company, Prisma } from '@prisma/client';
 
 interface CompanyFilters {
   search?: string;
@@ -15,11 +20,10 @@ interface CompanyFilters {
 export class CompanyManagementService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllCompanies(filters: CompanyFilters = {}) {
+  async getAllCompanies(filters: CompanyFilterDto) {
     const { search, sector, maturityLevel, isActive, page = 1, limit = 20 } = filters;
-    const skip = (page - 1) * limit;
 
-    const where: any = {};
+    const where: Prisma.CompanyWhereInput = {};
 
     if (search) {
       where.OR = [
@@ -74,7 +78,7 @@ export class CompanyManagementService {
             },
           },
         },
-        skip,
+        skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
       }),
@@ -151,18 +155,31 @@ export class CompanyManagementService {
     return company;
   }
 
-  async updateCompany(id: string, data: any, adminUserId: string) {
-    const company = await this.prisma.company.update({
+  async updateCompany(id: string, data: UpdateCompanyDto, adminUserId: string): Promise<Company> {
+    const company = await this.prisma.company.findUnique({ where: { id } });
+
+    if (!company) {
+      throw new NotFoundException(`Entreprise avec l'ID ${id} non trouvée`);
+    }
+
+    const updateData: Prisma.CompanyUpdateInput = {};
+
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.sector !== undefined) updateData.sector = data.sector;
+    if (data.size !== undefined) updateData.size = data.size;
+    if (data.location !== undefined) updateData.location = data.location;
+    if (data.contact !== undefined) updateData.contact = data.contact;
+    if (data.email !== undefined) updateData.email = data.email;
+    if (data.isActive !== undefined) updateData.isActive = data.isActive;
+    if (data.subSector !== undefined) updateData.subSector = data.subSector;
+    if (data.phone !== undefined) updateData.phone = data.phone;
+    if (data.address !== undefined) updateData.address = data.address;
+    if (data.employeeCount !== undefined) updateData.employeeCount = data.employeeCount;
+
+
+    const updatedCompany = await this.prisma.company.update({
       where: { id },
-      data: {
-        name: data.name,
-        sector: data.sector,
-        size: data.size,
-        location: data.location,
-        contact: data.contact,
-        email: data.email,
-        isActive: data.isActive,
-      },
+      data: updateData,
     });
 
     // Log l'activité
@@ -172,10 +189,10 @@ export class CompanyManagementService {
       action: 'UPDATE_COMPANY',
       entityType: 'Company',
       entityId: id,
-      details: `Mise à jour: ${Object.keys(data).join(', ')}`,
+      details: `Mise à jour: ${Object.keys(updateData).join(', ')}`,
     });
 
-    return company;
+    return updatedCompany;
   }
 
   async toggleCompanyStatus(id: string, adminUserId: string) {
@@ -202,29 +219,63 @@ export class CompanyManagementService {
   }
 
   async assignExpert(companyId: string, expertId: string, adminUserId: string) {
+    // Vérifier que l'entreprise existe
+    const company = await this.prisma.company.findUnique({ where: { id: companyId } });
+    if (!company) {
+      throw new NotFoundException(`Entreprise avec l'ID ${companyId} non trouvée`);
+    }
+
+    // Vérifier que l'expert existe
+    const expert = await this.prisma.adminUser.findUnique({ where: { id: expertId } });
+    if (!expert) {
+      throw new NotFoundException(`Expert avec l'ID ${expertId} non trouvé`);
+    }
+
+    // Vérifier si l'assignation existe déjà
+    const existingAssignment = await this.prisma.companyAssignment.findUnique({
+      where: {
+        companyId_adminUserId: {
+          companyId,
+          adminUserId: expertId,
+        },
+      },
+    });
+
+    if (existingAssignment) {
+      throw new BadRequestException('Cet expert est déjà assigné à cette entreprise');
+    }
+
     const assignment = await this.prisma.companyAssignment.create({
       data: {
         companyId,
         adminUserId: expertId,
       },
       include: {
+        company: {
+          select: {
+            id: true,
+            name: true,
+            sector: true,
+          },
+        },
         adminUser: {
           select: {
-            firstName: true,
-            lastName: true,
+            id: true,
+            name: true,
             email: true,
           },
         },
       },
     });
 
-    await this.logActivity({
-      adminUserId,
-      companyId,
-      action: 'ASSIGN_EXPERT',
-      entityType: 'CompanyAssignment',
-      entityId: assignment.id,
-      details: `Expert assigné: ${assignment.adminUser.firstName} ${assignment.adminUser.lastName}`,
+    await this.prisma.activityLog.create({
+      data: {
+        adminUserId,
+        action: 'ASSIGN_EXPERT',
+        entityType: 'Company',
+        entityId: companyId,
+        details: `Expert ${assignment.adminUser.name} assigné à ${assignment.company.name}`,
+      },
     });
 
     return assignment;

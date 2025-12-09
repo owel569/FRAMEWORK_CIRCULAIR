@@ -1,182 +1,228 @@
 
-import { IsEmail, IsString, MinLength, Matches, Length, IsIn, IsArray, IsOptional, IsNumber, Min, Max } from 'class-validator';
-
-export class AdminLoginDto {
-  @IsEmail({}, { message: 'Format d\'email invalide' })
-  @Matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-    message: 'L\'email doit avoir un format valide'
-  })
+// ============ GESTION DES ENTREPRISES ============
+export class CreateCompanyDto {
+  name: string;
   email: string;
-
-  @IsString()
-  @MinLength(6, { message: 'Le mot de passe doit contenir au moins 6 caractères' })
-  password: string;
+  sector: string;
+  subSector?: string;
+  phone?: string;
+  address?: string;
+  size?: 'TPE' | 'PME' | 'ETI' | 'GE';
+  employeeCount?: number;
 }
 
+export class UpdateCompanyDto {
+  name?: string;
+  email?: string;
+  sector?: string;
+  subSector?: string;
+  phone?: string;
+  address?: string;
+  size?: 'TPE' | 'PME' | 'ETI' | 'GE';
+  employeeCount?: number;
+  isActive?: boolean;
+  maturityLevel?: 'Débutant' | 'Intermédiaire' | 'Avancé' | 'Expert';
+}
+
+export class CompanyFilterDto {
+  search?: string;
+  sector?: string;
+  maturityLevel?: string;
+  isActive?: boolean;
+  page?: number;
+  limit?: number;
+}
+
+// ============ GESTION DES PLANS D'ACTION ============
+export class CreateActionPlanDto {
+  scoreId: string;
+  actions: ActionItemDto[];
+  status?: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED';
+  notes?: string;
+}
+
+export class UpdateActionPlanDto {
+  actions?: ActionItemDto[];
+  status?: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED';
+  notes?: string;
+  validatedBy?: string;
+  validatedAt?: Date;
+}
+
+export class ActionItemDto {
+  category: 'Gouvernance' | 'Économie circulaire' | 'Social' | 'Environnemental';
+  priority: 'Haute' | 'Moyenne' | 'Faible';
+  title: string;
+  description: string;
+  estimatedCost?: number;
+  estimatedDuration?: string;
+  expectedImpact?: string;
+  resources?: string[];
+  kpis?: string[];
+}
+
+export class CreateActionPlanTemplateDto {
+  name: string;
+  description: string;
+  sector?: string;
+  maturityLevel?: string;
+  actions: ActionItemDto[];
+  isActive?: boolean;
+}
+
+// ============ GESTION DE L'ÉQUIPE ============
+export class CreateTeamMemberDto {
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+  email: string;
+  linkedin?: string;
+  specialties: string[];
+  order?: number;
+}
+
+export class UpdateTeamMemberDto {
+  name?: string;
+  role?: string;
+  bio?: string;
+  image?: string;
+  email?: string;
+  linkedin?: string;
+  specialties?: string[];
+  order?: number;
+  isActive?: boolean;
+}
+
+// ============ GESTION DES QUESTIONS ============
 export class CreateQuestionDto {
-  @IsString()
-  @Length(5, 50, { message: 'L\'ID de question doit contenir entre 5 et 50 caractères' })
-  questionId: string;
-
-  @IsString()
-  @Length(3, 100)
-  sector: string;
-
-  @IsString()
-  @IsIn(['environnemental', 'économique', 'social', 'gouvernance'], {
-    message: 'Catégorie invalide'
-  })
   category: string;
-
-  @IsString()
-  @Length(10, 500, { message: 'Le texte de la question doit contenir entre 10 et 500 caractères' })
   text: string;
-
-  @IsString()
-  @IsIn(['boolean', 'percentage', 'number', 'text', 'choice'], {
-    message: 'Type de question invalide'
-  })
-  type: 'boolean' | 'percentage' | 'number' | 'text' | 'choice';
-
-  @IsNumber()
-  @Min(0.1, { message: 'Le poids doit être supérieur à 0' })
-  @Max(10, { message: 'Le poids ne peut pas dépasser 10' })
+  type: 'number' | 'percentage' | 'boolean' | 'text' | 'select' | 'multiselect';
   weight: number;
-
-  @IsString()
-  @IsOptional()
-  @Length(0, 20)
+  sector?: string;
   unit?: string;
-
-  @IsArray()
-  @IsOptional()
-  choices?: string[];
-
-  @IsString()
-  @IsOptional()
-  @Length(0, 100)
-  isoReference?: string;
+  options?: string[];
+  guidance?: QuestionGuidanceDto;
 }
 
 export class UpdateQuestionDto {
-  @IsString()
-  @IsOptional()
-  @Length(10, 500)
+  category?: string;
   text?: string;
-
-  @IsString()
-  @IsOptional()
-  @IsIn(['boolean', 'percentage', 'number', 'text', 'choice'])
-  type?: 'boolean' | 'percentage' | 'number' | 'text' | 'choice';
-
-  @IsNumber()
-  @IsOptional()
-  @Min(0.1)
-  @Max(10)
+  type?: 'number' | 'percentage' | 'boolean' | 'text' | 'select' | 'multiselect';
   weight?: number;
-
-  @IsString()
-  @IsOptional()
-  @Length(0, 20)
+  sector?: string;
   unit?: string;
-
-  @IsArray()
-  @IsOptional()
-  choices?: string[];
-
-  @IsString()
-  @IsOptional()
-  @Length(0, 100)
-  isoReference?: string;
+  options?: string[];
+  guidance?: QuestionGuidanceDto;
+  isActive?: boolean;
 }
 
+export class QuestionGuidanceDto {
+  howToObtain?: string;
+  source?: string;
+  sourceUrl?: string;
+  example?: string;
+  benchmark?: {
+    good?: number | string;
+    average?: number | string;
+    poor?: number | string;
+  };
+}
+
+// ============ GESTION DES EXPERTS ============
+export class AssignExpertDto {
+  companyId: string;
+  expertId: string;
+  role?: string;
+  notes?: string;
+}
+
+// ============ STATISTIQUES ET DASHBOARD ============
 export interface AdminStatsDto {
   totalCompanies: number;
+  activeCompanies: number;
   totalScores: number;
-  totalQuestions: number;
-  recentCompanies: CompanyWithScore[];
-  scoresByMonth: MonthlyScoreData[];
-  sectorDistribution: SectorData[];
-  averageScores: AverageScoresData;
-  performanceTrends: PerformanceTrend[];
-  topPerformers: TopPerformer[];
-}
-
-export interface CompanyWithScore {
-  id: string;
-  name: string;
-  sector: string;
-  email: string;
-  createdAt: Date;
-  scores: Array<{
-    overallScore: number;
-    createdAt: Date;
-  }>;
-}
-
-export interface MonthlyScoreData {
-  month: string;
-  count: number;
   averageScore: number;
-}
-
-export interface SectorData {
-  sector: string;
-  count: number;
-  averageScore: number;
-}
-
-export interface AverageScoresData {
-  global: number;
-  governance: number;
-  economic: number;
-  social: number;
-  environmental: number;
-}
-
-export interface PerformanceTrend {
-  month: string;
-  governance: number;
-  economic: number;
-  social: number;
-  environmental: number;
-}
-
-export interface TopPerformer {
-  companyName: string;
-  sector: string;
-  overallScore: number;
-  rank: number;
-}
-
-export interface CompanyDetailDto {
-  id: string;
-  name: string;
-  sector: string;
-  email: string;
-  employeeCount?: number;
-  createdAt: Date;
-  scores: ScoreHistoryDto[];
-  totalEvaluations: number;
-  scoreProgression: number;
-}
-
-export interface ScoreHistoryDto {
-  id: string;
-  overallScore: number;
-  governanceScore: number;
-  economicScore: number;
-  socialScore: number;
-  environmentalScore: number;
-  createdAt: Date;
+  maturityDistribution: {
+    level: string;
+    count: number;
+    percentage: number;
+  }[];
+  sectorDistribution: {
+    sector: string;
+    count: number;
+    avgScore: number;
+  }[];
+  recentActivities: ActivityLogDto[];
+  pendingActionPlans: number;
+  monthlyTrends: {
+    month: string;
+    newCompanies: number;
+    completedEvaluations: number;
+    avgScore: number;
+  }[];
 }
 
 export interface ActivityLogDto {
   id: string;
   action: string;
-  entity: string;
+  entityType: string;
   entityId: string;
   details: string;
-  timestamp: Date;
-  userId?: string;
+  createdAt: Date;
+  adminUser?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}
+
+// ============ MONITORING DU CHATBOT ============
+export interface ChatbotStatsDto {
+  totalQuestions: number;
+  averageResponseTime: number;
+  topQuestions: {
+    question: string;
+    count: number;
+  }[];
+  errorRate: number;
+  apiCost: number;
+  documentCount: number;
+}
+
+// ============ GÉNÉRATION DE RAPPORTS ============
+export class GenerateReportDto {
+  companyId: string;
+  includeActionPlan?: boolean;
+  includeCharts?: boolean;
+  format?: 'PDF' | 'EXCEL' | 'JSON';
+}
+
+export interface CompanyReportDto {
+  company: {
+    id: string;
+    name: string;
+    sector: string;
+    email: string;
+  };
+  evaluation: {
+    date: Date;
+    globalScore: number;
+    maturityLevel: string;
+    scores: {
+      environmental: number;
+      economic: number;
+      social: number;
+      governance: number;
+    };
+  };
+  actionPlan?: {
+    status: string;
+    actions: ActionItemDto[];
+  };
+  trends?: {
+    month: string;
+    score: number;
+  }[];
 }
