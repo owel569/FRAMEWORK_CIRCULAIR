@@ -1,0 +1,143 @@
+🟩 1. Fonctionnalités ADMIN ESSENTIELLES (obligatoires)
+
+Ce sont celles qui doivent absolument apparaître dans ton interface admin.
+
+✅ 1. Gestion des entreprises (Companies Management)
+
+L’admin doit pouvoir :
+
+créer une entreprise
+
+modifier les informations
+
+désactiver / activer une entreprise
+
+voir son niveau de maturité
+
+voir l’historique de ses scores
+
+🎯 C’est le cœur de la plateforme.
+
+✅ 2. Gestion des questionnaires et des scores
+
+L’admin doit pouvoir :
+
+consulter les réponses des PME
+
+relancer un questionnaire non terminé
+
+recalculer un score
+
+voir la progression globale du parc PME
+
+🎯 Important pour le suivi ISO 59000.
+
+✅ 3. Dashboard global de toutes les PME
+
+Un tableau de bord ADMIN doit contenir :
+
+classement des PME par niveau de maturité
+
+heatmap des scores ISO 59000 (gouvernance / économie / social / environnement)
+
+taux moyen de circularité
+
+évolution mensuelle
+
+🎨 Visuel + utile pour reporting.
+
+✅ 4. Gestion des plans d’action
+
+L’admin doit pouvoir :
+
+lire les plans générés
+
+éditer / compléter / commenter les plans
+
+valider ou rejeter les plans d’action
+
+envoyer des recommandations personnalisées via la plateforme
+
+🎯 C’est la vraie valeur ajoutée pour l’accompagnement PME.
+
+✅ 5. Gestion des utilisateurs internes (experts)
+
+création d’un expert ISO interne
+
+attribution d’une PME à un expert
+
+suivi de l’avancement par expert
+
+🎯 Nécessaire si la plateforme est institutionnelle (ex : ministère, OFPPT, clusters, etc.).
+
+🟦 2. Fonctionnalités ADMIN IMPORTANTES (à mettre si tu peux)
+🔹 6. Monitoring du chatbot IA
+
+L’admin doit voir :
+
+les questions les plus posées
+
+la qualité des réponses
+
+les erreurs IA
+
+le coût d’utilisation de l’API (HuggingFace/Gemini)
+
+🎯 Utile pour améliorer la plateforme et maîtriser les coûts.
+
+🔹 7. Historique des actions (logs)
+
+qui a évalué quoi
+
+qui a modifié un plan
+
+date des mises à jour
+
+🎯 Nécessaire pour la conformité ISO.
+
+🔹 8. Administration des recommandations ISO 59000
+
+Tu peux intégrer une petite base d’actions types :
+
+actions gouvernance
+
+actions environnement
+
+actions social
+
+actions économique
+
+Et l’admin peut :
+
+ajouter / modifier / supprimer des recommandations
+
+réorganiser par niveau de maturité
+
+🎯 Ça te permet de maintenir ta base de connaissance ISO.
+
+🟧 3. Fonctionnalités ADMIN PREMIUM (valeur ajoutée)
+⭐ 9. Module d’analyse sectorielle
+
+Par exemple :
+
+comparaison des PME d’un même secteur
+
+score moyen par industrie (laitière, textile, agro…)
+
+benchmarking Maroc vs international
+
+🎯 Très utile si c’est un projet académique ou gouvernemental.
+
+⭐ 10. Génération automatique de rapports PDF
+
+Pour chaque PME :
+
+rapport complet ISO 59000
+
+graphiques radar
+
+plan d’action
+
+synthèse
+
+🎯 C’est super professionnel et impressionne les décideurs.
