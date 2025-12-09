@@ -47,7 +47,7 @@ export class AdminService {
       admin: {
         id: admin.id,
         email: admin.email,
-        name: admin.name,
+        name: `${admin.firstName} ${admin.lastName}`,
         role: admin.role,
       },
     };
@@ -124,7 +124,7 @@ export class AdminService {
     const scores = await this.prisma.score.findMany({
       select: {
         createdAt: true,
-        globalScore: true,
+        overallScore: true,
       },
     });
 
@@ -135,7 +135,7 @@ export class AdminService {
         monthlyData[month] = { count: 0, totalScore: 0 };
       }
       monthlyData[month].count += 1;
-      monthlyData[month].totalScore += score.globalScore;
+      monthlyData[month].totalScore += score.overallScore;
     });
 
     return Object.entries(monthlyData).map(([month, data]) => ({
@@ -164,7 +164,7 @@ export class AdminService {
       sectorData[company.sector].count += 1;
       
       if (company.scores.length > 0) {
-        sectorData[company.sector].totalScore += company.scores[0].globalScore;
+        sectorData[company.sector].totalScore += company.scores[0].overallScore;
         sectorData[company.sector].scoreCount += 1;
       }
     });
@@ -179,7 +179,7 @@ export class AdminService {
   private async getAverageScores() {
     const scores = await this.prisma.score.aggregate({
       _avg: {
-        globalScore: true,
+        overallScore: true,
         governanceScore: true,
         economicScore: true,
         socialScore: true,
@@ -188,7 +188,7 @@ export class AdminService {
     });
 
     return {
-      global: scores._avg.globalScore || 0,
+      global: scores._avg.overallScore || 0,
       governance: scores._avg.governanceScore || 0,
       economic: scores._avg.economicScore || 0,
       social: scores._avg.socialScore || 0,
@@ -259,9 +259,9 @@ export class AdminService {
       .map((c) => ({
         companyName: c.name,
         sector: c.sector,
-        globalScore: c.scores[0].globalScore,
+        overallScore: c.scores[0].overallScore,
       }))
-      .sort((a, b) => b.globalScore - a.globalScore)
+      .sort((a, b) => b.overallScore - a.overallScore)
       .slice(0, 10)
       .map((p, index) => ({
         ...p,
@@ -286,7 +286,7 @@ export class AdminService {
     }
 
     const scoreProgression = company.scores.length >= 2
-      ? company.scores[0].globalScore - company.scores[company.scores.length - 1].globalScore
+      ? company.scores[0].overallScore - company.scores[company.scores.length - 1].overallScore
       : 0;
 
     return {
@@ -294,7 +294,7 @@ export class AdminService {
       name: company.name,
       sector: company.sector,
       email: company.email,
-      employeeCount: company.employeeCount,
+      size: company.size,
       createdAt: company.createdAt,
       scores: company.scores,
       totalEvaluations: company.scores.length,

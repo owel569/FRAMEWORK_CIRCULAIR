@@ -109,7 +109,7 @@ export interface CompanyWithScore {
   email: string;
   createdAt: Date;
   scores: Array<{
-    globalScore: number;
+    overallScore: number;
     createdAt: Date;
   }>;
 }
@@ -145,7 +145,7 @@ export interface PerformanceTrend {
 export interface TopPerformer {
   companyName: string;
   sector: string;
-  globalScore: number;
+  overallScore: number;
   rank: number;
 }
 
@@ -163,7 +163,7 @@ export interface CompanyDetailDto {
 
 export interface ScoreHistoryDto {
   id: string;
-  globalScore: number;
+  overallScore: number;
   governanceScore: number;
   economicScore: number;
   socialScore: number;

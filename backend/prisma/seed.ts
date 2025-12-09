@@ -13,8 +13,9 @@ async function main() {
     create: {
       email: 'admin@iso59000.com',
       password: hashedPassword,
-      name: 'Super Admin',
-      role: 'super_admin',
+      firstName: 'Super',
+      lastName: 'Admin',
+      role: 'SUPER_ADMIN',
     },
   });
 

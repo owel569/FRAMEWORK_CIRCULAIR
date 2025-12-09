@@ -2,19 +2,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
-import { Company, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class CompanyService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreateCompanyDto): Promise<Company> {
+  async create(data: CreateCompanyDto) {
     const companyData: Prisma.CompanyCreateInput = {
       name: data.name,
       sector: data.sector,
+      size: data.size || 'PME',
+      location: data.location || '',
+      contact: data.contact || data.name,
       email: data.email,
-      phone: data.phone,
-      employeeCount: data.employeeCount,
       
       // Logistique et Centres
       tonnageLogistique: data.tonnageLogistique,
@@ -70,7 +71,7 @@ export class CompanyService {
     });
   }
 
-  async findAll(): Promise<Company[]> {
+  async findAll() {
     return this.prisma.company.findMany({
       include: {
         scores: {
@@ -81,7 +82,7 @@ export class CompanyService {
     });
   }
 
-  async findOne(id: string): Promise<Company | null> {
+  async findOne(id: string) {
     return this.prisma.company.findUnique({
       where: { id },
       include: {

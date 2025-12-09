@@ -16,8 +16,8 @@ export class PlanService {
     }
 
     const recommendations = this.generateRecommendations(score);
-    const priority = this.determinePriority(score.globalScore);
-    const timeline = this.generateTimeline(score.globalScore);
+    const priority = this.determinePriority(score.overallScore);
+    const timeline = this.generateTimeline(score.overallScore);
 
     const actionPlan = await this.prisma.actionPlan.create({
       data: {
@@ -67,17 +67,17 @@ export class PlanService {
     return recommendations;
   }
 
-  private determinePriority(globalScore: number): string {
-    if (globalScore < 40) return 'Critique';
-    if (globalScore < 60) return 'Haute';
-    if (globalScore < 80) return 'Moyenne';
+  private determinePriority(overallScore: number): string {
+    if (overallScore < 40) return 'Critique';
+    if (overallScore < 60) return 'Haute';
+    if (overallScore < 80) return 'Moyenne';
     return 'Faible';
   }
 
-  private generateTimeline(globalScore: number): string {
-    if (globalScore < 40) return '6 mois';
-    if (globalScore < 60) return '12 mois';
-    if (globalScore < 80) return '18 mois';
+  private generateTimeline(overallScore: number): string {
+    if (overallScore < 40) return '6 mois';
+    if (overallScore < 60) return '12 mois';
+    if (overallScore < 80) return '18 mois';
     return '24 mois';
   }
 }

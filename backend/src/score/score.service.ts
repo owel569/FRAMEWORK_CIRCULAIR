@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Company, Score } from '@prisma/client';
+import type { Score, Company } from '@prisma/client';
 import { GENERAL_QUESTIONS } from '../data/general-questions.data';
 
 interface QuestionResponse {
@@ -16,7 +16,7 @@ interface DimensionResponses {
 }
 
 interface ScoreCalculationResult {
-  globalScore: number;
+  overallScore: number;
   governanceScore: number;
   economicScore: number;
   socialScore: number;
@@ -46,14 +46,17 @@ export class ScoreService {
 
     const scores = this.calculateAllScores(formattedResponses, company);
 
+    const maturityLevel = this.determineMaturityLevel(scores.overallScore);
+    
     const score = await this.prisma.score.create({
       data: {
-        companyId,
-        globalScore: scores.globalScore,
+        company: { connect: { id: companyId } },
+        overallScore: scores.overallScore,
         governanceScore: scores.governanceScore,
         economicScore: scores.economicScore,
         socialScore: scores.socialScore,
         environmentalScore: scores.environmentalScore,
+        maturityLevel,
         responses: JSON.stringify(responses),
       },
     });
@@ -96,7 +99,7 @@ export class ScoreService {
     console.log('✅ Scores calculés:', { governanceScore, economicScore, socialScore, environmentalScore });
 
     // Pondération ISO 59000 : Env (35%), Éco (30%), Social (20%), Gouvernance (15%)
-    const globalScore = Number(
+    const overallScore = Number(
       (
         environmentalScore * 0.35 +
         economicScore * 0.30 +
@@ -106,7 +109,7 @@ export class ScoreService {
     );
 
     return {
-      globalScore,
+      overallScore,
       governanceScore: Number(governanceScore.toFixed(2)),
       economicScore: Number(economicScore.toFixed(2)),
       socialScore: Number(socialScore.toFixed(2)),
@@ -230,20 +233,17 @@ export class ScoreService {
   ): number {
     let baseScore = this.calculateDimensionScore(answers);
 
+    // Bonus based on emissions (using absolute values since employeeCount is not tracked)
     if (
       company.emissionsScope12 !== null &&
-      company.emissionsScope12 !== undefined &&
-      company.employeeCount !== null &&
-      company.employeeCount !== undefined &&
-      company.employeeCount > 0
+      company.emissionsScope12 !== undefined
     ) {
-      const emissionsParEmploye = company.emissionsScope12 / company.employeeCount;
-
-      if (emissionsParEmploye < 5) {
+      // Lower emissions = better score
+      if (company.emissionsScope12 < 100) {
         baseScore = Math.min(100, baseScore + 15);
-      } else if (emissionsParEmploye < 10) {
+      } else if (company.emissionsScope12 < 500) {
         baseScore = Math.min(100, baseScore + 10);
-      } else if (emissionsParEmploye < 15) {
+      } else if (company.emissionsScope12 < 1000) {
         baseScore = Math.min(100, baseScore + 5);
       }
     }
@@ -277,6 +277,13 @@ export class ScoreService {
     return Number(((total / (answers.length * 5)) * 100).toFixed(2));
   }
 
+  private determineMaturityLevel(overallScore: number): string {
+    if (overallScore >= 80) return 'Avancé';
+    if (overallScore >= 60) return 'Intermédiaire';
+    if (overallScore >= 40) return 'Émergent';
+    return 'Initial';
+  }
+
   async getCompanyScores(companyId: string): Promise<Score[]> {
     return this.prisma.score.findMany({
       where: { companyId },
@@ -302,7 +309,7 @@ export class ScoreService {
 
     return {
       ...score,
-      responses: JSON.parse(score.responses),
+      responses: typeof score.responses === 'string' ? JSON.parse(score.responses) : score.responses,
       actionPlan: score.actionPlan
         ? {
             ...score.actionPlan,

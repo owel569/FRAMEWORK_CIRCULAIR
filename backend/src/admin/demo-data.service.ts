@@ -40,7 +40,7 @@ export class DemoDataService {
       createdAt: new Date(Date.now() - (index * 86400000 * 3)),
       scores: [{
         id: `demo-score-${index}`,
-        globalScore: Math.floor(55 + Math.random() * 35),
+        overallScore: Math.floor(55 + Math.random() * 35),
         governanceScore: Math.floor(50 + Math.random() * 40),
         economicScore: Math.floor(50 + Math.random() * 40),
         socialScore: Math.floor(50 + Math.random() * 40),
@@ -130,16 +130,16 @@ export class DemoDataService {
 
   private generateTopPerformers() {
     const performers = [
-      { companyName: 'EcoLeader Industries', sector: 'Industrie manufacturière', globalScore: 92.5 },
-      { companyName: 'GreenTech Innovations', sector: 'Informatique et télécommunications', globalScore: 89.3 },
-      { companyName: 'Énergie Solaire Plus', sector: 'Énergie et environnement', globalScore: 87.8 },
-      { companyName: 'BioAgri Maroc', sector: 'Agriculture, sylviculture et pêche', globalScore: 86.2 },
-      { companyName: 'Construction Durable SA', sector: 'Construction / BTP', globalScore: 84.7 },
-      { companyName: 'Transport Écologique', sector: 'Transport et logistique', globalScore: 83.5 },
-      { companyName: 'Hôtel Vert Marrakech', sector: 'Hôtellerie, restauration et tourisme', globalScore: 82.1 },
-      { companyName: 'Commerce Responsable', sector: 'Commerce et distribution', globalScore: 80.9 },
-      { companyName: 'Artisanat Circulaire', sector: 'Artisanat et métiers de proximité', globalScore: 79.4 },
-      { companyName: 'Services Verts Pro', sector: 'Services aux entreprises', globalScore: 78.2 },
+      { companyName: 'EcoLeader Industries', sector: 'Industrie manufacturière', overallScore: 92.5 },
+      { companyName: 'GreenTech Innovations', sector: 'Informatique et télécommunications', overallScore: 89.3 },
+      { companyName: 'Énergie Solaire Plus', sector: 'Énergie et environnement', overallScore: 87.8 },
+      { companyName: 'BioAgri Maroc', sector: 'Agriculture, sylviculture et pêche', overallScore: 86.2 },
+      { companyName: 'Construction Durable SA', sector: 'Construction / BTP', overallScore: 84.7 },
+      { companyName: 'Transport Écologique', sector: 'Transport et logistique', overallScore: 83.5 },
+      { companyName: 'Hôtel Vert Marrakech', sector: 'Hôtellerie, restauration et tourisme', overallScore: 82.1 },
+      { companyName: 'Commerce Responsable', sector: 'Commerce et distribution', overallScore: 80.9 },
+      { companyName: 'Artisanat Circulaire', sector: 'Artisanat et métiers de proximité', overallScore: 79.4 },
+      { companyName: 'Services Verts Pro', sector: 'Services aux entreprises', overallScore: 78.2 },
     ];
 
     return performers.map((p, index) => ({

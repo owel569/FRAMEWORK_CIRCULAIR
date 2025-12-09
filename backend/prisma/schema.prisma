@@ -109,6 +109,7 @@ model Score {
 model ActionPlan {
   id              String   @id @default(uuid())
   scoreId         String   @unique
+  score           Score    @relation(fields: [scoreId], references: [id], onDelete: Cascade)
   recommendations String
   priority        String
   timeline        String

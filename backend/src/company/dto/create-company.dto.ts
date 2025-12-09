@@ -19,6 +19,18 @@ export class CreateCompanyDto {
 
   @IsString()
   @IsOptional()
+  size?: string;
+
+  @IsString()
+  @IsOptional()
+  location?: string;
+
+  @IsString()
+  @IsOptional()
+  contact?: string;
+
+  @IsString()
+  @IsOptional()
   @Matches(/^(\+212|0)[5-7][0-9]{8}$/, {
     message: 'Le numéro de téléphone doit être au format marocain valide (+212XXXXXXXXX ou 0XXXXXXXXX)'
   })

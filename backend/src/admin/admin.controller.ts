@@ -28,7 +28,7 @@ export class AdminController {
   @Get('stats')
   async getStats(@Headers('authorization') auth: string) {
     this.extractAdminId(auth);
-    return this.adminService.getStats();
+    return this.adminService.getDashboardStats();
   }
 
   @Get('demo-mode')
@@ -40,7 +40,8 @@ export class AdminController {
   @Post('demo-mode')
   async toggleDemoMode(@Headers('authorization') auth: string) {
     this.extractAdminId(auth);
-    return this.adminService.toggleDemoMode();
+    const current = this.adminService.getDemoMode();
+    return this.adminService.setDemoMode(!current.demoMode);
   }
 
   // ============ GESTION DES ENTREPRISES ============
@@ -176,7 +177,7 @@ export class AdminController {
   @Get('questions')
   async getQuestions(@Headers('authorization') auth: string) {
     this.extractAdminId(auth);
-    return this.adminService.getQuestions();
+    return this.adminService.getAllQuestions();
   }
 
   @Post('questions')
