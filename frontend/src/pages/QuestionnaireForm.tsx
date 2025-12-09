@@ -529,8 +529,8 @@ export default function QuestionnaireForm() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Nom de l'entreprise *
           </label>
           <input
@@ -538,13 +538,13 @@ export default function QuestionnaireForm() {
             required
             value={company.name}
             onChange={(e) => setCompany({ ...company, name: e.target.value })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
+            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="Ex: EcoEntreprise SA"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Email professionnel *
           </label>
           <input
@@ -552,26 +552,25 @@ export default function QuestionnaireForm() {
             required
             value={company.email}
             onChange={(e) => setCompany({ ...company, email: e.target.value })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
+            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="contact@entreprise.ma"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Téléphone
           </label>
           <PhoneInput
             defaultCountry="ma"
             value={company.phone}
             onChange={(phone) => setCompany({ ...company, phone })}
-            className="w-full"
-            inputClassName="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
+            inputClassName="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Nombre d'employés
           </label>
           <input
@@ -579,7 +578,7 @@ export default function QuestionnaireForm() {
             min="1"
             value={company.employeeCount || ''}
             onChange={(e) => setCompany({ ...company, employeeCount: e.target.value ? parseInt(e.target.value) : undefined })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all"
+            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="Ex: 50"
           />
         </div>
@@ -591,15 +590,15 @@ export default function QuestionnaireForm() {
         </p>
       </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700 mb-2">
           Secteur d'activité principal *
         </label>
         <select
           required
           value={company.sector}
           onChange={(e) => setCompany({ ...company, sector: e.target.value, subSector: '' })}
-          className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-blue focus:border-circular-blue transition-all text-base"
+          className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all text-base"
         >
           <option value="">-- Sélectionnez un secteur --</option>
           {Object.keys(SECTORS).map((sector) => (
@@ -609,15 +608,15 @@ export default function QuestionnaireForm() {
       </div>
 
       {company.sector && (
-        <div className="animate-fadeIn">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <div className="flex flex-col animate-fadeIn">
+          <label className="text-sm font-medium text-gray-700 mb-2">
             Sous-secteur / Activité spécifique *
           </label>
           <select
             required
             value={company.subSector}
             onChange={(e) => setCompany({ ...company, subSector: e.target.value })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-circular-green focus:border-circular-green transition-all text-base"
+            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-green focus:ring-2 focus:ring-circular-green/20 transition-all text-base"
           >
             <option value="">-- Précisez votre activité --</option>
             {SECTORS[company.sector as keyof typeof SECTORS]?.map((subSector) => (
