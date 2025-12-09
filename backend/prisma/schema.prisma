@@ -97,6 +97,7 @@ model Score {
   overallScore       Float
   maturityLevel      String
   responses          Json
+  actionPlan         ActionPlan?
   actionPlans        CompanyActionPlan[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
@@ -108,12 +109,9 @@ model Score {
 model ActionPlan {
   id              String   @id @default(uuid())
   scoreId         String   @unique
-  score           Score    @relation(fields: [scoreId], references: [id])
-
   recommendations String
   priority        String
   timeline        String
-
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -240,16 +238,6 @@ model QuestionnaireQuestion {
   isoReference String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-}
-
-model ActivityLog {
-  id        String   @id @default(uuid())
-  action    String
-  entity    String
-  entityId  String
-  details   String
-  timestamp DateTime @default(now())
-  userId    String?
 }
 
 model ChatbotDocument {
