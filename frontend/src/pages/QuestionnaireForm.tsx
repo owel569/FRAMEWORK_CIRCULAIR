@@ -538,7 +538,7 @@ export default function QuestionnaireForm() {
             required
             value={company.name}
             onChange={(e) => setCompany({ ...company, name: e.target.value })}
-            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
+            className="h-12 w-full px-4 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="Ex: EcoEntreprise SA"
           />
         </div>
@@ -552,7 +552,7 @@ export default function QuestionnaireForm() {
             required
             value={company.email}
             onChange={(e) => setCompany({ ...company, email: e.target.value })}
-            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
+            className="h-12 w-full px-4 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="contact@entreprise.ma"
           />
         </div>
@@ -561,12 +561,31 @@ export default function QuestionnaireForm() {
           <label className="text-sm font-medium text-gray-700 mb-2">
             Téléphone
           </label>
-          <PhoneInput
-            defaultCountry="ma"
-            value={company.phone}
-            onChange={(phone) => setCompany({ ...company, phone })}
-            inputClassName="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
-          />
+          <div className="h-12">
+            <PhoneInput
+              defaultCountry="ma"
+              value={company.phone}
+              onChange={(phone) => setCompany({ ...company, phone })}
+              inputClassName="!h-12"
+              className="!h-12"
+              inputStyle={{
+                height: '48px',
+                width: '100%',
+                paddingLeft: '52px',
+                borderRadius: '0.5rem',
+                border: '1px solid #D1D5DB',
+                fontSize: '1rem'
+              }}
+              countrySelectorStyleProps={{
+                buttonStyle: {
+                  height: '48px',
+                  borderRadius: '0.5rem 0 0 0.5rem',
+                  border: '1px solid #D1D5DB',
+                  borderRight: 'none'
+                }
+              }}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col">
@@ -578,7 +597,7 @@ export default function QuestionnaireForm() {
             min="1"
             value={company.employeeCount || ''}
             onChange={(e) => setCompany({ ...company, employeeCount: e.target.value ? parseInt(e.target.value) : undefined })}
-            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
+            className="h-12 w-full px-4 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all"
             placeholder="Ex: 50"
           />
         </div>
@@ -598,7 +617,7 @@ export default function QuestionnaireForm() {
           required
           value={company.sector}
           onChange={(e) => setCompany({ ...company, sector: e.target.value, subSector: '' })}
-          className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all text-base"
+          className="h-12 w-full px-4 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all text-base"
         >
           <option value="">-- Sélectionnez un secteur --</option>
           {Object.keys(SECTORS).map((sector) => (
@@ -616,7 +635,7 @@ export default function QuestionnaireForm() {
             required
             value={company.subSector}
             onChange={(e) => setCompany({ ...company, subSector: e.target.value })}
-            className="h-12 w-full px-3 rounded-lg border border-gray-300 focus:border-circular-green focus:ring-2 focus:ring-circular-green/20 transition-all text-base"
+            className="h-12 w-full px-4 rounded-lg border border-gray-300 focus:border-circular-blue focus:ring-2 focus:ring-circular-blue/20 transition-all text-base"
           >
             <option value="">-- Précisez votre activité --</option>
             {SECTORS[company.sector as keyof typeof SECTORS]?.map((subSector) => (
