@@ -1,0 +1,113 @@
+Ce qu’il faut améliorer autour pour une interface homogène
+✔ Aligner la hauteur des champs
+
+Ton champ téléphone est un peu plus haut (au niveau du conteneur), ce qui crée une différence visuelle.
+
+➡️ Solution : appliquer une classe Tailwind uniforme :
+
+className="h-12 rounded-lg border px-3"
+
+
+À tous les inputs.
+
+✔ Harmoniser les bordures
+
+Le champ téléphone a un contour plus visible → tu dois appliquer le même style aux autres champs.
+
+Exemple :
+
+<input 
+  type="text"
+  className="w-full h-12 rounded-lg border border-gray-300 focus:border-blue-400 px-3"
+/>
+
+✔ Utiliser la même taille pour les labels
+
+“Numéro de téléphone”
+
+“Email professionnel”
+
+“Nom de l’entreprise”
+
+etc.
+
+Si le label du téléphone est en 14px bold → applique la même chose à tous.
+
+✔ Réduire l’espace vertical
+
+Visuellement, tu as :
+
+un bloc bleu “Informations”
+
+ensuite beaucoup d’espace
+
+puis les champs
+
+Tu peux réduire les marges supérieures pour améliorer la cohérence.
+
+🎨 3. Version design recommandée (tu devrais viser ça)
+
+Voici ce que je te propose comme layout moderne :
+
+✨ Deux inputs par ligne
+
+✔ Nom / Email
+✔ Téléphone / Nombre d’employés
+✔ Secteur d’activité (ligne entière)
+
+Ça donne plus de structure.
+
+🧩 Exemple de code complet pour uniformiser tout ton formulaire
+
+Si tu mets ceci dans tes composants React :
+
+<div className="grid grid-cols-2 gap-6 mt-6">
+
+  {/* Nom de l'entreprise */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-gray-700 mb-1">
+      Nom de l'entreprise *
+    </label>
+    <input
+      type="text"
+      className="h-12 px-3 rounded-lg border border-gray-300 focus:border-blue-400"
+      placeholder="Ex: EcoEntreprise SA"
+    />
+  </div>
+
+  {/* Email professionnel */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-gray-700 mb-1">
+      Email professionnel *
+    </label>
+    <input
+      type="email"
+      className="h-12 px-3 rounded-lg border border-gray-300 focus:border-blue-400"
+      placeholder="contact@entreprise.ma"
+    />
+  </div>
+
+  {/* Téléphone */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-gray-700 mb-1">
+      Téléphone
+    </label>
+    <PhoneInput
+      defaultCountry="ma"
+      className="h-12"
+    />
+  </div>
+
+  {/* Nombre d'employés */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-gray-700 mb-1">
+      Nombre d'employés
+    </label>
+    <input
+      type="number"
+      className="h-12 px-3 rounded-lg border border-gray-300 focus:border-blue-400"
+      placeholder="Ex: 50"
+    />
+  </div>
+
+</div>
