@@ -1,3 +1,8 @@
+// ============ AUTHENTIFICATION ============
+export class AdminLoginDto {
+  email: string;
+  password: string;
+}
 
 // ============ GESTION DES ENTREPRISES ============
 export class CreateCompanyDto {
@@ -22,6 +27,8 @@ export class UpdateCompanyDto {
   employeeCount?: number;
   isActive?: boolean;
   maturityLevel?: 'Débutant' | 'Intermédiaire' | 'Avancé' | 'Expert';
+  location?: string;
+  contact?: string;
 }
 
 export class CompanyFilterDto {
@@ -43,8 +50,9 @@ export class CreateActionPlanDto {
 
 export class UpdateActionPlanDto {
   actions?: ActionItemDto[];
-  status?: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED';
+  status?: 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'IN_REVIEW' | 'IN_PROGRESS' | 'COMPLETED';
   notes?: string;
+  adminNotes?: string;
   validatedBy?: string;
   validatedAt?: Date;
 }
@@ -96,6 +104,7 @@ export class UpdateTeamMemberDto {
 
 // ============ GESTION DES QUESTIONS ============
 export class CreateQuestionDto {
+  questionId: string;
   category: string;
   text: string;
   type: 'number' | 'percentage' | 'boolean' | 'text' | 'select' | 'multiselect';
@@ -103,6 +112,8 @@ export class CreateQuestionDto {
   sector?: string;
   unit?: string;
   options?: string[];
+  choices?: string[];
+  isoReference?: string;
   guidance?: QuestionGuidanceDto;
 }
 
@@ -114,6 +125,8 @@ export class UpdateQuestionDto {
   sector?: string;
   unit?: string;
   options?: string[];
+  choices?: string[];
+  isoReference?: string;
   guidance?: QuestionGuidanceDto;
   isActive?: boolean;
 }

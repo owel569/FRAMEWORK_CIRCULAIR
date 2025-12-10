@@ -171,10 +171,6 @@ export class CompanyManagementService {
     if (data.contact !== undefined) updateData.contact = data.contact;
     if (data.email !== undefined) updateData.email = data.email;
     if (data.isActive !== undefined) updateData.isActive = data.isActive;
-    if (data.subSector !== undefined) updateData.subSector = data.subSector;
-    if (data.phone !== undefined) updateData.phone = data.phone;
-    if (data.address !== undefined) updateData.address = data.address;
-    if (data.employeeCount !== undefined) updateData.employeeCount = data.employeeCount;
 
 
     const updatedCompany = await this.prisma.company.update({
@@ -261,7 +257,8 @@ export class CompanyManagementService {
         adminUser: {
           select: {
             id: true,
-            name: true,
+            firstName: true,
+            lastName: true,
             email: true,
           },
         },
@@ -274,7 +271,7 @@ export class CompanyManagementService {
         action: 'ASSIGN_EXPERT',
         entityType: 'Company',
         entityId: companyId,
-        details: `Expert ${assignment.adminUser.name} assigné à ${assignment.company.name}`,
+        details: `Expert ${assignment.adminUser.firstName} ${assignment.adminUser.lastName} assigné à ${assignment.company.name}`,
       },
     });
 

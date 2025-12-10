@@ -3,10 +3,9 @@ import { PrismaService } from '../prisma.service';
 import { 
   CreateActionPlanDto, 
   UpdateActionPlanDto, 
-  CreateActionPlanTemplateDto,
-  ActionPlanTemplateDto 
+  CreateActionPlanTemplateDto 
 } from './dto/admin.dto';
-import { ActionPlan, ActionPlanTemplate, Prisma, CompanyActionPlan } from '@prisma/client';
+import { ActionPlanTemplate, Prisma, CompanyActionPlan, ActionPlanStatus } from '@prisma/client';
 
 @Injectable()
 export class ActionPlanManagementService {
@@ -63,7 +62,7 @@ export class ActionPlanManagementService {
     }
 
     if (data.status) {
-      updateData.status = data.status;
+      updateData.status = data.status as ActionPlanStatus;
     }
 
     if (data.adminNotes) { // Changed from 'notes' to 'adminNotes' to match potential DTO
@@ -140,10 +139,19 @@ export class ActionPlanManagementService {
   }
 
   async createActionPlanTemplate(data: CreateActionPlanTemplateDto): Promise<ActionPlanTemplate> {
-    return this.prisma.actionPlanTemplate.create({ data });
+    return this.prisma.actionPlanTemplate.create({ 
+      data: {
+        category: data.sector || 'Général',
+        title: data.name,
+        description: data.description,
+        priority: 'Moyenne',
+        maturityLevel: data.maturityLevel || 'Débutant',
+        isActive: data.isActive ?? true,
+      }
+    });
   }
 
-  async updateActionPlanTemplate(id: string, data: Partial<ActionPlanTemplateDto>): Promise<ActionPlanTemplate> {
+  async updateActionPlanTemplate(id: string, data: Partial<CreateActionPlanTemplateDto>): Promise<ActionPlanTemplate> {
     // Ensure that isActive is not unintentionally set to false if not provided
     const { isActive, ...updateData } = data;
     

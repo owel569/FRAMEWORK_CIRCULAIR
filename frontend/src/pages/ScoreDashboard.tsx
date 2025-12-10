@@ -44,9 +44,9 @@ export default function ScoreDashboard() {
   }
 
   const scoreLevel = 
-    score.globalScore >= 80 ? { label: 'Excellent', color: 'text-green-600' } :
-    score.globalScore >= 60 ? { label: 'Bon', color: 'text-blue-600' } :
-    score.globalScore >= 40 ? { label: 'Moyen', color: 'text-yellow-600' } :
+    score.overallScore >= 80 ? { label: 'Excellent', color: 'text-green-600' } :
+    score.overallScore >= 60 ? { label: 'Bon', color: 'text-blue-600' } :
+    score.overallScore >= 40 ? { label: 'Moyen', color: 'text-yellow-600' } :
     { label: 'À améliorer', color: 'text-red-600' }
 
   return (
@@ -68,7 +68,7 @@ export default function ScoreDashboard() {
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             <div className="text-center">
               <div className={`text-6xl font-bold mb-4 ${scoreLevel.color}`}>
-                {score.globalScore.toFixed(1)}%
+                {score.overallScore.toFixed(1)}%
               </div>
               <div className={`text-2xl font-semibold ${scoreLevel.color}`}>
                 {scoreLevel.label}

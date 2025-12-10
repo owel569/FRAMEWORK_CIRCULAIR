@@ -46,7 +46,7 @@ export class ComparativeScoreService {
       const isInverted = response.isInverted || false;
 
       // Récupérer la moyenne sectorielle
-      const employeeRange = this.getEmployeeRange(company.employeeCount);
+      const employeeRange = this.getEmployeeRange(this.getEmployeeCountFromSize(company.size));
       const sectorAverage = await this.benchmarkService.getBenchmark(
         company.sector,
         employeeRange,
@@ -87,6 +87,20 @@ export class ComparativeScoreService {
     const score = totalQuestions > 0 ? totalWeightedScore / totalQuestions : 0;
 
     return { score, details };
+  }
+
+  /**
+   * Convertit la taille de l'entreprise en nombre d'employés estimé
+   */
+  private getEmployeeCountFromSize(size?: string): number {
+    if (!size) return 5;
+    switch (size) {
+      case 'TPE': return 5;
+      case 'PME': return 50;
+      case 'ETI': return 250;
+      case 'GE': return 1000;
+      default: return 50;
+    }
   }
 
   /**
