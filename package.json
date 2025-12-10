@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "@huggingface/inference": "^4.13.0",
+    "@types/node": "^24.10.2",
     "groq-sdk": "^0.34.0",
-    "react-international-phone": "^4.6.1"
+    "react-international-phone": "^4.6.1",
+    "xlsx": "^0.18.5"
   }
 }

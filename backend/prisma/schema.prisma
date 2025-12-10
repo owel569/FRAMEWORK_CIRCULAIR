@@ -123,6 +123,24 @@ model SectorAverage {
   avgScore  Float
 }
 
+model SectorBenchmark {
+  id                String   @id @default(uuid())
+  sector            String   // Secteur d'activité
+  employeeRange     String   // Tranche d'effectif (ex: "1-10", "11-50", "51-200")
+  indicator         String   // Nom de l'indicateur (ex: "dechets_tonnes_an")
+  indicatorCategory String   // Catégorie (environnemental, économique, social)
+  averageValue      Float    // Valeur moyenne sectorielle
+  unit              String?  // Unité de mesure
+  source            String?  // Source des données
+  year              Int?     // Année de référence
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([sector, employeeRange, indicator])
+  @@index([sector])
+  @@index([indicator])
+}
+
 model AdminUser {
   id            String         @id @default(uuid())
   email         String         @unique

@@ -308,4 +308,42 @@ export class AdminController {
     const adminId = this.extractAdminId(auth);
     return this.teamManagementService.reorderMembers(data.orderedIds, adminId);
   }
+
+  // ============ GESTION DES MOYENNES SECTORIELLES ============
+
+  @Post('benchmarks/import')
+  async importBenchmarks(
+    @Body() data: { filePath: string },
+    @Headers('authorization') auth: string,
+  ) {
+    this.extractAdminId(auth);
+    // L'import sera géré par un service dédié
+    return { message: 'Import endpoint créé' };
+  }
+
+  @Get('benchmarks')
+  async getAllBenchmarks(
+    @Headers('authorization') auth: string,
+    @Query('sector') sector?: string,
+    @Query('category') category?: string,
+  ) {
+    this.extractAdminId(auth);
+    // Récupérer toutes les moyennes sectorielles
+    return { message: 'Benchmarks endpoint créé' };
+  }
+
+  @Delete('benchmarks/:id')
+  async deleteBenchmark(
+    @Param('id') id: string,
+    @Headers('authorization') auth: string,
+  ) {
+    this.extractAdminId(auth);
+    return { message: 'Delete benchmark endpoint créé' };
+  }
+
+  @Delete('benchmarks')
+  async deleteAllBenchmarks(@Headers('authorization') auth: string) {
+    this.extractAdminId(auth);
+    return { message: 'Delete all benchmarks endpoint créé' };
+  }
 }
