@@ -19,6 +19,7 @@ export default function ChatbotWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const recognitionRef = useRef<any>(null)
   const synthRef = useRef<SpeechSynthesis | null>(null)
+  const previousMessagesLengthRef = useRef<number>(0)
 
   useEffect(() => {
     if (isOpen) {
@@ -30,15 +31,19 @@ export default function ChatbotWidget() {
     scrollToBottom()
   }, [messages, isTyping])
 
-  // Lecture automatique des réponses du bot
+  // Lecture automatique des réponses du bot (uniquement pour les nouveaux messages)
   useEffect(() => {
     if (autoReadEnabled && messages.length > 0) {
-      const lastMessage = messages[messages.length - 1]
-      if (lastMessage.type === 'bot' && !isTyping) {
-        setTimeout(() => {
-          speakText(lastMessage.text)
-        }, 500) // Petit délai pour l'UX
+      // Ne lire que si un nouveau message a été ajouté
+      if (messages.length > previousMessagesLengthRef.current) {
+        const lastMessage = messages[messages.length - 1]
+        if (lastMessage.type === 'bot' && !isTyping) {
+          setTimeout(() => {
+            speakText(lastMessage.text)
+          }, 500)
+        }
       }
+      previousMessagesLengthRef.current = messages.length
     }
   }, [messages, isTyping, autoReadEnabled])
 

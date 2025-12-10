@@ -61,7 +61,7 @@ interface PerformanceTrend {
 interface TopPerformer {
   companyName: string
   sector: string
-  globalScore: number
+  overallScore: number
   rank: number
 }
 
@@ -348,7 +348,7 @@ export default function AdminDashboard() {
                         <td className="p-3 text-gray-600">{performer.sector.substring(0, 40)}...</td>
                         <td className="p-3">
                           <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-bold">
-                            {performer.globalScore.toFixed(1)}%
+                            {performer.overallScore.toFixed(1)}%
                           </span>
                         </td>
                       </tr>
@@ -404,7 +404,7 @@ export default function AdminDashboard() {
                       <td className="p-3">
                         {company.scores[0] ? (
                           <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-bold">
-                            {company.scores[0].globalScore.toFixed(1)}%
+                            {company.scores[0].overallScore.toFixed(1)}%
                           </span>
                         ) : (
                           <span className="text-gray-400">Aucun score</span>

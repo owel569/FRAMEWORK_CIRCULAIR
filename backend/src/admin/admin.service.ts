@@ -1,4 +1,3 @@
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { DemoDataService } from './demo-data.service';
@@ -156,13 +155,13 @@ export class AdminService {
     });
 
     const sectorData: { [key: string]: { count: number; totalScore: number; scoreCount: number } } = {};
-    
+
     companies.forEach((company) => {
       if (!sectorData[company.sector]) {
         sectorData[company.sector] = { count: 0, totalScore: 0, scoreCount: 0 };
       }
       sectorData[company.sector].count += 1;
-      
+
       if (company.scores.length > 0) {
         sectorData[company.sector].totalScore += company.scores[0].overallScore;
         sectorData[company.sector].scoreCount += 1;
