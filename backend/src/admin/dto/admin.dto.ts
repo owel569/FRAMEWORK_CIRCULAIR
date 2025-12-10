@@ -154,27 +154,20 @@ export class AssignExpertDto {
 // ============ STATISTIQUES ET DASHBOARD ============
 export interface AdminStatsDto {
   totalCompanies: number;
-  activeCompanies: number;
   totalScores: number;
-  averageScore: number;
-  maturityDistribution: {
-    level: string;
-    count: number;
-    percentage: number;
-  }[];
-  sectorDistribution: {
-    sector: string;
-    count: number;
-    avgScore: number;
-  }[];
-  recentActivities: ActivityLogDto[];
-  pendingActionPlans: number;
-  monthlyTrends: {
-    month: string;
-    newCompanies: number;
-    completedEvaluations: number;
-    avgScore: number;
-  }[];
+  totalQuestions: number;
+  recentCompanies: any[];
+  scoresByMonth: { month: string; count: number; averageScore: number }[];
+  sectorDistribution: { sector: string; count: number; averageScore: number }[];
+  averageScores: {
+    global: number;
+    governance: number;
+    economic: number;
+    social: number;
+    environmental: number;
+  };
+  performanceTrends: any[];
+  topPerformers: any[];
 }
 
 export interface ActivityLogDto {

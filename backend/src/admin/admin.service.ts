@@ -7,7 +7,8 @@ import * as jwt from 'jsonwebtoken';
 import { 
   AdminLoginDto, 
   CreateQuestionDto, 
-  UpdateQuestionDto 
+  UpdateQuestionDto,
+  AdminStatsDto
 } from './dto/admin.dto';
 
 @Injectable()
@@ -70,7 +71,7 @@ export class AdminService {
     return { demoMode: this.useDemoData };
   }
 
-  async getDashboardStats(): Promise<any> {
+  async getDashboardStats(): Promise<AdminStatsDto> {
     if (this.useDemoData) {
       return this.demoDataService.getDemoStats();
     }
