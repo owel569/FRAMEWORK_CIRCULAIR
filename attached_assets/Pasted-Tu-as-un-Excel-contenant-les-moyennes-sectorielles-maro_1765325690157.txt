@@ -1,0 +1,161 @@
+Tu as un Excel contenant les moyennes sectorielles marocaines pour 20 secteurs.
+Chaque secteur a des milliers de données (indicateurs, tailles d'entreprises…).
+
+➡️ Tu veux importer ce fichier une seule fois dans ton projet, et que ton API puisse répondre :
+
+« Donne-moi la moyenne pour le secteur BTP, tranche 20–50 employés, indicateur "Déchets annuels". »
+
+Sans que toi OU tes utilisateurs voient ou gèrent le fichier.
+
+🧠 Solution professionnelle (et simple)
+ÉTAPE 1 — Convertir ton Excel en base de données
+
+Tu vas convertir ton Excel en un tableau SQL propre :
+
+📌 Structure recommandée
+
+Créer une table SQL : sector_averages
+
+id	secteur	tranche_employes	indicateur	valeur
+1	Agroalimentaire	1–10	déchets_tonnes_an	12
+2	Agroalimentaire	11–50	déchets_tonnes_an	22
+3	Textile	1–10	énergie_kwh_an	8120
+…	…	…	…	…
+
+C’est simple, robuste, et ton app peut interroger la table en temps réel.
+
+ÉTAPE 2 — Importer le fichier Excel automatiquement
+
+Tu n’as PAS besoin de tout taper à la main.
+Le backend peut faire l'import directement.
+
+🔧 Méthode simple (NestJS + TypeScript)
+
+Utiliser :
+
+xlsx → pour lire le fichier Excel
+
+npm install xlsx
+
+
+Ajouter un script d’import :
+
+import * as XLSX from "xlsx";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+async function importExcel() {
+  const workbook = XLSX.readFile("./data/moyennes_secteurs.xlsx");
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const json = XLSX.utils.sheet_to_json(sheet);
+
+  for (const row of json) {
+    await prisma.sectorAverages.create({
+      data: {
+        secteur: row["Secteur"],
+        tranche_employes: row["Tranche"],
+        indicateur: row["Indicateur"],
+        valeur: Number(row["Valeur"]),
+      },
+    });
+  }
+
+  console.log("Import terminé !");
+}
+
+importExcel();
+
+
+Tu l'exécutes une seule fois :
+
+npx ts-node import-excel.ts
+
+
+➡️ Toutes tes données sectorielles sont dans ta base.
+
+ÉTAPE 3 — API automatique pour récupérer les moyennes
+
+Créer un endpoint :
+
+@Get("moyenne")
+async getAverage(
+  @Query("secteur") secteur: string,
+  @Query("tranche") tranche: string,
+  @Query("indicateur") indicateur: string
+) {
+  return this.prisma.sectorAverages.findFirst({
+    where: { secteur, tranche_employes: tranche, indicateur }
+  });
+}
+
+ÉTAPE 4 — Calcul du score (comme dans ton document)
+
+Chaque fois que l'utilisateur saisit un indicateur :
+
+L'app appelle l'API pour garder la moyenne sectorielle
+
+Compare valeur entreprise vs moyenne
+
+Calcule :
+
+𝑒
+ˊ
+𝑐
+𝑎
+𝑟
+𝑡
+=
+(
+𝑣
+𝑎
+𝑙
+𝑒
+𝑢
+𝑟
+_
+𝑒
+𝑛
+𝑡
+𝑟
+𝑒
+𝑝
+𝑟
+𝑖
+𝑠
+𝑒
+−
+𝑚
+𝑜
+𝑦
+𝑒
+𝑛
+𝑛
+𝑒
+)
+𝑚
+𝑜
+𝑦
+𝑒
+𝑛
+𝑛
+𝑒
+×
+100
+e
+ˊ
+cart=
+moyenne
+(valeur_entreprise−moyenne)
+	​
+
+×100
+
+Applique coefficient × signe
+
+Renvoie score
+
+💥 Score = 100% automatique
+Aucun besoin de gérer ou modifier l’Excel après l’import.
+
+🧩 BONUS — Tu veux mett
